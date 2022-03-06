@@ -1,6 +1,13 @@
+-- Local db にDATABASEを作成. 名前:BATON_main_database 
 CREATE DATABASE BATON_main_database;
+
+-- local db にユーザー追加  名前:BATON_user PASS:123BGhj23jkL0
 CREATE USER IF NOT EXISTS BATON_user IDENTIFIED BY '123BGhj23jkL0';
 
+-- BATON_user に BATON_main_database の中であれば何でもできる権限追加。
+GRANT ALL ON BATON_main_database.* TO BATON_user;
+
+-- BATON_main_database の中にuserテーブル作成。
 CREATE TABLE IF NOT EXISTS user (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL,
@@ -9,4 +16,22 @@ CREATE TABLE IF NOT EXISTS user (
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-GRANT ALL ON BATON_main_database.* TO BATON_user;
+-- BATON_main_database の中にorder_ver_1テーブル作成。
+CREATE TABLE IF NOT EXISTS order_ver_1 (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    day VARCHAR(10) NOT NULL ,
+    number_of_peaple INT NOT NULL ,
+    unit_price INT NOT NULL ,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- BATON_main_database の中にcommunity_ver_1テーブル作成。
+CREATE TABLE IF NOT EXISTS community_ver_1 (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    community_name VARCHAR(255) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
