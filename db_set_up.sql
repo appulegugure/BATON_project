@@ -21,10 +21,19 @@ CREATE TABLE IF NOT EXISTS order_ver_1 (
     id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     day VARCHAR(10) NOT NULL ,
-    number_of_peaple INT NOT NULL ,
-    unit_price INT NOT NULL ,
+    number_of_peaple_id INT NOT NULL ,
+    price INT NOT NULL ,
+    Contents VARCHAR(255) NOT NULL,
+    Prerequisite VARCHAR NOT NULL,
+    community_id INT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS person_group (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    adult INT DEFAULT 0,
+    child INT DEFAULT 0
 );
 
 -- BATON_main_database の中にcommunity_ver_1テーブル作成。
