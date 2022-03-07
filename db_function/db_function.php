@@ -56,3 +56,57 @@ function insert_oreder($adult,$child,$title,$day,$number_of_peaple_id,$price,$Co
 
 
 
+
+function select_ALL_oder()
+{
+    
+    // データベースに接続
+    $dbh = connect_db();
+    try {
+        // (4) データを登録するSQL
+        $stmt1 = $dbh->prepare('SELECT * FROM order_ver_1 INNER JOIN person_group ON order_ver_1.community_id = person_group.id;');
+
+        $stmt1->execute();
+
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+
+    }catch(PDOException $e) {
+        // (8) エラーメッセージを出力
+        echo $e->getMessage();
+        // (9) ロールバック
+    }
+}
+
+function select_select_oder($id)
+{
+    
+    // データベースに接続
+    $dbh = connect_db();
+    try {
+        // (4) データを登録するSQL
+        $stmt1 = $dbh->prepare("
+                                SELECT 
+                                order_ver_1.title, 
+                                order_ver_1.`day`, 
+                                order_ver_1.Prerequisite,
+                                order_ver_1.Contents, 
+                                order_ver_1.number_of_peaple_id, 
+                                person_group.adult, 
+                                person_group.child 
+                                FROM order_ver_1 
+                                INNER JOIN person_group ON order_ver_1.community_id = person_group.id
+                                WHERE order_ver_1.id = $id;
+                                ");
+
+        $stmt1->execute();
+
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+
+    }catch(PDOException $e) {
+        // (8) エラーメッセージを出力
+        echo $e->getMessage();
+        // (9) ロールバック
+    }
+}
