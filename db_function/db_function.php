@@ -2,7 +2,7 @@
 
 require_once '../functions.php';
 
-function insert_oreder($adult,$child,$title,$day,$number_of_peaple_id,$price,$Contents,$Prerequisite)
+function create_oreder($adult,$child,$title,$day,$number_of_peaple_id,$price,$Contents,$Prerequisite)
 {
     
     // データベースに接続
@@ -27,24 +27,18 @@ function insert_oreder($adult,$child,$title,$day,$number_of_peaple_id,$price,$Co
         $stmt3->bindParam( ':contents', $Contents, PDO::PARAM_STR);
         $stmt3->bindParam( ':Prerequisite', $Prerequisite, PDO::PARAM_STR);
 
-        // (6) SQL実行
         $res1 = $stmt1->execute();
         $res2 = $stmt2->execute();
         $res3 = $stmt3->execute();
-
-        // test_1
-        //var_dump($res1);
-        //var_dump($res2);
-        //var_dump($res3);
 
         if( $res1 && $res2 && $res3 ) {
             $dbh->commit();
         }
 
     }catch(PDOException $e) {
-        // (8) エラーメッセージを出力
+        
         echo $e->getMessage();
-        // (9) ロールバック
+        
         $dbh->rollBack();
 
     } finally {
@@ -57,28 +51,44 @@ function insert_oreder($adult,$child,$title,$day,$number_of_peaple_id,$price,$Co
 
 
 
-function select_ALL_oder()
+function select_order_all_ALL()
 {
     
     // データベースに接続
     $dbh = connect_db();
     try {
-        // (4) データを登録するSQL
+        
         $stmt1 = $dbh->prepare('SELECT * FROM order_ver_1 INNER JOIN person_group ON order_ver_1.community_id = person_group.id;');
-
         $stmt1->execute();
 
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
     
-
     }catch(PDOException $e) {
-        // (8) エラーメッセージを出力
+        
         echo $e->getMessage();
-        // (9) ロールバック
+        
     }
 }
 
-function select_select_oder($id)
+
+function select_order_all($community_id)
+{
+    
+    $dbh = connect_db();
+    try {
+
+        $stmt1 = $dbh->prepare("");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+    }catch(PDOException $e) {
+        
+        echo $e->getMessage();
+        
+    }
+}
+
+function display_order($id)
 {
     
     // データベースに接続
@@ -108,5 +118,108 @@ function select_select_oder($id)
         // (8) エラーメッセージを出力
         echo $e->getMessage();
         // (9) ロールバック
+    }
+}
+
+function search_community($input_word)
+{
+    
+    $dbh = connect_db();
+    try {
+
+        $stmt1 = $dbh->prepare("");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+    }catch(PDOException $e) {
+        
+        echo $e->getMessage();
+        
+    }
+}
+
+function display_community($community_id)
+{
+    
+    $dbh = connect_db();
+    try {
+
+        $stmt1 = $dbh->prepare("");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+    }catch(PDOException $e) {
+        
+        echo $e->getMessage();
+        
+    }
+}
+
+function create_community($a,$b,$c,$e,$d)
+{
+    
+    $dbh = connect_db();
+    try {
+
+        $stmt1 = $dbh->prepare("");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+    }catch(PDOException $e) {
+        
+        echo $e->getMessage();
+        
+    }
+}
+
+function create_order($a,$b,$c,$e,$d)
+{
+    
+    $dbh = connect_db();
+    try {
+
+        $stmt1 = $dbh->prepare("");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+    }catch(PDOException $e) {
+        
+        echo $e->getMessage();
+        
+    }
+}
+
+function update_order_status($order_id,$user_id)
+{
+    
+    $dbh = connect_db();
+    try {
+
+        $stmt1 = $dbh->prepare("");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+    }catch(PDOException $e) {
+        
+        echo $e->getMessage();
+        
+    }
+}
+
+
+function create_community_user($user_id)
+{
+    
+    $dbh = connect_db();
+    try {
+
+        $stmt1 = $dbh->prepare("");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+    }catch(PDOException $e) {
+        
+        echo $e->getMessage();
+        
     }
 }
