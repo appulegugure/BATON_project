@@ -99,13 +99,33 @@ function display_order($id)
 }
 
 //コミュニティ検索
-function search_community($input_word)
+function search_community_word($input_word)
 {
     
     $dbh = connect_db();
     try {
 
         $stmt1 = $dbh->prepare("SELECT community_name from community WHERE community_content LIKE '%$input_word%';");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+
+    }catch(PDOException $e) {
+
+        echo $e->getMessage();
+
+    }
+}
+
+function search_community($user_id)
+{
+    
+    $dbh = connect_db();
+    try {
+
+        $stmt1 = $dbh->prepare("SELECT community.community_name 
+                                from community_user_test INNER JOIN community ON community_user_test.community = community.id
+                                WHERE community_user_test.user_test = $user_id;");
+
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
@@ -236,6 +256,7 @@ function update_order_status($order_id,$user_id)
     }
 }
 
+
 function community_all()
 {    
     $dbh = connect_db();
@@ -251,4 +272,5 @@ function community_all()
 
     }
 }
+
 

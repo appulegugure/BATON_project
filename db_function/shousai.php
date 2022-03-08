@@ -6,9 +6,11 @@ require_once __DIR__ . '/db_function.php';
 
 //var_dump(create_community('tit',1,'tit','tit','tit','tit','tit'));
 
-create_community_user(5,2);
+//create_community_user(5,2);
 
-echo 'search_community';
+//echo 'search_community';
 
-var_dump(search_community('5'));
+//var_dump(search_community_word('5'));
+
+var_dump(search_community(3));
 
