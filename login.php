@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "/functions.php";
-
+session_start();
 $email = '';
 $password = '';
 
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)){
         if(password_verify($password, $user['password'])){
             $_SESSION['email'] = $user['email'];
-            header('Location: show.php');
+            header('Location: index.php');
             exit;
             } else {
             $errors[] = MSG_EMAIL_PASSWORD_NOT_MATCH;
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" name="password" id="password" placeholder="Password: 8文字以上">
             <div class="btn-area">
                 <input type="submit" value="ログイン" class="btn submit-btn">
-                <a href="" class="btn link-btn">新規ユーザー登録はこちら</a>
+                <a href="signup.php" class="btn link-btn">新規ユーザー登録はこちら</a>
             </div>
         </form>
     </div>
