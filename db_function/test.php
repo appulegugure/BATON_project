@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/db_function.php';
 
-insert_oreder(99,6,'kokokara','kokode',2,3,'kokokara','kokono');
+create_oreder(99,6,'kokokara','kokode',2,3,'kokokara','kokono');
 
-$order_list = select_ALL_oder();
+$order_list = select_order_all_ALL();
 
 
 ?>
