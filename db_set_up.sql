@@ -8,13 +8,18 @@ CREATE USER IF NOT EXISTS BATON_user IDENTIFIED BY '123BGhj23jkL0';
 GRANT ALL ON BATON_main_database.* TO BATON_user;
 
 -- BATON_main_database の中にuserテーブル作成。
-CREATE TABLE IF NOT EXISTS user (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(255) NOT NULL,
-    password VARCHAR(10) NOT NULL ,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+CREATE TABLE `user` (
+    `id` int(100) NOT NULL AUTO_INCREMENT,
+    `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `password` varchar(3000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+    `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    `company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `post` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `prefe` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 
 -- BATON_main_database の中にorder_ver_1テーブル作成。
 CREATE TABLE IF NOT EXISTS order_ver_1 (
