@@ -61,6 +61,7 @@ insert_community_user(6,'appulegugure@gmail.com')
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="ja">
 <?php include_once __DIR__ . '/_header.html' ?>
