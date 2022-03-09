@@ -2,9 +2,9 @@
 
 
 // 関数ファイルを読み込む
-require_once __DIR__ . '/functions.php';
+require_once '/var/www/html/BATON' . '/functions.php';
 
-require_once __DIR__ . '/db_function.php';
+require_once '/var/www/html/BATON' . '/db_function.php';
 
 // データベースに接続
 $dbh = connect_db(); // 特にエラー表示がなければOK
@@ -57,9 +57,14 @@ echo '</pre>';
 echo '<he>';
 
 
-insert_community_user(6,'appulegugure@gmail.com')
-
+//insert_community_user(6,'appulegugure@gmail.com');
+echo '<hr>';
+create_community('musukadai','appulegugure@gmail.com','1','2','3','4','5');
+echo '<hr>';
+create_oreder(1,2,'appulegugure@gmail.com','baton@gmail.com','safin','sea','2020/01/22,20',6,'reject','con1','con2','con3','con4','con5',1);
+echo '<hr>';
 ?>
+
 
 
 <!DOCTYPE html>
