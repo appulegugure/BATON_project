@@ -25,7 +25,7 @@ echo '<hr>';
 echo '<h2>select_community_info($_SESSION["id"])テスト</h2>';
 echo '<br>';
 echo '<pre>';
-var_dump(select_community_info(1));
+var_dump(select_community_info('appulegugure@gmail.com'));
 echo '</pre>';
 echo '<he>';
 
@@ -40,10 +40,10 @@ echo '<he>';
 
 
 echo '<hr>';
-echo '<h2>select_search_community($user_id)テスト</h2>';
+echo '<h2>select_search_community($user_email)テスト</h2>';
 echo '<br>';
 echo '<pre>';
-var_dump(select_search_community(18));
+var_dump(select_search_community('appulegugure@gmail.com'));
 echo '</pre>';
 echo '<he>';
 
@@ -55,7 +55,12 @@ echo '<pre>';
 var_dump(select_community_all());
 echo '</pre>';
 echo '<he>';
+
+
+insert_community_user(6,'appulegugure@gmail.com')
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ja">
