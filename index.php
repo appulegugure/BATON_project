@@ -22,7 +22,7 @@ echo '<he>';
 
 
 echo '<hr>';
-echo '<h2>select_user_info($_SESSION["email"])テスト</h2>';
+echo '<h2>select_community_info($_SESSION["id"])テスト</h2>';
 echo '<br>';
 echo '<pre>';
 var_dump(select_community_info(1));
@@ -30,6 +30,31 @@ echo '</pre>';
 echo '<he>';
 
 
+echo '<hr>';
+echo '<h2>select_search_community_word($input_word)テスト</h2>';
+echo '<br>';
+echo '<pre>';
+var_dump(select_search_community_word(5));
+echo '</pre>';
+echo '<he>';
+
+
+echo '<hr>';
+echo '<h2>select_search_community($user_id)テスト</h2>';
+echo '<br>';
+echo '<pre>';
+var_dump(select_search_community(18));
+echo '</pre>';
+echo '<he>';
+
+
+echo '<hr>';
+echo '<h2>select_community_all()テスト</h2>';
+echo '<br>';
+echo '<pre>';
+var_dump(select_community_all());
+echo '</pre>';
+echo '<he>';
 ?>
 
 <!DOCTYPE html>

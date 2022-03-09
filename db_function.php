@@ -98,40 +98,6 @@ function display_order($id)
     }
 }
 
-//コミュニティ検索
-function search_community_word($input_word)
-{
-    
-    $dbh = connect_db();
-    try {
-
-        $stmt1 = $dbh->prepare("SELECT community_name from community WHERE community_content LIKE '%$input_word%';");
-        $stmt1->execute();
-        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-
-    }catch(PDOException $e) {
-
-        echo $e->getMessage();
-
-    }
-}
-
-function search_community($user_id)
-{
-    $dbh = connect_db();
-    try {
-        $stmt1 = $dbh->prepare("SELECT community.community_name 
-                                from community_user_test INNER JOIN community ON community_user_test.community = community.id
-                                WHERE community_user_test.user_test = $user_id;");
-        $stmt1->execute();
-        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-
-    }catch(PDOException $e) {
-
-        echo $e->getMessage();
-
-    }
-}
 
 function display_community($community_id)
 {
@@ -233,8 +199,9 @@ function update_order_status($order_id,$user_id)
     }
 }
 
+//全コミュニティーの名前をSELECT
 
-function community_all()
+function select_community_all()
 {    
     $dbh = connect_db();
     try {
@@ -256,7 +223,7 @@ function select_community_info($id){
     $dbh = connect_db();
     try {
         $stmt1 = $dbh->prepare("SELECT * FROM community WHERE id = :id;");
-        $stmt1->bindParam( ':id', $id, PDO::PARAM_STR);
+        $stmt1->bindParam( ':id', $id, PDO::PARAM_INT);
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $e) {
@@ -274,5 +241,41 @@ function select_user_info($email){
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $e) {
         echo $e->getMessage();
+    }
+}
+
+
+//コミュニティテーブルからcontentカラムを曖昧検索して該当したコミュニティネームを取得
+//☆バインドでエラー
+function select_search_community_word($input_word)
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("SELECT community_name from community WHERE community_content LIKE '%$input_word%';");
+        //$stmt1->bindParam( ':input_word', $input_word, PDO::PARAM_STR);
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $e) {
+        echo $e->getMessage();
+    }
+}
+
+//ユーザーidから所属しているコミュニティを全て取得
+//後でuser_idからemailに変更
+function select_search_community($user_id)
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("SELECT community.community_name 
+                                from community_user INNER JOIN community ON community_user.community = community.id
+                                WHERE community_user.user = :user_id;");
+        $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_INT);
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+
+    }catch(PDOException $e) {
+
+        echo $e->getMessage();
+
     }
 }
