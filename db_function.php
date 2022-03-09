@@ -117,7 +117,7 @@ function display_community($community_id)
 }
 
 //コミュニティ作成
-function create_community($community_name,$community_maker,$conndition_1,$conndition_2,$conndition_3,$conndition_4,$conndition_5)
+function create_community($community_name,$community_maker,$conndition_1,$conndition_2,$conndition_3,$conndition_4,$conndition_5,$user_email)
 {
     $dbh = connect_db();
     try {
@@ -132,6 +132,7 @@ function create_community($community_name,$community_maker,$conndition_1,$conndi
         $stmt1->bindParam( ':conndition_4', $conndition_4, PDO::PARAM_STR);
         $stmt1->bindParam( ':conndition_5', $conndition_5, PDO::PARAM_STR);
         $res1 = $stmt1->execute();
+        
         if( $res1 ) {
             $dbh->commit();
         }
@@ -143,15 +144,16 @@ function create_community($community_name,$community_maker,$conndition_1,$conndi
     }
 }
 
-function create_community_user($user_id,$community_id)
+//コミュニティ参加時
+function insert_community_user($community_id,$user_email)
 {
     $dbh = connect_db();
     try {
         $dbh->beginTransaction();
-        $stmt1 = $dbh->prepare("INSERT INTO community_user_test(user_test,community) 
-                                VALUES (:user_email,:community_id);");
-        $stmt1->bindParam( ':user_email', $user_id, PDO::PARAM_INT);
+        $stmt1 = $dbh->prepare("INSERT INTO community_user(community,user_email) 
+                                VALUES (:community_id,:user_email);");
         $stmt1->bindParam( ':community_id', $community_id, PDO::PARAM_INT);
+        $stmt1->bindParam( ':user_email', $user_email, PDO::PARAM_STR);
         $res1 = $stmt1->execute();
         if( $res1 ) { 
             $dbh->commit();
@@ -164,6 +166,7 @@ function create_community_user($user_id,$community_id)
     }
 }
 
+####################################################################################
 
 function create_order($a,$b,$c,$e,$d)
 {
@@ -216,11 +219,11 @@ function select_community_all()
 }
 
 //コミュニティテーブルからコミュニティidで条件を絞って全絡むをセレクト
-function select_community_info($id){
+function select_community_info($email){
     $dbh = connect_db();
     try {
-        $stmt1 = $dbh->prepare("SELECT * FROM community WHERE id = :id;");
-        $stmt1->bindParam( ':id', $id, PDO::PARAM_INT);
+        $stmt1 = $dbh->prepare("SELECT * FROM community WHERE user_email = :user_email;");
+        $stmt1->bindParam( ':user_email', $email, PDO::PARAM_STR);
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $e) {
@@ -265,7 +268,7 @@ function select_search_community($user_id)
     try {
         $stmt1 = $dbh->prepare("SELECT community.community_name 
                                 from community_user INNER JOIN community ON community_user.community = community.id
-                                WHERE community_user.user = :user_id;");
+                                WHERE community_user.user_email = :user_id;");
         $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_INT);
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
