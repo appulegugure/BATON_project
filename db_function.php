@@ -41,11 +41,6 @@ function create_oreder($adult,$child,$order_user_email,$receive_user_email,$titl
         $res2 = $stmt2->execute();
         $res3 = $stmt3->execute();
 
-        var_dump($res1);
-        var_dump($res2);
-        var_dump($res3);
-        
-
         if( $res1 && $res2 && $res3 ) {
             $dbh->commit();
         }
@@ -194,22 +189,6 @@ function insert_community_user($community_id,$user_email)
 
 ####################################################################################
 
-function create_order($a,$b,$c,$e,$d)
-{
-
-    $dbh = connect_db();
-    try {
-
-        $stmt1 = $dbh->prepare("");
-        $stmt1->execute();
-        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-    
-    }catch(PDOException $e) {
-
-        echo $e->getMessage();
-
-    }
-}
 
 function update_order_status($order_id,$user_id)
 {

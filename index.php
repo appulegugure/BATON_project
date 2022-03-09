@@ -61,8 +61,10 @@ echo '<he>';
 echo '<hr>';
 create_community('musukadai','appulegugure@gmail.com','1','2','3','4','5');
 echo '<hr>';
-create_oreder(1,2,'appulegugure@gmail.com','baton@gmail.com','safin','sea','2020/01/22,20',6,'reject','con1','con2','con3','con4','con5',1)
+create_oreder(1,2,'appulegugure@gmail.com','baton@gmail.com','safin','sea','2020/01/22,20',6,'reject','con1','con2','con3','con4','con5',1);
+echo '<hr>';
 ?>
+
 
 
 <!DOCTYPE html>
