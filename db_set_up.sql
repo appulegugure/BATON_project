@@ -21,31 +21,72 @@ CREATE TABLE `user` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 
--- BATON_main_database の中にorder_ver_1テーブル作成。
-CREATE TABLE IF NOT EXISTS order_ver_1 (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(255) NOT NULL,
-    day VARCHAR(10) NOT NULL ,
-    number_of_peaple_id INT NOT NULL ,
-    price INT NOT NULL ,
-    Contents VARCHAR(255) NOT NULL,
-    Prerequisite VARCHAR NOT NULL,
-    community_id INT NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+-- コミュニティテーブル作成 --
+CREATE TABLE `community` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `community_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `community_maker` int(11) NOT NULL,
+    `condition1` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `condition2` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `condition3` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `condition4` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `condition5` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+    `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    `community_content` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `community_maker` (`community_maker`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS person_group (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    adult INT DEFAULT 0,
-    child INT DEFAULT 0
-);
+-- BATON_main_database の中にjob_oderテーブル作成。
+CREATE TABLE `job_order` (
+    `order_id` int(11) NOT NULL AUTO_INCREMENT,
+    `order_user` int(11) NOT NULL,
+    `receive_user` int(11) DEFAULT NULL,
+    `title` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `job` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `day` date NOT NULL,
+    `people_id` int(11) NOT NULL,
+    `price` int(11) NOT NULL,
+    `status` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `condition1` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `condition2` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `condition3` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `condition4` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `condition5` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+    `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    `community_id` int(11) NOT NULL,
+    PRIMARY KEY (`order_id`),
+    KEY `community_id` (`community_id`),
+    KEY `order_user` (`order_user`),
+    KEY `receive_user` (`receive_user`),
+    KEY `people_id` (`people_id`),
+    CONSTRAINT `job_order_ibfk_3` FOREIGN KEY (`community_id`) REFERENCES `community` (`id`),
+    CONSTRAINT `job_order_ibfk_4` FOREIGN KEY (`order_user`) REFERENCES `user` (`id`),
+    CONSTRAINT `job_order_ibfk_5` FOREIGN KEY (`receive_user`) REFERENCES `user` (`id`),
+    CONSTRAINT `job_order_ibfk_6` FOREIGN KEY (`people_id`) REFERENCES `Number_of_peaple` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- BATON_main_database の中にcommunity_ver_1テーブル作成。
-CREATE TABLE IF NOT EXISTS community_ver_1 (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    community_name VARCHAR(255) NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+
+-- コミュニティユーザーテーブル作成
+CREATE TABLE `community_user` (
+    `community` int(11) NOT NULL,
+    `user` int(11) NOT NULL,
+    `flag` tinyint(1) NOT NULL DEFAULT 0,
+    `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+    `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (`community`,`user`),
+    KEY `user` (`user`),
+    CONSTRAINT `community_user_ibfk_1` FOREIGN KEY (`community`) REFERENCES `community` (`id`),
+    CONSTRAINT `community_user_ibfk_2` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- BATON_main_database の中にNumber_of_peapleテーブル作成。
+CREATE TABLE `Number_of_peaple` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `adult` int(11) NOT NULL DEFAULT 0,
+    `child` int(11) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
