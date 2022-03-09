@@ -149,8 +149,8 @@ function create_community_user($user_id,$community_id)
     try {
         $dbh->beginTransaction();
         $stmt1 = $dbh->prepare("INSERT INTO community_user_test(user_test,community) 
-                                VALUES (:user_id_s,:community_id);");
-        $stmt1->bindParam( ':user_id_s', $user_id, PDO::PARAM_INT);
+                                VALUES (:user_email,:community_id);");
+        $stmt1->bindParam( ':user_email', $user_id, PDO::PARAM_INT);
         $stmt1->bindParam( ':community_id', $community_id, PDO::PARAM_INT);
         $res1 = $stmt1->execute();
         if( $res1 ) { 
@@ -199,24 +199,20 @@ function update_order_status($order_id,$user_id)
     }
 }
 
+//SELECT -- 系 -- 
 //全コミュニティーの名前をSELECT
 
 function select_community_all()
 {    
     $dbh = connect_db();
     try {
-
         $stmt1 = $dbh->prepare("SELECT community_name from community;");
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-
     }catch(PDOException $e) {
-
         echo $e->getMessage();
-
     }
 }
-
 
 //コミュニティテーブルからコミュニティidで条件を絞って全絡むをセレクト
 function select_community_info($id){
@@ -243,7 +239,6 @@ function select_user_info($email){
         echo $e->getMessage();
     }
 }
-
 
 //コミュニティテーブルからcontentカラムを曖昧検索して該当したコミュニティネームを取得
 //☆バインドでエラー
@@ -272,9 +267,7 @@ function select_search_community($user_id)
         $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_INT);
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-
     }catch(PDOException $e) {
-
         echo $e->getMessage();
 
     }
