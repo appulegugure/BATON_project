@@ -243,11 +243,12 @@ function select_user_info($email){
 //コミュニティテーブルからcontentカラムを曖昧検索して該当したコミュニティネームを取得
 //☆バインドでエラー
 function select_search_community_word($input_word)
-{
+{   
+    $input_word = '%' . $input_word . '%';
     $dbh = connect_db();
     try {
-        $stmt1 = $dbh->prepare("SELECT community_name from community WHERE community_content LIKE '%$input_word%';");
-        //$stmt1->bindParam( ':input_word', $input_word, PDO::PARAM_STR);
+        $stmt1 = $dbh->prepare("SELECT community_name from community WHERE community_content LIKE :input_word;");
+        $stmt1->bindParam( ':input_word', $input_word, PDO::PARAM_STR);
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $e) {
