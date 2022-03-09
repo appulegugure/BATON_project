@@ -83,7 +83,7 @@ CREATE TABLE `community_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- BATON_main_database の中にNumber_of_peapleテーブル作成。
-CREATE TABLE `Number_of_peaple` (
+CREATE TABLE `Number_of_people` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `adult` int(11) NOT NULL DEFAULT 0,
     `child` int(11) NOT NULL DEFAULT 0,

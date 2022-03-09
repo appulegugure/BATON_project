@@ -195,9 +195,10 @@ function update_order_status($order_id,$user_id)
     }catch(PDOException $e) {
         
         echo $e->getMessage();
-        
+
     }
 }
+// CREATE
 
 //SELECT -- 系 -- 
 //全コミュニティーの名前をSELECT
