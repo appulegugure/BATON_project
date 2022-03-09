@@ -12,7 +12,7 @@ session_start();
 var_dump($_SESSION['email']);
 
 
-user_info($_SESSION['email']);
+#user_info($_SESSION['email']);
 
 
 ?>
