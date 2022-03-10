@@ -5,7 +5,7 @@ require_once __DIR__ . '/functions.php';
 
 //
 //受注テーブルにデータ追加
-function create_oreder($adult,$child,$order_user_email,$receive_user_email,$title,$job,$day,
+function create_order($adult,$child,$order_user_email,$receive_user_email,$title,$job,$day,
                     $price,$status,$condition1,$condition2,$condition3,$condition4,$condition5,$community_id)
 {
     $dbh = connect_db();
@@ -53,7 +53,38 @@ function create_oreder($adult,$child,$order_user_email,$receive_user_email,$titl
     }
 }
 
+//受注テーブルから未受注表示
+function select_order_status($status)
+{
+    $dbh = connect_db();
+    try {
+        
+        $stmt1 = $dbh->prepare('SELECT * from job_order WHERE status = :status;');
+        $stmt1->bindParam( ':status', $status, PDO::PARAM_STR);
+        $stmt1->execute();
 
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+    }catch(PDOException $e) {
+        echo $e->getMessage();       
+    }
+}
+//受注テーブルから未受注&指定したコミュニティで表示
+function select_order_community_and_status($status,$community_id)
+{
+    $dbh = connect_db();
+    try {
+        
+        $stmt1 = $dbh->prepare('SELECT * from job_order WHERE status = :status;');
+        $stmt1->bindParam( ':status', $status, PDO::PARAM_STR);
+        $stmt1->execute();
+
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+    }catch(PDOException $e) {
+        echo $e->getMessage();       
+    }
+}
 //受注テーブル一覧表示
 function select_order_all_ALL()
 {
