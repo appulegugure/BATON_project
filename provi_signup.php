@@ -2,7 +2,8 @@
 
 require_once __DIR__ . "/functions.php";
 session_start();
-$_SESSION['csrf_token'] = get_token_cr();
+$csrf_token  = get_token_cr();
+$_SESSION['csrf_token'] = $csrf_token;
 
 $email = '';
 $name = '';
@@ -17,13 +18,13 @@ if (!empty($_SESSION['id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_input(INPUT_POST, 'email');
     $result = find_user_by_email($email);
-    if (isset($result)) {
+    if (isset($result['mail'])) {
         $errors[] = "このメールアドレスはすでに利用されています。";
     }
     if (empty($email)) {
         $errors[] = 'メールアドレスが未入力です。';
     }
-    if ($_SESSION['csrf_token'] != $_POST['token']) {
+    if ($_SESSION['csrf_token'] === $_POST['token']) {
         $errors[] = '不正なアクセスです.';
     }
     if (empty($errors)) {
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         EOM;
 
         $mb_language = ('japanese');
-        $mb_internal_encoding('UTF-8');
+        $mb_internal_encoding = ('UTF-8');
         $title = "ご登録いただきありがとうございます";
         $headers = "From: information.baton@gmail.com";
         if (mb_send_mail($email, $title, $body, $headers)) {
@@ -63,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <?php if (isset($_POST['submit']) && empty($errors)) : ?>
         <p><?= $message ?></p>
-
+        
     <?php else : ?>
         <div class="wrapper">
             <h1 class="title">仮会員登録</h1>
@@ -75,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </ul>
             <?php endif; ?>
             <form action="" method="post">
-                <input type="hidden" name="token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                <input type="hidden" name="token" value="<?php echo $csrf_token; ?>">
                 <label for="email">メールアドレス</label>
                 <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>">
                 <input type="submit" value="新規登録" class="btn submit-btn" name='submit'>

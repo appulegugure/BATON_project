@@ -148,9 +148,9 @@ function insert_pre_user($email, $urltoken){
     $sql = <<<EOM
     INSERT into 
         pre_user
-        (mail,urltoken)
+        (mail,urltoken,date)
     VALUE
-        (:email,:urltoken)
+        (:email,:urltoken,now())
     EOM;
     $stmt = $dbh -> prepare($sql);
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
