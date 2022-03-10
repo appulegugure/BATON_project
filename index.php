@@ -14,7 +14,9 @@ require_once __DIR__ . '/db_function.php';
 session_start();
 //ログインユーザーのメールアドレスを取得する
 $user_id = $_SESSION['email'];
+//$user_community = $_SESSION['community'];
 
+//echo $user_community;
 //ユーザーの参加コミュニティを取得す
 // $community_list = search_community_by_user($user_id);
 $community_list = select_search_community($user_id);

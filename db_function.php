@@ -305,6 +305,7 @@ function select_search_community_word($input_word)
     }
 }
 
+
 //ユーザーidから所属しているコミュニティを全て取得
 //後でuser_idからemailに変更
 function select_search_community($user_id)
@@ -314,7 +315,7 @@ function select_search_community($user_id)
         $stmt1 = $dbh->prepare("SELECT community.community_name 
                                 from community_user INNER JOIN community ON community_user.community = community.id
                                 WHERE community_user.user_email = :user_id;");
-        $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_INT);
+        $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_STR);
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $e) {
