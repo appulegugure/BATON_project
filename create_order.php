@@ -33,11 +33,11 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         //タスク内容の編集
         // create_order($community, $order_user, $title, $job, $day, $price)
-        $order_user = 2;
+        //$order_user = 2;
         //create_order();
         // compelte_order.php にリダイレクト
-        header('Location: /complete_order.php');
-        //exit;
+        header('Location: complete_order.php');
+        exit;
     }
 }
 
