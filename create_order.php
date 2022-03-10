@@ -1,9 +1,13 @@
 <?php
 
-include_once __DIR__ . '/all.html';
+
 require_once __DIR__ . '/db_function.php';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
+
+//
+
+session_start();
 
 // idの受け取り
 $id = filter_input(INPUT_GET, 'id');
@@ -17,6 +21,15 @@ $title = '';
 $job  = '';
 $day  = '';
 $price  = '';
+$adult = '';
+$child = '';
+$condition1 ='';
+$condition2 ='';
+$condition3 ='';
+$condition4 ='';
+$condition5 ='';
+$community_id = '';
+$status = 'not';
 $errors = [];
 
 if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
@@ -25,29 +38,33 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     $title = filter_input(INPUT_POST, 'title');
     $job = filter_input(INPUT_POST, 'job');
     $day = filter_input(INPUT_POST, 'day');
+    echo $day;
     $price = filter_input(INPUT_POST, 'price');
     $adult = filter_input(INPUT_POST, 'adult');
     $child = filter_input(INPUT_POST, 'child');
+    $condition1 = filter_input(INPUT_POST, 'condition1');
+    $condition2 = filter_input(INPUT_POST, 'condition2');
+    $condition3 = filter_input(INPUT_POST, 'condition3');
+    $condition4 = filter_input(INPUT_POST, 'condition4');
+    $condition5 = filter_input(INPUT_POST, 'condition5');
     $community_id = filter_input(INPUT_POST, 'community_id');
 
     if (empty($errors)) {
         //タスク内容の編集
         // create_order($community, $order_user, $title, $job, $day, $price)
-        //$order_user = 2;
-        //create_order();
-        // compelte_order.php にリダイレクト
-        header('Location: complete_order.php');
-        exit;
+
+        $order_user = $_SESSION['email'];
+        create_order($adult, $child, $order_user, '0719tomorrow@gmail.com', $title, $job, $day, $price, $status, $condition1, $condition2, $condition3, $condition4, $condition5, $community_id);
+
     }
 }
-
 ?>
 
 
 <!DOCTYPE html>
 <html lang="ja">
-<link rel="stylesheet" href="create_order.css" />
 
+<?php include_once __DIR__ . '/all.html'; ?>
 <body>
     <div class="wrapper">
         <h2>依頼内容</h2>
