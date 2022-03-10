@@ -13,18 +13,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = filter_input(INPUT_POST, 'password');
     $errors = login_validate($email, $password);
     $user = find_user_by_email($email);
+    //追加
+    $user_community = select_search_community($user);
     if(empty($user)){
         $errors[] = '存在しないアカウントです';
     }
     if (empty($errors)){
         if(password_verify($password, $user['password'])){
             $_SESSION['email'] = $user['email'];
+            //追加
+            $_SESSION['community'] = $user_community;
             
-            ###
-            //test用
             header('Location: index.php');
-            //header('Location: Miyako3/index.php');
-            ###
+            
 
             exit;
             } else {
