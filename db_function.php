@@ -85,7 +85,7 @@ function select_order_all($community_id)
         echo $e->getMessage();        
     }
 }
-
+//CREATE OR INSET系
 //受注テーブルの詳細を表示
 function display_order($id)
 {
@@ -131,16 +131,16 @@ function display_community($community_id)
     }
 }
 
-//コミュニティ作成
-function create_community($community_name,$user_email,$conndition_1,$conndition_2,$conndition_3,$conndition_4,$conndition_5)
+//コミュニティ作成時
+function create_community($community_name,$user_email,$conndition_1,$conndition_2,$conndition_3,$conndition_4,$conndition_5,$content)
 {
     $dbh = connect_db();
     try {
         $dbh->beginTransaction();
         $stmt1 = $dbh->prepare('INSERT INTO community(community_name,user_email,condition1,condition2,condition3,condition4,condition5,community_content) 
-                                VALUES (:community_name,:user_email,:conndition_1,:conndition_2,:conndition_3,:conndition_4,:conndition_5);');
+                                VALUES (:community_name,:user_email,:conndition_1,:conndition_2,:conndition_3,:conndition_4,:conndition_5,:community_content);');
         $stmt2 = $dbh->prepare('SET @LAST_COM_ID = LAST_INSERT_ID();');
-        $stmt3 = $dbh->prepare("INSERT INTO community_user(community,user_email) 
+        $stmt3 = $dbh->prepare("INSERT INTO community_user(community,user_email,flag) 
                                 VALUES (@LAST_COM_ID,:user_email,FALSE);");
         $stmt1->bindParam( ':community_name', $community_name, PDO::PARAM_STR);
         $stmt1->bindParam( ':user_email', $user_email, PDO::PARAM_STR);
@@ -149,6 +149,7 @@ function create_community($community_name,$user_email,$conndition_1,$conndition_
         $stmt1->bindParam( ':conndition_3', $conndition_3, PDO::PARAM_STR);
         $stmt1->bindParam( ':conndition_4', $conndition_4, PDO::PARAM_STR);
         $stmt1->bindParam( ':conndition_5', $conndition_5, PDO::PARAM_STR);
+        $stmt1->bindParam( ':community_content', $content, PDO::PARAM_STR);
         $stmt3->bindParam( ':user_email', $user_email, PDO::PARAM_STR);
         $res1 = $stmt1->execute();
         $res2 = $stmt2->execute();
@@ -256,7 +257,14 @@ function select_search_community_word($input_word)
     $input_word = '%' . $input_word . '%';
     $dbh = connect_db();
     try {
-        $stmt1 = $dbh->prepare("SELECT community_name from community WHERE community_content LIKE :input_word;");
+        $stmt1 = $dbh->prepare("SELECT community_name from community 
+                                WHERE community_content LIKE :input_word; 
+                                OR condition1 LIKE :input_word
+                                OR condition2 LIKE :input_word
+                                OR condition3 LIKE :input_word
+                                OR condition4 LIKE :input_word
+                                OR condition5 LIKE :input_word
+                                ");
         $stmt1->bindParam( ':input_word', $input_word, PDO::PARAM_STR);
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
