@@ -5,7 +5,7 @@ require_once __DIR__ . '/functions.php';
 
 //
 //受注テーブルにデータ追加
-function create_order($adult,$child,$order_user_email,$receive_user_email,$title,$job,$day,
+function create_order($adult,$child,$order_user_email,$title,$job,$day,
                     $price,$status,$condition1,$condition2,$condition3,$condition4,$condition5,$community_id)
 {
     $dbh = connect_db();
@@ -14,7 +14,7 @@ function create_order($adult,$child,$order_user_email,$receive_user_email,$title
 
         $stmt1 = $dbh->prepare('INSERT INTO Number_of_people(adult,child) VALUES (:adult,:child);');
         $stmt2 = $dbh->prepare('SET @LAST_ID_pg = LAST_INSERT_ID();');
-        $stmt3 = $dbh->prepare('INSERT INTO job_order(order_user_email,receive_user_email,title,job,`day`,
+        $stmt3 = $dbh->prepare('INSERT INTO job_order(order_user_email,title,job,`day`,
                                 people_id,price,status,condition1,condition2,condition3,condition4,condition5,community_id)
                                 VALUES (:order_user_email,:receive_user_email,:title,:job,:day,
                                 @LAST_ID_pg,:price,:status,:con1,:con2,:con3,:con4,:con5,:community_id);');
@@ -172,7 +172,7 @@ function create_community($community_name,$user_email,$conndition_1,$conndition_
                                 VALUES (:community_name,:user_email,:conndition_1,:conndition_2,:conndition_3,:conndition_4,:conndition_5,:community_content);');
         $stmt2 = $dbh->prepare('SET @LAST_COM_ID = LAST_INSERT_ID();');
         $stmt3 = $dbh->prepare("INSERT INTO community_user(community,user_email,flag) 
-                                VALUES (@LAST_COM_ID,:user_email,FALSE);");
+                                VALUES (@LAST_COM_ID,:user_email,TRUE);");
         $stmt1->bindParam( ':community_name', $community_name, PDO::PARAM_STR);
         $stmt1->bindParam( ':user_email', $user_email, PDO::PARAM_STR);
         $stmt1->bindParam( ':conndition_1', $conndition_1, PDO::PARAM_STR);
