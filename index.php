@@ -49,6 +49,14 @@ echo '<he>';
 
 
 echo '<hr>';
+echo '<h2>select_order_status("reject")テスト</h2>';
+echo '<br>';
+echo '<pre>';
+var_dump(select_order_status('reject'));
+echo '</pre>';
+echo '<he>';
+
+echo '<hr>';
 echo '<h2>select_community_all()テスト</h2>';
 echo '<br>';
 echo '<pre>';
