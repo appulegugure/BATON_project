@@ -17,6 +17,9 @@ $title = '';
 $job  = '';
 $day  = '';
 $price  = '';
+$adult = '';
+$child = '';
+$community_id = '';
 $errors = [];
 
 if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
@@ -38,6 +41,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
         // compelte_order.php にリダイレクト
         header('Location: /complete_order.php');
         //exit;
+        
     }
 }
 
