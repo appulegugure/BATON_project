@@ -44,6 +44,8 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
         session_start();
         //ユーザーID（Email）を取得し設定
         $order_user_email = $_SESSION['email'];
+        //Statusを未受注にする
+        $status = '未受注';
         $_SESSION['email'];
         //委託業務をDBテーブルに登録
         $order_user = create_oreder(
