@@ -5,7 +5,7 @@ require_once __DIR__ . '/functions.php';
 
 //
 //受注テーブルにデータ追加
-function create_oreder($adult,$child,$order_user_email,$receive_user_email,$title,$job,$day,
+function create_order($adult,$child,$order_user_email,$receive_user_email,$title,$job,$day,
                     $price,$status,$condition1,$condition2,$condition3,$condition4,$condition5,$community_id)
 {
     $dbh = connect_db();
