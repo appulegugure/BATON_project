@@ -52,8 +52,10 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         //タスク内容の編集
         // create_order($community, $order_user, $title, $job, $day, $price)
+
         $order_user = $_SESSION['email'];
         create_order($adult, $child, $order_user, '0719tomorrow@gmail.com', $title, $job, $day, $price, $status, $condition1, $condition2, $condition3, $condition4, $condition5, $community_id);
+
     }
 }
 ?>
