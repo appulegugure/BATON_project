@@ -134,3 +134,27 @@ function find_email()
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
+function get_token_cr()
+{
+    $token_length = 16;
+    $token = openssl_random_pseudo_bytes($token_length);
+    return bin2hex($token);
+}
+
+function insert_pre_user($email, $urltoken){
+    $dbh = connect_db();
+    $sql = <<<EOM
+    INSERT into 
+        pre_user
+        (mail,urltoken)
+    VALUE
+        (:email,:urltoken)
+    EOM;
+    $stmt = $dbh -> prepare($sql);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':urltoken', $urltoken, PDO::PARAM_STR);
+    $stmt->execute();
+
+}
