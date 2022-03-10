@@ -75,8 +75,9 @@ function select_order_community_and_status($status,$community_id)
     $dbh = connect_db();
     try {
         
-        $stmt1 = $dbh->prepare('SELECT * from job_order WHERE status = :status;');
+        $stmt1 = $dbh->prepare('SELECT * from job_order WHERE status = :status AND community_id = :community_id;');
         $stmt1->bindParam( ':status', $status, PDO::PARAM_STR);
+        $stmt1->bindParam( ':community_id', $community_id, PDO::PARAM_STR);
         $stmt1->execute();
 
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
@@ -320,4 +321,32 @@ function select_search_community($user_id)
         echo $e->getMessage();
 
     }
+}
+
+//##################   Miyako3 から ファンクションを追加   ##################
+// 注文を取得する
+function select_order_by_status()
+{
+    // データベースに接続
+    $dbh = connect_db();
+
+    //SQL文
+    $sql = <<<EOM
+    SELECT
+        *
+    FROM
+        job_order
+EOM;
+
+    // プリペアドステートメントの準備
+    $stmt = $dbh->prepare($sql);
+    // パラメータのバインド
+    // $status = NULL;
+    // $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+
+    // プリペアドステートメントの実行
+    $stmt->execute();
+
+    // 結果の取得
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

@@ -19,7 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)){
         if(password_verify($password, $user['password'])){
             $_SESSION['email'] = $user['email'];
+            
+            ###
+            //test用
             header('Location: index.php');
+            //header('Location: Miyako3/index.php');
+            ###
+
             exit;
             } else {
             $errors[] = MSG_EMAIL_PASSWORD_NOT_MATCH;
