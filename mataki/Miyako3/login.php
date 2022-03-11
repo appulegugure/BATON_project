@@ -1,12 +1,9 @@
 <?php
-
+include_once __DIR__ . '/all.html';
+require_once __DIR__ . "/functions.php";
 session_start();
 $email = '';
 $password = '';
-
-include_once __DIR__ . '/all.html';
-require_once __DIR__ . "/functions.php";
-
 
 $errors = [];
 
@@ -34,12 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 
-<!-- <head>
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-</head> -->
+</head>
 
 <body>
     <div class="wrapper m-5">
