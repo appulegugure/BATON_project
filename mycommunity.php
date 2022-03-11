@@ -2,7 +2,8 @@
 
 // 関数ファイルを読み込む
 require_once __DIR__ . '/functions.php';
-
+require_once __DIR__ . '/db_function.php';
+require_once __DIR__ . '/config.php';
 //セッションを開始する
 session_start();
 //ユーザーID（Email）を取得

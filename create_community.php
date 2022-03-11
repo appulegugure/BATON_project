@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/db_function.php';
 
 
 //変数初期化
@@ -32,11 +33,15 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
         //ユーザーID(Email)を取得し変数に設定
         $user_id = $_SESSION['email'];
         //コミュニティテーブルに登録し、Community IDを取得
-        $community_id = create_community($community_name, $user_id, $condition1, $condition2, $condition3, $condition4, $condition5, $community_content);
+        //$community_id = create_community($community_name, $user_id, $condition1, $condition2, $condition3, $condition4, $condition5, $community_content);
         //コミュニティ・ユーザテーブルに登録
-        $owner_flag = 1;
-        create_community_user($community_id, $user_id, $owner_flag);
+        //$owner_flag = 1;
+        //create_community_user($community_id, $user_id, $owner_flag);
         // compelte_msg.php にリダイレクト
+
+
+        create_community($community_name, $user_id, $condition1, $condition2, $condition3, $condition4, $condition5, $community_content);
+
         header('Location: complete_msg.php?comment=コミュニティ登録');
         exit;
     }
@@ -62,11 +67,11 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
         <form action="" method="post">
             <!--入力項目-->
             コミュニティ名<input type="text" name="community_name" value=""><br>
-            参加条件１<input type="text" name="condition1" value=""><br>
-            参加条件２<input type="text" name="condition2" value=""><br>
-            参加条件３<input type="text" name="condition3" value=""><br>
-            参加条件４<input type="text" name="condition4" value=""><br>
-            参加条件５<input type="text" name="condition5" value=""><br>
+            参加条件1<input type="text" name="condition1" value=""><br>
+            参加条件2<input type="text" name="condition2" value=""><br>
+            参加条件3<input type="text" name="condition3" value=""><br>
+            参加条件4<input type="text" name="condition4" value=""><br>
+            参加条件5<input type="text" name="condition5" value=""><br>
             内容<input type="text" name="community_content" value=""><br>
             <input type="submit" value="登録" class="btn submit-btn">
         </form>

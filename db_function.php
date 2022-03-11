@@ -16,13 +16,13 @@ function create_order($adult,$child,$order_user_email,$title,$job,$day,
         $stmt2 = $dbh->prepare('SET @LAST_ID_pg = LAST_INSERT_ID();');
         $stmt3 = $dbh->prepare('INSERT INTO job_order(order_user_email,title,job,`day`,
                                 people_id,price,status,condition1,condition2,condition3,condition4,condition5,community_id)
-                                VALUES (:order_user_email,:receive_user_email,:title,:job,:day,
+                                VALUES (:order_user_email,:title,:job,:day,
                                 @LAST_ID_pg,:price,:status,:con1,:con2,:con3,:con4,:con5,:community_id);');
 
         $stmt1->bindParam( ':adult', $adult, PDO::PARAM_INT);
         $stmt1->bindParam( ':child', $child, PDO::PARAM_INT);
         $stmt3->bindParam( ':order_user_email', $order_user_email, PDO::PARAM_STR);
-        $stmt3->bindParam( ':receive_user_email', $receive_user_email, PDO::PARAM_STR);
+        //$stmt3->bindParam( ':receive_user_email', $receive_user_email, PDO::PARAM_STR);
         $stmt3->bindParam( ':title', $title, PDO::PARAM_STR);
         $stmt3->bindParam( ':job', $job, PDO::PARAM_STR);
         $stmt3->bindParam( ':day', $day, PDO::PARAM_STR);
@@ -351,6 +351,124 @@ EOM;
     // パラメータのバインド
     // $status = NULL;
     // $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+
+    // プリペアドステートメントの実行
+    $stmt->execute();
+
+    // 結果の取得
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function display_order_2($order_id)
+{
+    // データベースに接続
+    $dbh = connect_db();
+
+    // Statusを抽出条件に指定してデータ取得
+
+    $sql = <<<EOM
+    SELECT
+    *
+    FROM
+        job_order
+    INNER JOIN number_of_people
+    ON job_order.people_id = number_of_people.id
+    WHERE 
+    order_id = :order_id
+    EOM;
+
+    // プリペアドステートメントの準備
+    $stmt = $dbh->prepare($sql);
+
+
+    // パラメータのバインド
+    $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+    // プリペアドステートメントの実行
+    $stmt->execute();
+    // 結果の取得
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function display_order_by_receiveuser($user_id)
+{
+    // データベースに接続
+    $dbh = connect_db();
+
+    // Statusを抽出条件に指定してデータ取得
+
+    $sql = <<<EOM
+    SELECT
+    *
+        FROM
+        job_order
+    WHERE 
+    receive_user_email = :user_id
+    EOM;
+
+    // プリペアドステートメントの準備
+    $stmt = $dbh->prepare($sql);
+
+
+    // パラメータのバインド
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    // プリペアドステートメントの実行
+    $stmt->execute();
+    // 結果の取得
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function display_order_by_orderuser($user_id)
+{
+    // データベースに接続
+    $dbh = connect_db();
+
+    // Statusを抽出条件に指定してデータ取得
+
+    $sql = <<<EOM
+    SELECT
+    *
+        FROM
+        job_order
+    WHERE 
+    order_user_email = :user_id
+    EOM;
+
+    // プリペアドステートメントの準備
+    $stmt = $dbh->prepare($sql);
+
+
+    // パラメータのバインド
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    // プリペアドステートメントの実行
+    $stmt->execute();
+    // 結果の取得
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// コミュニティを取得する
+function search_community_by_user($user_id)
+{
+    // データベースに接続
+    $dbh = connect_db();
+
+    //SQL文
+    $sql = <<<EOM
+    SELECT
+        community.*, community_user.*
+    FROM
+        community_user
+    INNER JOIN
+        community
+    ON community.id = community_user.community
+    WHERE
+    community_user.user_email = :user_id
+    EOM;
+
+    // プリペアドステートメントの準備
+    $stmt = $dbh->prepare($sql);
+
+    // パラメータのバインド
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
 
     // プリペアドステートメントの実行
     $stmt->execute();

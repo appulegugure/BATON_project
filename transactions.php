@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
-
+require_once __DIR__ . '/db_function.php';
 // idの受け取り
 // $order_id = filter_input(INPUT_GET, 'order_id');
 // //対象タスクの取得
