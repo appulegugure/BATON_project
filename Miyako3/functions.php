@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/functions.php';
 
 function connect_db()
 {
@@ -212,7 +213,7 @@ EOM;
 }
 
 // 注文を取得する
-function select_order_by_status()
+function select_order_by_status($status)
 {
     // データベースに接続
     $dbh = connect_db();
@@ -223,13 +224,14 @@ function select_order_by_status()
         *
     FROM
         job_order
+    WHERE
+        status = :status
 EOM;
 
     // プリペアドステートメントの準備
     $stmt = $dbh->prepare($sql);
     // パラメータのバインド
-    // $status = NULL;
-    // $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+    $stmt->bindParam(':status', $status, PDO::PARAM_STR);
 
     // プリペアドステートメントの実行
     $stmt->execute();
