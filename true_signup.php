@@ -14,21 +14,28 @@ $all_email = find_email();
 $errors = [];
 $i = 0;
 $_SESSION['csrf_token'] = get_token_cr();
+$urltoken = isset($_GET["urltoken"]) ? $_GET["urltoken"] : NULL;
+if ($urltoken == '') {
+    header('location: provi_signup.php');
+    exit;
+}else{
+    $result = url_pre_user($urltoken);
+    if($result['count'] === 1){
+        $email = $result['email']['mail'];
 
-if (empty($_GET)) {
-    header("Location: provi_signup");
-    exit();
+    }else{
+        $errors['urltoken_timeover'] = "このURLはご利用できません。有効期限が過ぎたかURLが間違えている可能性がございます。もう一度登録をやりなおして下さい。";
+    }
+}
 
 if (!empty($_SESSION['id'])) {
     header('Location: show.php');
-    
     exit;
-
 }
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = filter_input(INPUT_POST, 'email');
+    //$email = filter_input(INPUT_POST, 'email');
     $name = filter_input(INPUT_POST, 'name');
     $password = filter_input(INPUT_POST, 'password');
     $company = filter_input(INPUT_POST, 'password');
@@ -46,6 +53,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if (empty($errors)) {
         insert_user($email, $name, $password, $company, $post, $prefe);
+        $body = '本登録致しました';
+        $mb_language = ('japanese');
+        $mb_internal_encoding = ('UTF-8');
+        $title = "本登録いたしました";
+        $headers = "From: information.baton@gmail.com";
+        if (mb_send_mail($email, $title, $body, $headers)) {
+            $_SESSION = [];
+            if (isset($_COOKIE["PHPSESSID"])) {
+                setcookie("PHPSESSID", '', time() - 1800, '/');
+            }
+            session_destroy();
+        }
         header('Location:login.php');
         exit;
     }

@@ -158,3 +158,24 @@ function insert_pre_user($email, $urltoken){
     $stmt->execute();
 
 }
+function url_pre_user($urltoken){
+    $result = [];
+    $dbh = connect_db();
+    $sql = <<<EOM
+    SELECT
+        mail
+    FROM
+        pre_user
+    WHERE
+        urltoken = :url
+    AND 
+        date > now() - interval 24 hour;
+    EOM;
+    $stmt = $dbh -> prepare($sql);
+    $stmt->bindParam(':url', $urltoken, PDO::PARAM_STR);
+    $stmt -> execute();
+    $result['email'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result['count'] = $stmt->rowCount();
+
+    return $result;
+}

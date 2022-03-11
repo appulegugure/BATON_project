@@ -1,9 +1,11 @@
 <?php
 
 require_once __DIR__ . "/functions.php";
+
 session_start();
-$csrf_token  = get_token_cr();
-$_SESSION['csrf_token'] = $csrf_token;
+$token = base64_encode(openssl_random_pseudo_bytes(32));
+$_SESSION['csrf_token'] = $token;
+
 
 $email = '';
 $name = '';
@@ -24,12 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email)) {
         $errors[] = 'メールアドレスが未入力です。';
     }
-    if ($_SESSION['csrf_token'] === $_POST['token']) {
-        $errors[] = '不正なアクセスです.';
-    }
+    //$csrf_token = filter_input(INPUT_POST, 'csrf_token');
+    //if ($_SESSION['csrf_token'] != $csrf_token) {
+    //$errors[] = '不正なアクセスです.';
+    //var_dump($_SESSION['csrf_token']);
+    //var_dump($csrf_token);
+    //}
     if (empty($errors)) {
         $urltoken = hash('sha256', uniqid(rand(), 1));
-        $url = "http://localhost:8080/true_signup.php?urltoken=" . $urltoken;
+        $url = "http://localhost/BATON_project/true_signup.php?urltoken=" . $urltoken;
         insert_pre_user($email, $urltoken);
 
         $message = "メールをお送りしました。24時間以内にメールに記載されたURLからご登録下さい。";
@@ -64,7 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <?php if (isset($_POST['submit']) && empty($errors)) : ?>
         <p><?= $message ?></p>
-        
+        <a href="<?= $url ?>"><?= $url ?></a>
+
     <?php else : ?>
         <div class="wrapper">
             <h1 class="title">仮会員登録</h1>
@@ -76,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </ul>
             <?php endif; ?>
             <form action="" method="post">
-                <input type="hidden" name="token" value="<?php echo $csrf_token; ?>">
+                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                 <label for="email">メールアドレス</label>
                 <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>">
                 <input type="submit" value="新規登録" class="btn submit-btn" name='submit'>
