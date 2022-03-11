@@ -476,3 +476,4 @@ function search_community_by_user($user_id)
     // 結果の取得
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+

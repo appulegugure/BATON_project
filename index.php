@@ -28,7 +28,7 @@ $community_list = select_search_community($user_id);
 $community_list = $_SESSION['community'];
 
 $community_list_sql = convert_from_array_to_sqlstring($community_list);
-echo $community_list_sql;
+//echo $community_list_sql;
 $orders = select_order_community_and_status('not',$community_list_sql);
 
 
