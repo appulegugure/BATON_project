@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . "/functions.php";
+require_once __DIR__ . "/db_function.php";
+
 
 session_start();
 
@@ -13,13 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = filter_input(INPUT_POST, 'password');
     $errors = login_validate($email, $password);
     $user = find_user_by_email($email);
+    //追加
+    $user_communitys = select_search_community($user['email']);
+
     if(empty($user)){
         $errors[] = '存在しないアカウントです';
     }
     if (empty($errors)){
         if(password_verify($password, $user['password'])){
             $_SESSION['email'] = $user['email'];
+            //追加
+            $_SESSION['community'] = $user_communitys;
+            
             header('Location: index.php');
+            
+
             exit;
             } else {
             $errors[] = MSG_EMAIL_PASSWORD_NOT_MATCH;

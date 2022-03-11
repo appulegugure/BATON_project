@@ -134,3 +134,14 @@ function find_email()
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function convert_from_array_to_sqlstring($array){
+    $convert_to_array = [];
+    $escape ='';
+    foreach ($array as $key => $value) {
+        $escape = "'".$value['community_name']."'";
+        array_push($convert_to_array,$escape);
+    }
+    return implode(',',$convert_to_array);
+    
+}

@@ -256,17 +256,17 @@ function search_community($keyword)
     community_name LIKE :search_term
     OR
     condition1 LIKE :search_term
-     OR
+    OR
     condition2 LIKE :search_term
-     OR
+    OR
     condition3 LIKE :search_term
-     OR
+    OR
     condition4 LIKE :search_term
-     OR
+    OR
     condition5 LIKE :search_term
     ORDER BY
     created_at
-EOM;
+    EOM;
 
     // プリペアドステートメントの準備
     $stmt = $dbh->prepare($sql);
