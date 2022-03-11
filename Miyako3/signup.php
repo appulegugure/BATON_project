@@ -2,6 +2,8 @@
 
 require_once __DIR__ . "/functions.php";
 
+
+
 $name = '';
 $email = '';
 $password = '';

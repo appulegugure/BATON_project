@@ -2,6 +2,7 @@
 
 session_start();
 $user_id = $_SESSION['email'];
+
 include_once __DIR__ . '/all.html';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';

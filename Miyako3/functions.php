@@ -788,3 +788,30 @@ function signup_validate($email, $name,$password, $company, $post, $prefe)
 
     return $erro;
 }
+
+
+function insert_user($email, $name, $password, $company, $post, $prefe)
+{
+    $dbh = connect_db();
+    $sql = <<<EOM
+    INSERT INTO
+        user
+        (email,name,password,company,post,prefe)
+    VALUES
+    (:email, :name, :password, :company, :post, :prefe);
+    EOM;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+    $stmt->bindParam(':company', $company, PDO::PARAM_STR);
+    $stmt->bindParam(':post', $post, PDO::PARAM_STR);
+    $stmt->bindParam(':prefe', $prefe, PDO::PARAM_STR);
+    $pw_hash = password_hash($password, PASSWORD_DEFAULT);
+    $stmt->bindParam(':password', $pw_hash, PDO::PARAM_STR);
+    $stmt->execute();
+
+}
+
+
+
+
