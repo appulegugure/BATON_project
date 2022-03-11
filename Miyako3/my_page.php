@@ -1,6 +1,7 @@
 <?php
 
 // 関数ファイルを読み込む
+include_once __DIR__ . '/all.html';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/db_function/db_function.php';
 

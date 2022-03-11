@@ -1,5 +1,6 @@
 <?php
 
+include_once __DIR__ . '/all.html';
 // 関数ファイルを読み込む
 // require_once __DIR__ . '/db.functions.php';
 require_once __DIR__ . '/functions.php';
@@ -42,49 +43,109 @@ if (empty($_GET['keyword'])) {
 
 <!DOCTYPE html>
 <html lang="ja">
+<head>
+    <style> 
+        .h1{
+            text-align: center;
+        }
+        .wrapper {
+            width: 700px;
+            margin: 30px auto;
+            padding: 40px 50px;
+            border: 1px solid #dfdfdc;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
 
 <body>
+    <div class="wrapper">
+        <div class="container">
+            <div class="container">
+                <div class="container w-auto text-right">
+                    <div class="border" style="padding:30px;">
+                        <form>
+                            <div><input type="text" style="width: 370px;" placeholder="コミュニティを探す">
+                                <a href="community_list.php"><i class="fa-solid fa-magnifying-glass btn btn-dark"></i></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-    <form action="" method="GET">
-        <h4>コミュニティを探す <input type="text" name="keyword" value="" placeholder="キーワードを入力して下さい">
-            <input type="submit" value="検索" class="btn submit-btn">
-        </h4>
-    </form>
+            <div class="container">
+                <h1>募集中委託業務一覧</h1>
+                <!-- エラーがある場合 -->
+                <?php if (!empty($errors)) : ?>
+                    <ul class="errors">
+                        <?php foreach ($errors as $error) : ?>
+                            <li><?= h($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
 
-    <h1>募集中委託業務一覧</h1>
-    <!-- エラーがある場合 -->
-    <?php if (!empty($errors)) : ?>
-        <ul class="errors">
-            <?php foreach ($errors as $error) : ?>
-                <li><?= h($error) ?></li>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
+            <div class="container border">
+                <ul>
+                    <p>注文番号/タイトル/日付/料金/コミュニティ</p>
+                    <?php foreach ($orders as $order) : ?>
+                            <li>
+                                <div class="row border">
+                                    <!-- 表示する項目は後で調整 -->
+                                    <div class="bg- col p-1 mb-2 text-black">
+                                        <br><?= h($order['order_id']) ?>/
+                                    </div>
+                                    <div class="bg- col p-1 mb-2 text-black">
+                                        <br><?= h($order['title']) ?>/
+                                    </div>
+                                    <div class="bg- col p-1 mb-2 text-black">
+                                        <br><?= h($order['day']) ?>/
+                                    </div>
+                                    <div class="bg- col p-1 mb-2 text-black">
+                                        <br><?= h($order['price']) ?>円/
+                                    </div>
+                                    <div class="bg- col p-1 mb-2 text-black">
+                                        <br>
+                                    </div><?= h($order['community_id']) ?>
+                                    <!-- display_order.phpに遷移してOrder IDを渡す -->
+                                    <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary">詳細</a>
+                                </div>
+                            </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
 
-    <ul>
-        <p>注文番号/タイトル/日付/料金/コミュニティ</p>
-        <?php foreach ($orders as $order) : ?>
-            <li>
-                <!-- display_order.phpに遷移してOrder IDを渡す -->
-                <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
-                <!-- 表示する項目は後で調整 -->
-                <?= h($order['order_id']) ?>/
-                <?= h($order['title']) ?>/
-                <?= h($order['day']) ?>/
-                <?= h($order['price']) ?>円/
-                <?= h($order['community_id']) ?>
-
-            </li>
-        <?php endforeach; ?>
-    </ul>
-    <!-- create_community.phpに遷移する -->
-    <a href="create_community.php" class="btn edit-btn">コミュニティを作る</a><br>
-    <!-- create_order.phpに遷移する -->
-    <a href="create_order.php" class="btn edit-btn">仕事を委託する</a><br>
-    <!-- transactions.phpに遷移する -->
-    <a href="transactions.php" class="btn edit-btn">取引中の仕事</a><br>
-    <!-- mycommunity.phpに遷移する -->
-    <a href="mycommunity.php" class="btn edit-btn">参加コミュニティ一覧</a>
+            <div class="container nowrap">
+                <div class="row"> 
+                    <div class="btn btn-danger">    
+                        <a href="create_order.php"><div class="col text-white">BATON<br>ーーーーー<br>委託する</div></a>
+                    </div>
+                    <div class="btn btn-default">
+                        <div class="col p-1 mb-2 text-black">
+                            <a href="create_community.php"><i class="fa-solid fa-user-group fa-1x"></i><br>コミュニティ作成</a>
+                        </div>
+                    </div>
+                    <div class="btn btn-default">
+                        <div class="col p-1 mb-2 text-black">
+                            <a href="transactions.php"><i class="fa-regular fa-rectangle-list fa-1x"></i><br>取引中の仕事</a>
+                        </div>
+                    </div>
+                    <div class="btn btn-default">
+                        <div class="col p-1 mb-2 text-black">
+                            <a href="my_page.php"><i class="fa-solid fa-user fa-1x"></i><br>マイページ</a>
+                        </div>
+                    </div>
+                    <div class="btn btn-default">
+                        <div class="col p-1 mb-2 text-black">
+                            <a href="my_community"><i class="fa-solid fa-user fa-1x"></i><br>参加コミュニティ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
 </body>
 
 </html>
+

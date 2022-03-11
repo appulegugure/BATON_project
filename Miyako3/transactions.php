@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/all.html';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
 
@@ -33,8 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 
+
+
 <body>
-    <div>
+    <div class="m-5">
         <h2>取引中の仕事</h2>
         <!-- エラーがあったら表示 -->
         <!-- <?php if (!empty($errors)) : ?>
@@ -72,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </li>
             <?php endforeach; ?>
         </ul>
-        <a href="index.php" class="btn return-btn">戻る</a>
+        <a href="index.php" class="btn btn-secondary">戻る</a>
 
     </div>
 </body>

@@ -1,5 +1,6 @@
 <?php
 
+
 // 関数ファイルを読み込む
 require_once __DIR__ . '/functions.php';
 
@@ -14,7 +15,7 @@ $community_list = search_community_by_user($user_id);
 
 <!DOCTYPE html>
 <html lang="ja">
-
+    
 <body>
     <h1>コミュニティ一覧</h1>
     <ul>

@@ -1,4 +1,6 @@
 <?php
+
+include_once __DIR__ . '/all.html';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
 
@@ -76,35 +78,54 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 
-<body>
-    <div>
-        <h2>委託登録</h2>
-        <!-- エラーがあったら表示 -->
-        <?php if (!empty($errors)) : ?>
-            <ul class="errors">
-                <?php foreach ($errors as $error) : ?>
-                    <li><?= h($error) ?></li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
-        <form action="" method="post">
-            <!-- 入入力項目 -->
-            コミュニティ番号<input type="int" name="community_id" value=""><br>
-            タイトル<input type="text" name="title" value=""><br>
-            ジョブ<input type="text" name="job" value=""><br>
-            大人<input type="int" name="adult" value=""><br>
-            子供 <input type="int" name="child" value=""><br>
-            日付<input type="date" name="day" value=""><br>
-            料金 <input type="int" name="price" value=""><br>
-            条件１ <input type="text" name="condition1" value=""><br>
-            条件２ <input type="text" name="condition2" value=""><br>
-            条件３ <input type="text" name="condition3" value=""><br>
-            条件４ <input type="text" name="condition4" value=""><br>
-            条件５ <input type="text" name="condition5" value=""><br>
-            <input type="submit" value="登録" class="btn submit-btn">
-        </form>
-        <a href="index.php" class="btn return-btn">戻る</a>
+<head>
+    <style> .wrapper {
+    width: 500px;
+    margin: 30px auto;
+    padding: 40px 50px;
+    border: 1px solid #dfdfdc;
+    border-radius: 5px;
+    }
+    </style>
+</head>
 
+
+<body>
+    <div class="wrapper">
+        <div class="m-5">
+            <h2>委託登録</h2>
+            <!-- エラーがあったら表示 -->
+            <?php if (!empty($errors)) : ?>
+                <ul class="errors">
+                    <?php foreach ($errors as $error) : ?>
+                        <li><?= h($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+            <form action="" method="post" class="form-horizontal">
+                <!-- 入力項目 -->
+                <div class="form-group">    
+                    <label class="col-md-3 control-label"></label><input type="int" name="community_id" value="" placeholder="コミュニティ名"><br>
+                    <label class="col-md-3 control-label"></label><input type="text" name="title" value="" placeholder="タイトル"><br>
+                    <label class="col-md-3 control-label"></label><input type="text" name="job" value="" placeholder="ジョブ"><br>
+                    <label class="col-md-3 control-label"></label><input type="int" name="adult" value="" placeholder="大人"><br>
+                    <label class="col-md-3 control-label"></label><input type="int" name="child" value="" placeholder="子供"><br>
+                    <label class="col-md-3 control-label"></label><input type="date" name="day" value="" placeholder="日付"><br>
+                    <label class="col-md-3 control-label"></label><input type="int" name="price" value="" placeholder="料金"><br>
+                    <label class="col-md-3 control-label"></label><input type="text" name="condition1" value="" placeholder="条件１"><br>
+                    <label class="col-md-3 control-label"></label><input type="text" name="condition2" value="" placeholder="条件２"><br>
+                    <label class="col-md-3 control-label"></label><input type="text" name="condition3" value="" placeholder="条件３"><br>
+                    <label class="col-md-3 control-label"></label><input type="text" name="condition4" value="" placeholder="条件４"><br>
+                    <label class="col-md-3 control-label"></label><input type="text" name="condition5" value="" placeholder="条件５"><br>
+                    <div class="text-right">
+                        <input type="submit" value="登録" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+            <div class="text-right">
+                <a href="index.php" class="btn btn-secondary">戻る</a>
+            </div>
+        </div>
     </div>
 </body>
 
