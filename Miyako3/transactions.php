@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+$user_id = $_SESSION['email'];
 include_once __DIR__ . '/all.html';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
@@ -6,8 +9,7 @@ require_once __DIR__ . '/config.php';
 // idの受け取り
 // $order_id = filter_input(INPUT_GET, 'order_id');
 // //対象タスクの取得
-session_start();
-$user_id = $_SESSION['email'];
+
 $orders_by_me = display_order_by_orderuser($user_id);
 $orders_to_me = display_order_by_receiveuser($user_id);
 

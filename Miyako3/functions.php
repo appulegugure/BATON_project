@@ -761,3 +761,30 @@ function display_order($id)
         echo $e->getMessage();
     }
 }
+
+
+function signup_validate($email, $name,$password, $company, $post, $prefe)
+{
+    $erro = [];
+
+    if (empty($email)) {
+        $erro[] = MSG_EMAIL_REQUIRED;
+    }
+    if (empty($name)) {
+        $erro[] = MSG_NAME_REQUIRED;
+    }
+    if (empty($password)) {
+        $erro[] = MSG_PASSWORD_REQUIRED;
+    }
+    if (empty($company)) {
+        $erro[] = '会社名が未入力です';
+    }
+    if (empty($post)) {
+        $erro[] = '郵便番号が未入力です';
+    }
+    if (empty($prefe)) {
+        $erro[] = '都道府県が未入力です';
+    }
+
+    return $erro;
+}

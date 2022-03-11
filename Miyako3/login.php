@@ -1,9 +1,12 @@
 <?php
-include_once __DIR__ . '/all.html';
-require_once __DIR__ . "/functions.php";
+
 session_start();
 $email = '';
 $password = '';
+
+include_once __DIR__ . '/all.html';
+require_once __DIR__ . "/functions.php";
+
 
 $errors = [];
 
