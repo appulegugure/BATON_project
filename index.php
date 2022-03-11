@@ -25,8 +25,15 @@ $community_list = select_search_community($user_id);
 //けど、上手く動かないから全取得している。後で直す
 // $orders = select_order_by_community($community_list);
 
-$orders = select_order_by_status();
+$community_list = $_SESSION['community'];
 
+$community_list_sql = convert_from_array_to_sqlstring($community_list);
+echo $community_list_sql;
+$orders = select_order_community_and_status('not',$community_list_sql);
+
+
+//var_dump($_SESSION['community']);
+//var_dump(convert_from_array_to_string($_SESSION['community']));
 $errors = [];
 //対象の委託業務がない場合
 if (empty($orders)) {
@@ -93,5 +100,4 @@ if (empty($_GET['keyword'])) {
     <!-- mycommunity.phpに遷移する -->
     <a href="mycommunity.php" class="btn edit-btn">参加コミュニティ一覧</a>
 </body>
-
 </html>
