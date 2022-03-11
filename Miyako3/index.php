@@ -18,7 +18,8 @@ $community_list = select_search_community($user_id);
 //参加コミュニティ内の委託業務で未受注のものを取得する
 //けど、上手く動かないから全取得している。後で直す
 // $orders = select_order_by_community($community_list);
-$orders = select_order_by_status();
+$status = '未受注';
+$orders = select_order_by_status($status);
 
 $errors = [];
 //対象の委託業務がない場合
