@@ -1,5 +1,4 @@
 <?php
-include_once __DIR__ . '/all.html';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
 
@@ -49,44 +48,30 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
-    <style> .wrapper {
-    width: 500px;
-    margin: 30px auto;
-    padding: 40px 50px;
-    border: 1px solid #dfdfdc;
-    border-radius: 5px;
-    }
-    </style>
-</head>
-
 <body>
-    <div class="wrapper">
-        <div class="m-5">
-            <h2>コミュニティ作成</h2>
-            <!-- エラーがあったら表示 -->
-            <?php if (!empty($errors)) : ?>
-                <ul class="errors">
-                    <?php foreach ($errors as $error) : ?>
-                        <li><?= h($error) ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
-            <form action="" method="post" class="form-horizontal">
-                <div class="form-group">
-                    <!--入力項目-->
-                    <label class="col-md-3 control-label"></label><input type="text" name="community_name" value="" placeholder="コミュニティ名"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="condition1" value="" placeholder="参加条件１"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="condition2" value="" placeholder="参加条件２"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="condition3" value="" placeholder="参加条件３"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="condition4" value="" placeholder="参加条件４"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="condition5" value="" placeholder="参加条件５"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="community_content" value="" placeholder="内容"><br>
-                    <input type="submit" value="登録" class="btn btn-primary">
-                </div>
-            </form>
-            <a href="index.php" class="btn btn-secondary">戻る</a>
-        </div>
+    <div>
+        <h2>コミュニティを作る</h2>
+        <!-- エラーがあったら表示 -->
+        <?php if (!empty($errors)) : ?>
+            <ul class="errors">
+                <?php foreach ($errors as $error) : ?>
+                    <li><?= h($error) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        <form action="" method="post">
+            <!--入力項目-->
+            コミュニティ名<input type="text" name="community_name" value=""><br>
+            参加条件１<input type="text" name="condition1" value=""><br>
+            参加条件２<input type="text" name="condition2" value=""><br>
+            参加条件３<input type="text" name="condition3" value=""><br>
+            参加条件４<input type="text" name="condition4" value=""><br>
+            参加条件５<input type="text" name="condition5" value=""><br>
+            内容<input type="text" name="community_content" value=""><br>
+            <input type="submit" value="登録" class="btn submit-btn">
+        </form>
+        <a href="index.php" class="btn return-btn">戻る</a>
+
     </div>
 </body>
 
