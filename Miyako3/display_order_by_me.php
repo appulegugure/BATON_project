@@ -39,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <? include_once __DIR__ . '/header.html'; ?>
 
 <body>
-    <div>
-        <h2>募集中委託詳細</h2>
+    <div class="wrapper">
+        <h2>詳細</h2>
         <!-- エラーがあったら表示 -->
         <?php if (!empty($errors)) : ?>
             <ul class="errors">
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             コミュニティ:<?= h($order['community_id']) ?><br>
             ユーザー:<?= h($order['order_user_email']) ?><br>
             タイトル:<?= h($order['title']) ?><br>
-            ジョブ:<?= h($order['job']) ?><br>
+            業務内容:<?= h($order['job']) ?><br>
             日付: <?= h($order['day']) ?><br>
             料金: <?= h($order['price']) ?><br>
             <!-- 条件1: <?= h($order['condition1']) ?><br>
@@ -66,9 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             条件4: <?= h($order['condition4']) ?><br>
             条件5: <?= h($order['condition5']) ?><br> -->
             <br>
-            <input type="submit" value="委託を取り下げる" class="btn submit-btn">
+            <input type="submit" value="委託を取り下げる" class="btn btn-outline-danger">
         </form>
-        <a href="index.php" class="btn return-btn">戻る</a>
+        <a href="transactions.php" class="btn btn-secondary">戻る</a>
 
     </div>
     <? include_once __DIR__ . '/js.html'; ?>

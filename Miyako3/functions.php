@@ -383,7 +383,7 @@ function display_order_by_receiveuser($user_id)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function display_order_by_orderuser($user_id)
+function display_order_by_orderuser($user_id, $status)
 {
     // データベースに接続
     $dbh = connect_db();
@@ -397,6 +397,8 @@ function display_order_by_orderuser($user_id)
         job_order
     WHERE 
     order_user_email = :user_id
+    AND NOT
+    status = :status
     EOM;
 
     // プリペアドステートメントの準備
@@ -405,6 +407,7 @@ function display_order_by_orderuser($user_id)
 
     // パラメータのバインド
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+    $stmt->bindParam(':status', $status, PDO::PARAM_STR);
     // プリペアドステートメントの実行
     $stmt->execute();
     // 結果の取得
@@ -709,4 +712,54 @@ function insert_user($email, $name, $password, $company, $post, $prefe)
     $pw_hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt->bindParam(':password', $pw_hash, PDO::PARAM_STR);
     $stmt->execute();
+}
+//二時間前のオーダーをセレクト
+function two_hours_order(){
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("
+                                SELECT * FROM job_order WHERE SUBTIME(day,'02:00:00') <= NOW() AND NOT day < NOW();
+                                ;");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $e) {
+        echo $e->getMessage();
+
+    }
+}
+
+//委託中_進行_開催日-2時間で絞る
+function select_search_received_progress_time_minus2($user_id)
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("SELECT * FROM job_order
+                                WHERE order_user_email = :user_id 
+                                AND status = '受注済'
+                                -- AND day = --  
+                                ;");
+        $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_STR);
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $e) {
+        echo $e->getMessage();
+
+    }
+}
+
+//開始日二時間前でステータス取り消し
+function two_hours_order_set_reject(){
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("
+                                UPDATE job_order
+                                SET status = '取消し'
+                                WHERE SUBTIME(day,'02:00:00') <= NOW() AND NOT day < NOW();
+                                ");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $e) {
+        echo $e->getMessage();
+
+    }
 }
