@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             条件4: <?= h($order['condition4']) ?><br>
             条件5: <?= h($order['condition5']) ?><br> -->
             <br>
-            <input type="submit" value="受注する" class="btn submit-btn">
+            <input type="submit" value="発注キャンセル" class="btn submit-btn">
         </form>
         <a href="index.php" class="btn return-btn">戻る</a>
 
