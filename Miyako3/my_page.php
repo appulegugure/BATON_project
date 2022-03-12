@@ -5,12 +5,10 @@ session_start();
 
 select_user_info($_SESSION['email']);
 // 関数ファイルを読み込む
-include_once __DIR__ . '/all.html';
 
-//require_once __DIR__ . '/db_function/db_function.php';
+require_once __DIR__ . '/functions.php';
+// require_once __DIR__ . '/db_function/db_function.php';
 
-// データベースに接続
-$dbh = connect_db(); // 特にエラー表示がなければOK
 ?>
 <!DOCTYPE html>
 <html lang="ja">

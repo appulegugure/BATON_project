@@ -1,12 +1,8 @@
 <?php
-//test用
-require_once __DIR__ . '/functions.php';
-require_once __DIR__ . '/db_function.php';
-//require_once __DIR__ . '/Miyako3/functions.php';
 
 // 関数ファイルを読み込む
 // require_once __DIR__ . '/db.functions.php';
-// require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/functions.php';
 
 // $keyword = $_GET['keyword'];
 
@@ -14,9 +10,7 @@ require_once __DIR__ . '/db_function.php';
 session_start();
 //ログインユーザーのメールアドレスを取得する
 $user_id = $_SESSION['email'];
-//$user_community = $_SESSION['community'];
 
-//echo $user_community;
 //ユーザーの参加コミュニティを取得す
 // $community_list = search_community_by_user($user_id);
 $community_list = select_search_community($user_id);
@@ -24,16 +18,9 @@ $community_list = select_search_community($user_id);
 //参加コミュニティ内の委託業務で未受注のものを取得する
 //けど、上手く動かないから全取得している。後で直す
 // $orders = select_order_by_community($community_list);
+$status = '未受注';
+$orders = select_order_by_status($status);
 
-$community_list = $_SESSION['community'];
-
-$community_list_sql = convert_from_array_to_sqlstring($community_list);
-//echo $community_list_sql;
-$orders = select_order_community_and_status('未受注',$community_list_sql);
-
-
-//var_dump($_SESSION['community']);
-//var_dump(convert_from_array_to_string($_SESSION['community']));
 $errors = [];
 //対象の委託業務がない場合
 if (empty($orders)) {
@@ -100,4 +87,5 @@ if (empty($_GET['keyword'])) {
     <!-- mycommunity.phpに遷移する -->
     <a href="mycommunity.php" class="btn edit-btn">参加コミュニティ一覧</a>
 </body>
+
 </html>

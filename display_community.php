@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/db_function.php';
 
 // Communityのidの受け取り
 $community_id = filter_input(INPUT_GET, 'community_id');
@@ -41,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
-<? include_once __DIR__ . '/header.html'; ?>
 
 <body>
     <div>
@@ -73,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="index.php" class="btn edit-btn">トップへ戻る</a><br>
 
     </div>
-    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

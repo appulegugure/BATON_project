@@ -17,21 +17,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_start();
     //ユーザID（（Email)を取得し変数に設定
     $user = $_SESSION['email'];
-    //コミュニティに参加済みかを確認
+    //コミュニティ作成者か確認
     $community_user = search_community_user($community_id, $user);
-    //コミュニティに参加済みの場合
-    if (!empty($community_user)) {
-        // エラーメッセージ「このコミュニティには既に参加済みです」後でConstantに設定
-        $errors[] = 'このコミュニティには既に参加済みです';
+    if ($community_user['flag'] == 1) {
+        //'コミュニティ作成者のため抜けられません'
+        $errors[] = 'コミュニティ作成者のためコミュニティから抜けられません';
     }
+
     //エラーがない場合
     if (empty($errors)) {
-        //フラグをオフにする
-        $owner_flag = 0;
-        //コミュニティ参加者テーブルに登録
-        create_community_user($community_id, $user, $owner_flag);
+        //コミュニティ参加者テーブルのレコードを削除
+        withdraw_from_community($community_id, $user);
         // compelte_msg.php にリダイレクト
-        header('Location: complete_msg.php?comment=コミュニティへの参加');
+        header('Location: complete_msg.php?comment=コミュニティからの脱退');
         exit;
     }
 }
@@ -42,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+
 
 <body>
     <div>
@@ -66,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             条件５:<?= h($community['condition5']) ?><br>
             内容:<?= h($community['community_content']) ?><br>
             <br>
-            <input type="submit" value="参加する" class="btn submit-btn">
+            <input type="submit" value="コミュニティから抜ける" class="btn submit-btn">
         </form>
         <!-- 戻るボタンは上手く動かないから後で -->
         <!-- <a href="community_list.php" class="btn return-btn">戻る</a><br> -->
