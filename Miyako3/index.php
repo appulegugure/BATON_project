@@ -5,9 +5,6 @@ session_start();
 $user_id = $_SESSION['email'];
 // 関数ファイルを読み込む
 require_once __DIR__ . '/functions.php';
-
-include_once __DIR__ . '/all.html';
-
 //require_once __DIR__ . '/db.functions.php';
 
 // $keyword = $_GET['keyword'];
@@ -19,7 +16,9 @@ $community_list = select_search_community($user_id);
 //参加コミュニティ内の委託業務で未受注のものを取得する
 //けど、上手く動かないから全取得している。後で直す
 // $orders = select_order_by_community($community_list);
-$orders = select_order_by_status();
+$status = '未受注';
+$orders = select_order_by_status($status, $user_id);
+
 
 $errors = [];
 //対象の委託業務がない場合
@@ -41,9 +40,7 @@ if (empty($_GET['keyword'])) {
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-
-</head>
+<? include_once __DIR__ . '/header.html'; ?>
 
 <body>
     <div class="wrapper">
@@ -52,8 +49,10 @@ if (empty($_GET['keyword'])) {
                 <div class="container w-auto text-right">
                     <div class="border" style="padding:30px;">
                         <form>
-                            <div><input type="text" style="width: 280px;" placeholder="コミュニティを探す">
-                                <a href="community_list.php"><i class="fa-solid fa-magnifying-glass btn btn-dark"></i></a>
+                            <div><input type="text" name="keyword" style="width: 280px;" placeholder="コミュニティを探す">
+                                <!-- <a href="community_list.php"><i class="fa-solid fa-magnifying-glass btn btn-dark"></i></a> -->
+                                <input type="submit" value="&#xf002;" class="fa-solid fa-magnifying-glass btn btn-dark">
+
                             </div>
                         </form>
                     </div>
@@ -81,37 +80,42 @@ if (empty($_GET['keyword'])) {
             <div class="container border">
                 <ul>
                     <?php foreach ($orders as $order) : ?>
-                            <li>
-                                <div class="row">
-                                    <!-- 表示する項目は後で調整 -->
-                                    <div class="a col mb-2 mr-1 text-center">
-                                        <br><?= h($order['order_id']) ?>
-                                    </div>
-                                    <div class="b col mb-2 mr-1 text-center">
-                                        <br><?= h($order['title']) ?>
-                                    </div>
-                                    <div class="c col mb-2 mr-1 text-center">
-                                        <br><?= h($order['day']) ?>
-                                    </div>
-                                    <div class="d col mb-2 mr-1 text-center">
-                                        <br><?= h($order['price']) ?>円
-                                    </div>
-                                    <div class="e col mb-2 mr-1 text-center">
-                                        <br><?= h($order['community_id']) ?>
-                                    </div>
-                                    <!-- display_order.phpに遷移してOrder IDを渡す -->
-                                    <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary btn-sm">詳細</a>
+                        <li>
+                            <div class="row">
+                                <!-- 表示する項目は後で調整 -->
+                                <div class="a col mb-2 mr-1 text-center">
+                                    <br><?= h($order['order_id']) ?>
                                 </div>
-                            </li>
+                                <div class="b col mb-2 mr-1 text-center">
+                                    <br><?= h($order['title']) ?>
+                                </div>
+                                <div class="c col mb-2 mr-1 text-center">
+                                    <br><?= h($order['day']) ?>
+                                </div>
+                                <div class="d col mb-2 mr-1 text-center">
+                                    <br><?= h($order['price']) ?>円
+                                </div>
+                                <div class="e col mb-2 mr-1 text-center">
+                                    <br><?= h($order['community_id']) ?>
+                                </div>
+
+                                <!-- display_order.phpに遷移してOrder IDを渡す -->
+                                <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary btn-sm">詳細</a>
+                            </div>
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             </div>
 
             <div class="container nowrap">
-                <div class="row"> 
-                    <div class="btn btn-sm btn-light">    
-                        <a href="create_order.php"><div class="btnbtn">ワンタッチで<br>業務委託!<br><h4>BATON</h4></div></a>
-                    </div> 
+                <div class="row">
+                    <div class="btn btn-sm btn-light">
+                        <a href="create_order.php">
+                            <div class="btnbtn">ワンタッチで<br>業務委託!<br>
+                                <h4>BATON</h4>
+                            </div>
+                        </a>
+                    </div>
                     <div class="btn btn-default btn-light">
                         <div class="col p-1 mb-2">
                             <a href="create_community.php"><i class="fa-solid fa-plus"></i><br>コミュニ<br>ティ作成</a>
@@ -133,9 +137,10 @@ if (empty($_GET['keyword'])) {
                         </div>
                     </div>
                 </div>
-            </div>  
+            </div>
         </div>
     </div>
+    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

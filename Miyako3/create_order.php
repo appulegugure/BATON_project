@@ -43,9 +43,11 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 
     //エラーがない場合
     if (empty($errors)) {
-        
+
         //ユーザーID（Email）を取得し設定
         $order_user_email = $_SESSION['email'];
+        //Statusを未受注にする
+        $status = '未受注';
         $_SESSION['email'];
         //委託業務をDBテーブルに登録
         $order_user = create_oreder(
@@ -77,10 +79,9 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
+<? include_once __DIR__ . '/header.html'; ?>
 
-<?php include_once __DIR__ . '/all.html'; ?>
-
-<<body>
+<body>
     <div class="wrapper">
         <div class="m-5">
             <h2>委託登録</h2>
@@ -94,7 +95,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
             <form action="" method="post" class="form-horizontal">
                 <!-- 入力項目 -->
-                <div class="form-group">    
+                <div class="form-group">
                     <label class="col-md-3 control-label"></label><input type="int" name="community_id" value="" placeholder="コミュニティ名"><br>
                     <label class="col-md-3 control-label"></label><input type="text" name="title" value="" placeholder="タイトル"><br>
                     <label class="col-md-3 control-label"></label><input type="text" name="job" value="" placeholder="ジョブ"><br>
@@ -117,6 +118,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
+    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

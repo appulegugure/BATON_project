@@ -38,7 +38,6 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     $title = filter_input(INPUT_POST, 'title');
     $job = filter_input(INPUT_POST, 'job');
     $day = filter_input(INPUT_POST, 'day');
-    echo $day;
     $price = filter_input(INPUT_POST, 'price');
     $adult = filter_input(INPUT_POST, 'adult');
     $child = filter_input(INPUT_POST, 'child');
@@ -54,8 +53,10 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
         // create_order($community, $order_user, $title, $job, $day, $price)
 
         $order_user = $_SESSION['email'];
-        create_order($adult, $child, $order_user, '0719tomorrow@gmail.com', $title, $job, $day, $price, $status, $condition1, $condition2, $condition3, $condition4, $condition5, $community_id);
-
+        create_order($adult, $child, $order_user,$title, $job, $day, $price, $status, $condition1, $condition2, $condition3, $condition4, $condition5, $community_id);
+        //header('Location: complete_order.php');
+        header('Location: complete_order.php');
+        exit;
     }
 }
 ?>

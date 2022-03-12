@@ -134,3 +134,100 @@ function find_email()
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function get_token_cr()
+{
+    $token_length = 16;
+    $token = openssl_random_pseudo_bytes($token_length);
+    return bin2hex($token);
+}
+
+function insert_pre_user($email, $urltoken)
+{
+    $dbh = connect_db();
+    $sql = <<<EOM
+    INSERT into 
+        pre_user
+        (mail,urltoken,date)
+    VALUE
+        (:email,:urltoken,now())
+    EOM;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':urltoken', $urltoken, PDO::PARAM_STR);
+    $stmt->execute();
+}
+function url_pre_user($urltoken){
+    $result = [];
+    $dbh = connect_db();
+    $sql = <<<EOM
+    SELECT
+        mail
+    FROM
+        pre_user
+    WHERE
+        urltoken = :url
+    AND 
+        date > now() - interval 24 hour;
+    EOM;
+    $stmt = $dbh -> prepare($sql);
+    $stmt->bindParam(':url', $urltoken, PDO::PARAM_STR);
+    $stmt -> execute();
+    $result['email'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result['count'] = $stmt->rowCount();
+
+    return $result;
+}
+
+function url_pass_user($urltoken)
+{
+    $result = [];
+    $dbh = connect_db();
+    $sql = <<<EOM
+    SELECT
+        mail
+    FROM
+        pre_user
+    WHERE
+        urltoken = :url
+    AND 
+        date > now() - interval 10 minute;
+    EOM;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':url', $urltoken, PDO::PARAM_STR);
+    $stmt->execute();
+    $result['email'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result['count'] = $stmt->rowCount();
+
+    return $result;
+}
+
+function reset_pass($email, $password)
+{
+    $dbh = connect_db();
+    $sql = <<<EOM
+    UPDATE
+        user
+    SET
+        password = :password
+    WHERE
+        email = :email
+    EOM;
+    $stmt = $dbh->prepare($sql);
+    $pw_hash = password_hash($password, PASSWORD_DEFAULT);
+    $stmt->bindParam(':password', $pw_hash, PDO::PARAM_STR);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->execute();
+}
+
+function convert_from_array_to_sqlstring($array){
+    $convert_to_array = [];
+    $escape ='';
+    foreach ($array as $key => $value) {
+        $escape = "'".$value['community_name']."'";
+        array_push($convert_to_array,$escape);
+    }
+    return implode(',',$convert_to_array);
+    
+}
+

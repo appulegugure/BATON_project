@@ -2,20 +2,21 @@
 
 // 関数ファイルを読み込む
 require_once __DIR__ . '/functions.php';
-// require_once __DIR__ . '/db.functions.php';
+
+require_once __DIR__ . '/db_function.php';
 
 //入力された検索ワードを取得
 $keyword = $_GET['keyword'];
 //入力された検索ワードを含むコミュニティをあいまい検索
-$community_list = search_community($keyword);
+$community_list = select_search_community_word($keyword);
 // $community_list = select_search_community_word($keyword);
+
 
 
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-<? include_once __DIR__ . '/header.html'; ?>
 
 <body>
     <h1>コミュニティ一覧</h1>
@@ -32,11 +33,11 @@ $community_list = search_community($keyword);
                     <?= h($community['id']) ?>/
                     <?= h($community['community_name']) ?>/
                     <?= h($community['user_email']) ?>/
-                    <?= h($community['condition1'] ?? '') ?>/
-                    <?= h($community['condition2'] ?? '')  ?>/
-                    <?= h($community['condition3'] ?? '') ?>/
-                    <?= h($community['condition4'] ?? '') ?>/
-                    <?= h($community['condition5'] ?? '') ?>/
+                    <?= h($community['condition1']) ?>/
+                    <?= h($community['condition2']) ?>/
+                    <?= h($community['condition3']) ?>/
+                    <?= h($community['condition4']) ?>/
+                    <?= h($community['condition5']) ?>/
                     <?= h($community['community_content']) ?>
 
                 </li>
@@ -44,7 +45,6 @@ $community_list = search_community($keyword);
         <? endif; ?>
     </ul>
     <a href="index.php" class="btn edit-btn">トップへ戻る</a><br>
-    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

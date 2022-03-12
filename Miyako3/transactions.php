@@ -3,7 +3,7 @@
 session_start();
 $user_id = $_SESSION['email'];
 
-include_once __DIR__ . '/all.html';
+
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
 
@@ -34,8 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
-
-<?php include_once __DIR__ . '/all.html'; ?>
+<? include_once __DIR__ . '/header.html'; ?>
 
 <body>
     <div class="m-5 border wrapper">
@@ -55,36 +54,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p>注文番号/タイトル/日付/料金/コミュニティ</p>
                 <?php foreach ($orders_by_me as $order) : ?>
                     <li>
+                        <a href="display_order_by_me.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
                         <?= h($order['order_id']) ?>/
                         <?= h($order['title']) ?>/
                         <?= h($order['day']) ?>/
                         <?= h($order['price']) ?>円/
                         <?= h($order['community_id']) ?>
-                        <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary">詳細</a>
+
                     </li>
                 <?php endforeach; ?>
-            </div>
-
-            <div class="mt-5">
                 <h3>受注中ジョブ</h3>
                 <p>注文番号/タイトル/日付/料金/コミュニティ</p>
                 <?php foreach ($orders_to_me as $order) : ?>
                     <li>
+                        <a href="display_order_to_me.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
                         <?= h($order['order_id']) ?>/
                         <?= h($order['title']) ?>/
                         <?= h($order['day']) ?>/
                         <?= h($order['price']) ?>円/
                         <?= h($order['community_id']) ?>
-                        <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary">詳細</a>
+
                     </li>
                 <?php endforeach; ?>
-            </div>
         </ul>
         <div class="text-center mt-5">
             <a href="index.php" class="btn btn-secondary">戻る</a>
         </div>
     </div>
-
+    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/functions.php';
 
 function connect_db()
 {
@@ -20,119 +21,11 @@ function connect_db()
 
 function h($str)
 {
+    // if (!empty($str)) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-}
-
-
-// タスク照会
-function find_task_by_status($status)
-{
-    // データベースに接続
-    $dbh = connect_db();
-
-    //SQL文
-    $sql = <<<EOM
-    SELECT
-        *
-    FROM
-        tasks
-    WHERE
-        status = :status
-    ORDER BY
-    updated_at
-EOM;
-
-    // プリペアドステートメントの準備
-    $stmt = $dbh->prepare($sql);
-
-    // // バインド(代入)するパラメータの準備
-    // $status = 'notyet';
-
-    // パラメータのバインド
-    $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-    // プリペアドステートメントの実行
-    $stmt->execute();
-
-    // 結果の取得
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-//タスク入力必須Validation
-function insert_validate($title)
-{
-    $errors = [];
-    if (empty($title)) {
-        $errors[] = MSG_TITLE_REQUIRED;
-    }
-
-    return $errors;
-}
-//受注テーブルにデータ追加
-function create_oreder_miyako($adult, $child, $title, $day, $number_of_peaple_id, $price, $Contents, $Prerequisite)
-{
-    $dbh = connect_db();
-    try {
-        $dbh->beginTransaction();
-
-        $stmt1 = $dbh->prepare('INSERT INTO person_group(adult,child) VALUES (:adult,:child);');
-        $stmt2 = $dbh->prepare('SET @LAST_ID_pg = LAST_INSERT_ID();');
-        $stmt3 = $dbh->prepare('INSERT INTO order_ver_1(title,`day`,number_of_peaple_id,price,Contents,Prerequisite,community_id)
-                                VALUES (:title,:day,:number_of_peaple_id,:price,:contents,:Prerequisite,@LAST_ID_pg);');
-
-        $stmt1->bindParam(':adult', $adult, PDO::PARAM_INT);
-        $stmt1->bindParam(':child', $child, PDO::PARAM_INT);
-        $stmt3->bindParam(':title', $title, PDO::PARAM_STR);
-        $stmt3->bindParam(':day', $day, PDO::PARAM_STR);
-        $stmt3->bindParam(':number_of_peaple_id', $number_of_peaple_id, PDO::PARAM_INT);
-        $stmt3->bindParam(':price', $price, PDO::PARAM_INT);
-        $stmt3->bindParam(':contents', $Contents, PDO::PARAM_STR);
-        $stmt3->bindParam(':Prerequisite', $Prerequisite, PDO::PARAM_STR);
-
-        $res1 = $stmt1->execute();
-        $res2 = $stmt2->execute();
-        $res3 = $stmt3->execute();
-
-        if ($res1 && $res2 && $res3) {
-            $dbh->commit();
-        }
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-        $dbh->rollBack();
-    } finally {
-        $dbh = null;
-    }
-}
-//タスク登録
-function create_order_2($community, $order_user, $title, $job, $day, $price)
-{
-    // データベースに接続
-    $dbh = connect_db();
-
-    // Statusを抽出条件に指定してデータ取得
-
-    $sql = <<<EOM
-    INSERT INTO
-        job_order
-        (community, order_user_email, title, job, day, price)
-    VALUES
-        (:community, :order_user_email, :title, :job, :day, :price) 
-    EOM;
-
-    // プリペアドステートメントの準備
-    $stmt = $dbh->prepare($sql);
-
-    // パラメータのバインド
-    $stmt->bindParam(':community', $community, PDO::PARAM_STR);
-    $stmt->bindParam(':order_user', $order_user, PDO::PARAM_STR);
-    $stmt->bindParam(':title', $title, PDO::PARAM_STR);
-    $stmt->bindParam(':job', $job, PDO::PARAM_STR);
-    $stmt->bindParam(':day', $day, PDO::PARAM_STR);
-    $stmt->bindParam(':price', $price, PDO::PARAM_STR);
-
-    // プリペアドステートメントの実行
-    $stmt->execute();
-
-    // 結果の取得
+    // } else {
+    //     return '';
+    // }
 }
 
 
@@ -232,6 +125,33 @@ function create_community_user($community_id, $user_email, $owner_flag)
     $stmt->execute();
 }
 
+
+//communityから抜ける
+function withdraw_from_community($community_id, $user_email)
+{
+    // データベースに接続
+    $dbh = connect_db();
+
+    $sql = <<<EOM
+    DELETE FROM
+        community_user
+    WHERE
+        community = :community
+    AND
+        user_email = :user_email
+    EOM;
+
+    // プリペアドステートメントの準備
+    $stmt = $dbh->prepare($sql);
+
+    // パラメータのバインド
+    $stmt->bindParam(':community', $community_id, PDO::PARAM_STR);
+    $stmt->bindParam(':user_email', $user_email, PDO::PARAM_STR);
+
+    // プリペアドステートメントの実行
+    $stmt->execute();
+}
+
 //受注テーブル一覧表示
 function select_order_all_ALL()
 {
@@ -297,7 +217,9 @@ EOM;
 }
 
 // 注文を取得する
-function select_order_by_status()
+
+function select_order_by_status($status, $user_id)
+
 {
     // データベースに接続
     $dbh = connect_db();
@@ -308,13 +230,19 @@ function select_order_by_status()
         *
     FROM
         job_order
+    WHERE
+        status = :status
+    AND NOT
+        (order_user_email    = :user_id)
+
 EOM;
 
     // プリペアドステートメントの準備
     $stmt = $dbh->prepare($sql);
     // パラメータのバインド
-    // $status = NULL;
-    // $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+    $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+
 
     // プリペアドステートメントの実行
     $stmt->execute();
@@ -339,17 +267,17 @@ function search_community($keyword)
     community_name LIKE :search_term
     OR
     condition1 LIKE :search_term
-     OR
+    OR
     condition2 LIKE :search_term
-     OR
+    OR
     condition3 LIKE :search_term
-     OR
+    OR
     condition4 LIKE :search_term
-     OR
+    OR
     condition5 LIKE :search_term
     ORDER BY
     created_at
-EOM;
+    EOM;
 
     // プリペアドステートメントの準備
     $stmt = $dbh->prepare($sql);
@@ -397,45 +325,6 @@ EOM;
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
-
-function update_status_to_done($id, $status)
-{
-    // データベースに接続
-    $dbh = connect_db();
-
-    // Statusを抽出条件に指定してデータ取得
-
-    $sql = <<<EOM
-    UPDATE
-        tasks
-    SET
-        status = :status
-    WHERE id = :id
-    EOM;
-
-    // プリペアドステートメントの準備
-    $stmt = $dbh->prepare($sql);
-
-
-    // パラメータのバインド
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-    switch ($status) {
-        case TASK_STATUS_DONE:
-            $status = TASK_STATUS_DONE;
-            break;
-        case TASK_STATUS_NOTYET:
-            $status = TASK_STATUS_NOTYET;
-            break;
-        default:
-            # code...
-            break;
-    }
-
-    $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-    // プリペアドステートメントの実行
-    $stmt->execute();
-}
 
 
 //Order IDをキーに委託業務の詳細を取得する
@@ -490,7 +379,7 @@ function display_order_by_receiveuser($user_id)
 
 
     // パラメータのバインド
-    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
     // プリペアドステートメントの実行
     $stmt->execute();
     // 結果の取得
@@ -518,7 +407,7 @@ function display_order_by_orderuser($user_id)
 
 
     // パラメータのバインド
-    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
     // プリペアドステートメントの実行
     $stmt->execute();
     // 結果の取得
@@ -556,7 +445,7 @@ function display_community($community_id)
 }
 
 
-function update_order($user_id, $order_id)
+function update_order($user_id, $order_id, $status)
 {
     // データベースに接続
     $dbh = connect_db();
@@ -578,7 +467,6 @@ function update_order($user_id, $order_id)
 
     // パラメータのバインド
     $stmt->bindParam(':order_id', $order_id, PDO::PARAM_STR);
-    $status = '受注済';
     $stmt->bindParam(':status', $status, PDO::PARAM_STR);
     $stmt->bindParam(':receive_user', $user_id, PDO::PARAM_STR);
     // プリペアドステートメントの実行
@@ -616,6 +504,7 @@ function find_user_by_email($email)
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
 
 function find_email()
 {
@@ -763,7 +652,20 @@ function display_order($id)
 }
 
 
-function signup_validate($email, $name,$password, $company, $post, $prefe)
+function select_user_info($email)
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("SELECT * FROM user WHERE email = :email;");
+        $stmt1->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt1->execute();
+        return $stmt1->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
+
+function signup_validate($email, $name, $password, $company, $post, $prefe)
 {
     $erro = [];
 
@@ -809,20 +711,6 @@ function insert_user($email, $name, $password, $company, $post, $prefe)
     $pw_hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt->bindParam(':password', $pw_hash, PDO::PARAM_STR);
     $stmt->execute();
-
-}
-
-//userテーブルからemailで条件を絞って全カラムをセレクト
-function select_user_info($email){
-    $dbh = connect_db();
-    try {
-        $stmt1 = $dbh->prepare("SELECT * FROM user WHERE email = :email;");
-        $stmt1->bindParam( ':email', $email, PDO::PARAM_STR);
-        $stmt1->execute();
-        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-    }catch(PDOException $e) {
-        echo $e->getMessage();
-    }
 }
 
 

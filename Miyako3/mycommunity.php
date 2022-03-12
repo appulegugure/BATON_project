@@ -3,7 +3,6 @@
 session_start();
 
 // 関数ファイルを読み込む
-include_once __DIR__ . '/all.html';
 require_once __DIR__ . '/functions.php';
 
 
@@ -16,14 +15,14 @@ $community_list = search_community_by_user($user_id);
 
 <!DOCTYPE html>
 <html lang="ja">
-    
-<?php include_once __DIR__ . '/all.html'; ?>
+
+<?php include_once __DIR__ . '/header.html'; ?>
 
 <body>
     <div class="wrapper">
-            <div class="mb-5">
-                <h1>コミュニティ一覧</h1>
-            </div>
+        <div class="mb-5">
+            <h1>コミュニティ一覧</h1>
+        </div>
         <div class="container">
             <div class="row">
                 <ul>
@@ -50,6 +49,7 @@ $community_list = search_community_by_user($user_id);
             <a href="index.php" class="btn btn-secondary">戻る</a><br>
         </div>
     </div>
+    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

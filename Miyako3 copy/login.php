@@ -1,16 +1,9 @@
 <?php
 require_once __DIR__ . "/functions.php";
-
-require_once __DIR__ . "/db_function.php";
-
 session_start();
-
 $email = '';
 $password = '';
-if (!isset($_SESSION['csrf_token'])) {
-    $token = base64_encode(openssl_random_pseudo_bytes(32));
-    $_SESSION['csrf_token'] = $token;
-}
+
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -18,31 +11,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = filter_input(INPUT_POST, 'password');
     $errors = login_validate($email, $password);
     $user = find_user_by_email($email);
-    //追加
-    $user_communitys = select_search_community($user['email']);
-
-    if (empty($user)) {
-
+    if(empty($user)){
         $errors[] = '存在しないアカウントです';
     }
-    if ($_SESSION['csrf_token'] != $_POST['token']) {
-        $errors[] = '不正なアクセスです.';
-    }
-    if (empty($errors)) {
-        if (password_verify($password, $user['password'])) {
-            session_regenerate_id(true);
+    if (empty($errors)){
+        if(password_verify($password, $user['password'])){
             $_SESSION['email'] = $user['email'];
-            //追加
-            $_SESSION['community'] = $user_communitys;
-
             header('Location: index.php');
-
-
             exit;
-        } else {
+            } else {
             $errors[] = MSG_EMAIL_PASSWORD_NOT_MATCH;
+            }
         }
-    }
 }
 
 ?>
@@ -68,15 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </ul>
         <?php endif; ?>
         <form action="" method="post">
-            <input type="hidden" name="token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <label for="email">メールアドレス</label>
             <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>">
             <label for="password">パスワード</label>
             <input type="password" name="password" id="password" placeholder="Password: 8文字以上">
             <div class="btn-area">
                 <input type="submit" value="ログイン" class="btn submit-btn">
-                <a href="provi_signup.php" class="btn link-btn">新規ユーザー登録はこちら</a>
-                <a href="pass_email_reset.php" class="btn link-btn">パスワードを忘れた方</a </div>
+                <a href="signup.php" class="btn link-btn">新規ユーザー登録はこちら</a>
             </div>
         </form>
     </div>
