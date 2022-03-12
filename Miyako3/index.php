@@ -44,14 +44,15 @@ if (empty($_GET['keyword'])) {
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
 <link rel="stylesheet" href="top.css" />
+
 <body>
     <div class="wrapper">
-            <form>
-                <div><input type="text" name="keyword" style="width: 500px;" placeholder="コミュニティを探す" required>
-                    <!-- <a href="community_list.php"><i class="fa-solid fa-magnifying-glass btn btn-dark"></i></a> -->
-                    <input type="submit" value="&#xf002;" class="fa-solid fa-magnifying-glass btn btn-dark">
-                </div>
-            </form>
+        <form>
+            <div><input type="text" name="keyword" style="width: 500px;" placeholder="コミュニティを探す" required>
+                <!-- <a href="community_list.php"><i class="fa-solid fa-magnifying-glass btn btn-dark"></i></a> -->
+                <input type="submit" value="&#xf002;" class="fa-solid fa-magnifying-glass btn btn-dark">
+            </div>
+        </form>
 
         <div class="container">
             <div class="text-right mb-2">
@@ -85,9 +86,13 @@ if (empty($_GET['keyword'])) {
                             <div class="price_btn">
                                 <br>￥<?= h($order['price']) ?>
                             </div>
-                            <div class="community_btn">
-                                <br><?= h($order['community_id']) ?>
+                            <div class="adult_btn">
+                                <br><?= h($order['adult']) ?>
                             </div>
+                            <div class="child_btn">
+                                <br><?= h($order['child']) ?>
+                            </div>
+
                             <!-- display_order.phpに遷移してOrder IDを渡す -->
                             <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary btn-sm">詳細</a>
                         </div>
@@ -106,26 +111,26 @@ if (empty($_GET['keyword'])) {
                     </a>
                 </div>
                 <div class="info">
-                <div class="btn btn-default btn-light">
-                    <div class="col p-1 mb-2">
-                        <a href="create_community.php"><i class="fa-solid fa-plus"></i><br>コミュニティ作成</a>
+                    <div class="btn btn-default btn-light">
+                        <div class="col p-1 mb-2">
+                            <a href="create_community.php"><i class="fa-solid fa-plus"></i><br>コミュニティ作成</a>
+                        </div>
                     </div>
-                </div>
-                <div class="btn btn-default btn-light">
-                    <div class="col p-1 mb-2">
-                        <a href="transactions.php"><i class="fa-regular fa-rectangle-list fa-1x"></i><br>取引中の仕事</a>
+                    <div class="btn btn-default btn-light">
+                        <div class="col p-1 mb-2">
+                            <a href="transactions.php"><i class="fa-regular fa-rectangle-list fa-1x"></i><br>取引中の仕事</a>
+                        </div>
                     </div>
-                </div>
-                <div class="btn btn-default btn-light">
-                    <div class="col p-1 mb-2">
-                        <a href="mycommunity.php"><i class="fa-solid fa-user-group fa-1x"></i><br>参加コミュニティ</a>
+                    <div class="btn btn-default btn-light">
+                        <div class="col p-1 mb-2">
+                            <a href="mycommunity.php"><i class="fa-solid fa-user-group fa-1x"></i><br>参加コミュニティ</a>
+                        </div>
                     </div>
-                </div>
-                <div class="btn btn-default btn-light">
-                    <div class="col p-1 mb-2">
-                        <a href="my_page.php"><i class="fa-solid fa-user fa-1x"></i><br>マイページ</a>
+                    <div class="btn btn-default btn-light">
+                        <div class="col p-1 mb-2">
+                            <a href="my_page.php"><i class="fa-solid fa-user fa-1x"></i><br>マイページ</a>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
         </div>
