@@ -230,20 +230,25 @@ function insert_community_user($community_id,$user_email)
 ####################################################################################
 
 
-function update_order_status($order_id,$user_id)
+function update_order_status($order_id,$set_status)
 {
     
     $dbh = connect_db();
     try {
-
-        $stmt1 = $dbh->prepare("");
-        $stmt1->execute();
-        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-    
+        $dbh->beginTransaction();
+        $stmt1 = $dbh->prepare("UPDATE job_order SET status = :set_status WHERE order_id = :order_id;");
+        $stmt1 = $dbh->prepare("UPDATE job_order SET receive_user_emai = NULL WHERE order_id = :order_id;");
+        $stmt1->bindParam( ':set_status', $set_status, PDO::PARAM_STR);
+        $stmt1->bindParam( ':order_id', $order_id, PDO::PARAM_STR);
+        $res1 = $stmt1->execute();
+        if( $res1 ) { 
+            $dbh->commit();
+        }
     }catch(PDOException $e) {
-        
         echo $e->getMessage();
-
+        $dbh->rollBack();
+    } finally {
+    $dbh = null;
     }
 }
 // CREATE
@@ -347,13 +352,31 @@ function select_search_received($user_id)
     }
 }
 
-//受注中
+//委託中
 function select_search_received_finish($user_id)
 {
     $dbh = connect_db();
     try {
         $stmt1 = $dbh->prepare("SELECT * FROM job_order
                                 WHERE receive_user_email = :user_id 
+                                AND status = '受注済'
+                                ;");
+        $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_STR);
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $e) {
+        echo $e->getMessage();
+
+    }
+}
+
+//委託中_進行
+function select_search_received_progress($user_id)
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("SELECT * FROM job_order
+                                WHERE order_user_email = :user_id 
                                 AND status = '受注済'
                                 ;");
         $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_STR);

@@ -536,6 +536,7 @@ function select_search_community($user_id)
         echo $e->getMessage();
     }
 }
+
 //コミュニティテーブルからcontentカラムを曖昧検索して該当したコミュニティネームを取得
 //☆バインドでエラー
 function select_search_community_word($input_word)
