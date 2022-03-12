@@ -23,11 +23,15 @@ $condition4 = '';
 $condition5 = '';
 $community_id = '';
 $errors = [];
+$my_community = '';
+
+$order_user_email = $_SESSION['email'];
+$my_community = select_search_community($order_user_email);
 
 //Submitされた場合
 if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     //入力値を取得
-    $community = filter_input(INPUT_POST, 'community');
+    $community_id = filter_input(INPUT_POST, 'community_id');
     $title = filter_input(INPUT_POST, 'title');
     $job = filter_input(INPUT_POST, 'job');
     $day = filter_input(INPUT_POST, 'day');
@@ -39,7 +43,6 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     $condition3 = filter_input(INPUT_POST, 'condition3');
     $condition4 = filter_input(INPUT_POST, 'condition4');
     $condition5 = filter_input(INPUT_POST, 'condition5');
-    $community_id = filter_input(INPUT_POST, 'community_id');
 
     //エラーがない場合
     if (empty($errors)) {
@@ -96,7 +99,13 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
             <form action="" method="post" class="form-horizontal">
                 <!-- 入力項目 -->
                 <div class="form-group">
-                    <label class="col-md-3 control-label"></label><input type="int" name="community_id" value="" placeholder="コミュニティ名"><br>
+                    <label class="col-md-3 control-label"></label>
+                    <select name="community_id">
+                        <option value="" disabled selected style="display:none;">コミュニティを選択</option>
+                        <? foreach ($my_community as $key => $value) : ?>
+                            <option value="<?= $value['id'] ?>"> <?= $value['community_name']; ?></option>
+                        <? endforeach; ?>
+                    </select>
                     <label class="col-md-3 control-label"></label><input type="text" name="title" value="" placeholder="タイトル"><br>
                     <label class="col-md-3 control-label"></label><input type="text" name="job" value="" placeholder="ジョブ"><br>
                     <label class="col-md-3 control-label"></label><input type="int" name="adult" value="" placeholder="大人"><br>

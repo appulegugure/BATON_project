@@ -9,15 +9,15 @@ require_once __DIR__ . '/functions.php';
 
 // $keyword = $_GET['keyword'];
 
-//ユーザーの参加コミュニティを取得す
+//ユーザーの参加コミュニティを取得する
 // $community_list = search_community_by_user($user_id);
 $community_list = select_search_community($user_id);
 
 //参加コミュニティ内の委託業務で未受注のものを取得する
-//けど、上手く動かないから全取得している。後で直す
-// $orders = select_order_by_community($community_list);
+// var_dump($community_list);
 $status = '未受注';
-$orders = select_order_by_status($status, $user_id);
+// $orders = select_order_by_status($status, $user_id);
+$orders = select_order_by_community($status, $community_list, $user_id);
 
 
 $errors = [];
@@ -78,7 +78,7 @@ if (empty($_GET['keyword'])) {
             </div>
 
             <div class="container border">
-                <ul>
+                <ol>
                     <?php foreach ($orders as $order) : ?>
                         <li>
                             <div class="row">
@@ -104,7 +104,7 @@ if (empty($_GET['keyword'])) {
                             </div>
                         </li>
                     <?php endforeach; ?>
-                </ul>
+                </ol>
             </div>
 
             <div class="container nowrap">
