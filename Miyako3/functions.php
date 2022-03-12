@@ -21,7 +21,11 @@ function connect_db()
 
 function h($str)
 {
+    // if (!empty($str)) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+    // } else {
+    //     return '';
+    // }
 }
 
 
@@ -661,7 +665,7 @@ function select_user_info($email)
     }
 }
 
-function signup_validate($email, $name,$password, $company, $post, $prefe)
+function signup_validate($email, $name, $password, $company, $post, $prefe)
 {
     $erro = [];
 
@@ -707,6 +711,4 @@ function insert_user($email, $name, $password, $company, $post, $prefe)
     $pw_hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt->bindParam(':password', $pw_hash, PDO::PARAM_STR);
     $stmt->execute();
-
 }
-

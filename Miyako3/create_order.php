@@ -1,6 +1,5 @@
 <?php
 
-include_once __DIR__ . '/all.html';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
 
@@ -79,18 +78,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
-
-<head>
-    <style> .wrapper {
-    width: 500px;
-    margin: 30px auto;
-    padding: 40px 50px;
-    border: 1px solid #dfdfdc;
-    border-radius: 5px;
-    }
-    </style>
-</head>
-
+<? include_once __DIR__ . '/header.html'; ?>
 
 <body>
     <div class="wrapper">
@@ -106,7 +94,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
             <form action="" method="post" class="form-horizontal">
                 <!-- 入力項目 -->
-                <div class="form-group">    
+                <div class="form-group">
                     <label class="col-md-3 control-label"></label><input type="int" name="community_id" value="" placeholder="コミュニティ名"><br>
                     <label class="col-md-3 control-label"></label><input type="text" name="title" value="" placeholder="タイトル"><br>
                     <label class="col-md-3 control-label"></label><input type="text" name="job" value="" placeholder="ジョブ"><br>
@@ -129,6 +117,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
+    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>
