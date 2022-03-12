@@ -45,7 +45,7 @@ if (empty($_GET['keyword'])) {
 <? include_once __DIR__ . '/header.html'; ?>
 
 <body>
-    <div class="container"  style= "padding:200px;">
+    <div class="container" style="padding:200px;">
         <div class="border">
             <div class="container">
                 <div class="border" style="padding:30px;">
