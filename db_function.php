@@ -318,7 +318,7 @@ function select_search_Consignment($user_id)
     $dbh = connect_db();
     try {
         $stmt1 = $dbh->prepare("SELECT * FROM job_order
-                                WHERE order_user_email = :user_id 
+                                WHERE receive_user_email = :user_id 
                                 AND status = '受注済';");
         $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_STR);
         $stmt1->execute();
@@ -335,9 +335,9 @@ function select_search_received($user_id)
     $dbh = connect_db();
     try {
         $stmt1 = $dbh->prepare("SELECT * FROM job_order
-                                WHERE receive_user_email = :user_id 
-                                AND status = '未受注';
-                                ");
+                                WHERE order_user_email = :user_id 
+                                AND status = '未受注' 
+                                ;");
         $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_STR);
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
@@ -354,8 +354,8 @@ function select_search_received_finish($user_id)
     try {
         $stmt1 = $dbh->prepare("SELECT * FROM job_order
                                 WHERE receive_user_email = :user_id 
-                                AND status = '受注済';
-                                ");
+                                AND status = '受注済'
+                                ;");
         $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_STR);
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
