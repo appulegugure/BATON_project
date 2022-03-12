@@ -14,6 +14,7 @@ $receive_user_email = '';
 $title = '';
 $job = '';
 $day = '';
+$time ='';
 $price = '';
 $status = '';
 $condition1 = '';
@@ -31,6 +32,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     $title = filter_input(INPUT_POST, 'title');
     $job = filter_input(INPUT_POST, 'job');
     $day = filter_input(INPUT_POST, 'day');
+    $time = filter_input(INPUT_POST, 'time');
     $price = filter_input(INPUT_POST, 'price');
     $adult = filter_input(INPUT_POST, 'adult');
     $child = filter_input(INPUT_POST, 'child');
@@ -41,6 +43,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     $condition5 = filter_input(INPUT_POST, 'condition5');
     $community_id = filter_input(INPUT_POST, 'community_id');
 
+    $day = $day . ' ' . $time;   
     //エラーがない場合
     if (empty($errors)) {
 
