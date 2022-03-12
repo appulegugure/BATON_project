@@ -15,7 +15,8 @@ $community_list = search_community_by_user($user_id);
 
 <!DOCTYPE html>
 <html lang="ja">
-    
+<? include_once __DIR__ . '/header.html'; ?>
+
 <body>
     <h1>コミュニティ一覧</h1>
     <ul>
@@ -45,6 +46,8 @@ $community_list = search_community_by_user($user_id);
         <? endif; ?>
     </ul>
     <a href="index.php" class="btn edit-btn">トップへ戻る</a><br>
+
+    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

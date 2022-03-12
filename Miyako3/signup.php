@@ -9,7 +9,7 @@ $email = '';
 $password = '';
 $company = '';
 $post = '';
-$prefe ='';
+$prefe = '';
 $all_email = find_email();
 $errors = [];
 $i = 0;
@@ -28,14 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $post = filter_input(INPUT_POST, 'post');
     $prefe = filter_input(INPUT_POST, 'prefe');
     $errors = signup_validate($email, $name, $password, $company, $post, $prefe);
-    while(count($all_email) > $i) {
+    while (count($all_email) > $i) {
         if ($all_email[$i]['email'] == $email) {
             $errors[] = '既に使用されているメールアドレスです';
         }
         $i++;
     }
     if (empty($errors)) {
-        insert_user($email, $name,$password, $company, $post, $prefe);
+        insert_user($email, $name, $password, $company, $post, $prefe);
         header('Location:login.php');
         exit;
     }
@@ -45,13 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-</head>
+<? include_once __DIR__ . '/header.html'; ?>
 
 <body>
     <?php if ($errors) : ?>
@@ -87,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="login.php" class="btn link-btn">ログインはこちら</a>
         </div>
     </form>
+    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

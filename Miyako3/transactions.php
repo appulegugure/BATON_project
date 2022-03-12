@@ -3,7 +3,7 @@
 session_start();
 $user_id = $_SESSION['email'];
 
-include_once __DIR__ . '/all.html';
+
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
 
@@ -36,8 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
-
-
+<? include_once __DIR__ . '/header.html'; ?>
 
 <body>
     <div class="m-5">
@@ -81,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="index.php" class="btn btn-secondary">戻る</a>
 
     </div>
+    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

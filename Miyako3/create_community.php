@@ -1,5 +1,4 @@
 <?php
-include_once __DIR__ . '/all.html';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
 
@@ -48,17 +47,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
-
-<head>
-    <style> .wrapper {
-    width: 500px;
-    margin: 30px auto;
-    padding: 40px 50px;
-    border: 1px solid #dfdfdc;
-    border-radius: 5px;
-    }
-    </style>
-</head>
+<? include_once __DIR__ . '/header.html'; ?>
 
 <body>
     <div class="wrapper">
@@ -88,6 +77,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
             <a href="index.php" class="btn btn-secondary">戻る</a>
         </div>
     </div>
+    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>
