@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
-<? include_once __DIR__ . '/header.html'; ?>
 
 <body>
     <div>
@@ -67,10 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <br>
             <input type="submit" value="受注する" class="btn submit-btn">
         </form>
-        <a href="transactions.php" class="btn return-btn">戻る</a>
+        <a href="index.php" class="btn return-btn">戻る</a>
 
     </div>
-    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

@@ -21,11 +21,7 @@ function connect_db()
 
 function h($str)
 {
-    // if (!empty($str)) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-    // } else {
-    //     return '';
-    // }
 }
 
 
@@ -217,9 +213,7 @@ EOM;
 }
 
 // 注文を取得する
-
-function select_order_by_status($status, $user_id)
-
+function select_order_by_status($status)
 {
     // データベースに接続
     $dbh = connect_db();
@@ -232,17 +226,12 @@ function select_order_by_status($status, $user_id)
         job_order
     WHERE
         status = :status
-    AND NOT
-        (order_user_email    = :user_id)
-
 EOM;
 
     // プリペアドステートメントの準備
     $stmt = $dbh->prepare($sql);
     // パラメータのバインド
     $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
-
 
     // プリペアドステートメントの実行
     $stmt->execute();
@@ -267,17 +256,17 @@ function search_community($keyword)
     community_name LIKE :search_term
     OR
     condition1 LIKE :search_term
-    OR
+     OR
     condition2 LIKE :search_term
-    OR
+     OR
     condition3 LIKE :search_term
-    OR
+     OR
     condition4 LIKE :search_term
-    OR
+     OR
     condition5 LIKE :search_term
     ORDER BY
     created_at
-    EOM;
+EOM;
 
     // プリペアドステートメントの準備
     $stmt = $dbh->prepare($sql);
@@ -650,67 +639,3 @@ function display_order($id)
         echo $e->getMessage();
     }
 }
-
-
-function select_user_info($email)
-{
-    $dbh = connect_db();
-    try {
-        $stmt1 = $dbh->prepare("SELECT * FROM user WHERE email = :email;");
-        $stmt1->bindParam(':email', $email, PDO::PARAM_STR);
-        $stmt1->execute();
-        return $stmt1->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-    }
-}
-
-function signup_validate($email, $name, $password, $company, $post, $prefe)
-{
-    $erro = [];
-
-    if (empty($email)) {
-        $erro[] = MSG_EMAIL_REQUIRED;
-    }
-    if (empty($name)) {
-        $erro[] = MSG_NAME_REQUIRED;
-    }
-    if (empty($password)) {
-        $erro[] = MSG_PASSWORD_REQUIRED;
-    }
-    if (empty($company)) {
-        $erro[] = '会社名が未入力です';
-    }
-    if (empty($post)) {
-        $erro[] = '郵便番号が未入力です';
-    }
-    if (empty($prefe)) {
-        $erro[] = '都道府県が未入力です';
-    }
-
-    return $erro;
-}
-
-
-function insert_user($email, $name, $password, $company, $post, $prefe)
-{
-    $dbh = connect_db();
-    $sql = <<<EOM
-    INSERT INTO
-        user
-        (email,name,password,company,post,prefe)
-    VALUES
-    (:email, :name, :password, :company, :post, :prefe);
-    EOM;
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-    $stmt->bindParam(':company', $company, PDO::PARAM_STR);
-    $stmt->bindParam(':post', $post, PDO::PARAM_STR);
-    $stmt->bindParam(':prefe', $prefe, PDO::PARAM_STR);
-    $pw_hash = password_hash($password, PASSWORD_DEFAULT);
-    $stmt->bindParam(':password', $pw_hash, PDO::PARAM_STR);
-    $stmt->execute();
-}
-
-

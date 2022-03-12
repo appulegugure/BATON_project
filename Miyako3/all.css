@@ -1,36 +1,35 @@
 .h1 {
-            text-align: center;
-        }
+  text-align: center;
+}
 
 .a {
-            background-color: #ccffff;
-        }
+  background-color: #ccffff;
+}
 
 .b {
-            background-color: #ccffcc;
-        }
+  background-color: #ccffcc;
+}
 
 .c {
-            background-color: #ffffcc;
-        }
+  background-color: #ffffcc;
+}
 
 .d {
-            background-color: #ffcc99;
-        }
+  background-color: #ffcc99;
+}
 
 .e {
-            background-color: #ffccff;
-        }
+  background-color: #ffccff;
+}
 
 .btnbtn {
-            color: red;
-        }
+  color: red;
+}
 
 .wrapper {
-            width: 500px;
-            margin: 30px auto;
-            padding: 40px 50px;
-            border: 1px solid #dfdfdc;
-            border-radius: 5px;
-        }
-        
+  width: 500px;
+  margin: 30px auto;
+  padding: 40px 50px;
+  border: 1px solid #dfdfdc;
+  border-radius: 5px;
+}

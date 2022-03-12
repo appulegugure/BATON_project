@@ -1,4 +1,6 @@
 <?php
+//セッションを開始する
+session_start();
 
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
@@ -41,8 +43,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 
     //エラーがない場合
     if (empty($errors)) {
-        //セッションを開始する
-        session_start();
+
         //ユーザーID（Email）を取得し設定
         $order_user_email = $_SESSION['email'];
         //Statusを未受注にする
