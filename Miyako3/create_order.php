@@ -14,7 +14,7 @@ $receive_user_email = '';
 $title = '';
 $job = '';
 $day = '';
-$time ='';
+$time = '';
 $price = '';
 $status = '';
 $condition1 = '';
@@ -46,7 +46,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     $condition4 = filter_input(INPUT_POST, 'condition4');
     $condition5 = filter_input(INPUT_POST, 'condition5');
 
-    $day = $day . ' ' . $time;   
+    $day = $day . ' ' . $time;
     //エラーがない場合
     if (empty($errors)) {
 
@@ -89,10 +89,10 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <div class="wrapper">
-        <div class="m-5"> 
-        <div class="text-center mb-5">
-            <h2>依頼内容</h2>
-        </div>
+        <div class="m-5">
+            <div class="text-center mb-5">
+                <h2>依頼内容</h2>
+            </div>
             <!-- エラーがあったら表示 -->
             <?php if (!empty($errors)) : ?>
                 <ul class="errors">
@@ -105,19 +105,19 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
                 <!-- 入力項目 -->
                 <div class="form-group">
                     <label class="col-md-3 control-label"></label>
-                    <select name="community_id">
+                    <select name="community_id" required>
                         <option value="" disabled selected style="display:none;">コミュニティを選択</option>
                         <? foreach ($my_community as $key => $value) : ?>
                             <option value="<?= $value['id'] ?>"> <?= $value['community_name']; ?></option>
                         <? endforeach; ?>
-                    </select>
+                    </select><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="title" value="" placeholder="タイトル" required><br>
-                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="job" value="" placeholder="業務内容"required><br>
-                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="job" value="" placeholder="開始時刻"required><br>
-                    <div class= "text-right">
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="job" value="" placeholder="業務内容" required><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="job" value="" placeholder="開始時刻" required><br>
+                    <div class="text-right">
                         <h6>※開始時刻の2時間前に、有効期限が切れます。</h6>
                     </div>
-                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2"type="int" name="adult" value="" placeholder="大人" required><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="int" name="adult" value="" placeholder="大人" required><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="int" name="child" value="" placeholder="子供" required><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="date" name="day" value="" placeholder="日付" required><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="int" name="price" value="" placeholder="単価" required><br>
