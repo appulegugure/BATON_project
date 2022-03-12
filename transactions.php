@@ -1,16 +1,12 @@
 <?php
-
-session_start();
-$user_id = $_SESSION['email'];
-
-include_once __DIR__ . '/all.html';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
-
+require_once __DIR__ . '/db_function.php';
 // idの受け取り
 // $order_id = filter_input(INPUT_GET, 'order_id');
 // //対象タスクの取得
-
+session_start();
+$user_id = $_SESSION['email'];
 $orders_by_me = display_order_by_orderuser($user_id);
 $orders_to_me = display_order_by_receiveuser($user_id);
 
@@ -37,10 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 
-
-
 <body>
-    <div class="m-5">
+    <div>
         <h2>取引中の仕事</h2>
         <!-- エラーがあったら表示 -->
         <!-- <?php if (!empty($errors)) : ?>
@@ -55,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>注文番号/タイトル/日付/料金/コミュニティ</p>
             <?php foreach ($orders_by_me as $order) : ?>
                 <li>
-                    <a href="display_order_by_me.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
+                    <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
                     <?= h($order['order_id']) ?>/
                     <?= h($order['title']) ?>/
                     <?= h($order['day']) ?>/
@@ -68,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>注文番号/タイトル/日付/料金/コミュニティ</p>
             <?php foreach ($orders_to_me as $order) : ?>
                 <li>
-                    <a href="display_order_to_me.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
+                    <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
                     <?= h($order['order_id']) ?>/
                     <?= h($order['title']) ?>/
                     <?= h($order['day']) ?>/
@@ -78,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </li>
             <?php endforeach; ?>
         </ul>
-        <a href="index.php" class="btn btn-secondary">戻る</a>
+        <a href="index.php" class="btn return-btn">戻る</a>
 
     </div>
 </body>

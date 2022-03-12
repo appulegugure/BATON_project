@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . "/functions.php";
-require_once __DIR__ . "/functions.php";
+
 
 
 $name = '';
@@ -9,10 +9,24 @@ $email = '';
 $password = '';
 $company = '';
 $post = '';
-$prefe ='';
+$prefe = '';
 $all_email = find_email();
 $errors = [];
 $i = 0;
+$_SESSION['csrf_token'] = get_token_cr();
+$urltoken = isset($_GET["urltoken"]) ? $_GET["urltoken"] : NULL;
+if ($urltoken == '') {
+    header('location: provi_signup.php');
+    exit;
+}else{
+    $result = url_pre_user($urltoken);
+    if($result['count'] === 1){
+        $email = $result['email']['mail'];
+
+    }else{
+        $errors['urltoken_timeover'] = "このURLはご利用できません。有効期限が過ぎたかURLが間違えている可能性がございます。もう一度登録をやりなおして下さい。";
+    }
+}
 
 if (!empty($_SESSION['id'])) {
     header('Location: show.php');
@@ -21,21 +35,36 @@ if (!empty($_SESSION['id'])) {
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = filter_input(INPUT_POST, 'email');
+    //$email = filter_input(INPUT_POST, 'email');
     $name = filter_input(INPUT_POST, 'name');
     $password = filter_input(INPUT_POST, 'password');
     $company = filter_input(INPUT_POST, 'password');
     $post = filter_input(INPUT_POST, 'post');
     $prefe = filter_input(INPUT_POST, 'prefe');
     $errors = signup_validate($email, $name, $password, $company, $post, $prefe);
-    while(count($all_email) > $i) {
+    while (count($all_email) > $i) {
         if ($all_email[$i]['email'] == $email) {
             $errors[] = '既に使用されているメールアドレスです';
         }
         $i++;
     }
+    if ($_SESSION['csrf_token'] != $_POST['token']) {
+        $errors[] = '不正なアクセスです.';
+    }
     if (empty($errors)) {
-        insert_user($email, $name,$password, $company, $post, $prefe);
+        insert_user($email, $name, $password, $company, $post, $prefe);
+        $body = '本登録致しました';
+        $mb_language = ('japanese');
+        $mb_internal_encoding = ('UTF-8');
+        $title = "本登録いたしました";
+        $headers = "From: information.baton@gmail.com";
+        if (mb_send_mail($email, $title, $body, $headers)) {
+            $_SESSION = [];
+            if (isset($_COOKIE["PHPSESSID"])) {
+                setcookie("PHPSESSID", '', time() - 1800, '/');
+            }
+            session_destroy();
+        }
         header('Location:login.php');
         exit;
     }
@@ -62,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </ul>
     <?php endif; ?>
     <form action="" method="post">
+        <input type="hidden" name="token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <label for="email">メールアドレス</label>
         <a>:　必須　</a>
         <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>">

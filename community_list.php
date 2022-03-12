@@ -1,35 +1,35 @@
 <?php
 
-
 // 関数ファイルを読み込む
 require_once __DIR__ . '/functions.php';
 
-//セッションを開始する
-session_start();
-//ユーザーID（Email）を取得
-$user_id = $_SESSION['email'];
-//ユーザーが参加しているコミュニティ一覧を表示
-$community_list = search_community_by_user($user_id);
+require_once __DIR__ . '/db_function.php';
+
+//入力された検索ワードを取得
+$keyword = $_GET['keyword'];
+//入力された検索ワードを含むコミュニティをあいまい検索
+$community_list = select_search_community_word($keyword);
+// $community_list = select_search_community_word($keyword);
+
+
 
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
-    
+
 <body>
     <h1>コミュニティ一覧</h1>
     <ul>
-        <!-- 参加コミュニティがない場合 -->
+        <!-- 対象コミュニティがない場合 -->
         <? if ($community_list == NULL) : ?>
             対象のコミュニティがありません
-            <!-- 参加コミュニティがある場合 -->
         <? else : ?>
-            <p>コミュニティ番号/コミュニティ名/作成者/条件１/条件２/条件3/条件４/条件５/内容/日付/作成者フラグ</p>
+            <p>注文番号/タイトル/日付/料金/コミュニティ</p>
             <?php foreach ($community_list as $community) : ?>
                 <li>
-                    <!-- 詳細ボタンをクリックしたらCommunityのIDを渡す -->
-                    <a href="display_mycommunity.php?community_id=<?= h($community['id']) ?>" class="btn edit-btn">詳細</a>
-                    <!-- 表示項目は要調整 -->
+                    <!-- コミュニティの項目を表示 -->
+                    <a href="display_community.php?community_id=<?= h($community['id']) ?>" class="btn edit-btn">詳細</a>
                     <?= h($community['id']) ?>/
                     <?= h($community['community_name']) ?>/
                     <?= h($community['user_email']) ?>/
@@ -38,8 +38,8 @@ $community_list = search_community_by_user($user_id);
                     <?= h($community['condition3']) ?>/
                     <?= h($community['condition4']) ?>/
                     <?= h($community['condition5']) ?>/
-                    <?= h($community['community_content']) ?>/
-                    <?= h($community['flag']) ?>
+                    <?= h($community['community_content']) ?>
+
                 </li>
             <?php endforeach; ?>
         <? endif; ?>
