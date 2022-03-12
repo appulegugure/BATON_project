@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <?php else : ?>
         <div class="wrapper">
-            <h1 class="title">パスワード変更</h1>
+            <h1 class="title">変更用メール送信</h1>
             <?php if ($errors) : ?>
                 <ul class="errors">
                     <?php foreach ($errors as $error) : ?>
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                 <label for="email">メールアドレス</label>
                 <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>">
-                <input type="submit" value="変更" class="btn submit-btn" name='submit'>
+                <input type="submit" value="メールを送る" class="btn submit-btn" name='submit'>
             
         </div>
         </form>

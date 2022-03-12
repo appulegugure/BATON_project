@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="password" name="re:password" id="re:password" placeholder="">
 
         <div class="btn-area">
-            <input type="submit" value="新規登録" class="btn submit-btn">
+            <input type="submit" value="パスワードを変更" class="btn submit-btn">
             <a href="login.php" class="btn link-btn">ログインはこちら</a>
         </div>
     </form>
