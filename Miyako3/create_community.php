@@ -77,10 +77,10 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
                     <label class="col-md-3 control-label"></label><input type="text" name="condition5" value="" placeholder="参加条件５"><br>
                     <label class="col-md-3 control-label"></label><input type="text" name="community_content" value="" placeholder="内容"><br>
                 </div>
+                <div class="text-center mb-3">
+                    <input type="submit" value="登録" class="btn btn-primary">
+                </div>
             </form>
-            <div class="text-center mb-3">
-                <input type="submit" value="登録" class="btn btn-primary">
-            </div>
             <div class="text-center">
                 <a href="index.php" class="btn btn-secondary">戻る</a>
             </div>
