@@ -1,5 +1,8 @@
 <?php
-include_once __DIR__ . '/all.html';
+
+//セッション開始
+session_start();
+
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
 
@@ -28,8 +31,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 
     //エラーがない場合
     if (empty($errors)) {
-        //セッション開始
-        session_start();
+
         //ユーザーID(Email)を取得し変数に設定
         $user_id = $_SESSION['email'];
         //コミュニティテーブルに登録し、Community IDを取得
@@ -49,21 +51,13 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
-    <style> .wrapper {
-    width: 500px;
-    margin: 30px auto;
-    padding: 40px 50px;
-    border: 1px solid #dfdfdc;
-    border-radius: 5px;
-    }
-    </style>
-</head>
+<?php include_once __DIR__ . '/all.html'; ?>
 
 <body>
     <div class="wrapper">
-        <div class="m-5">
+        <div class="text-center mb-5">
             <h2>コミュニティ作成</h2>
+        </div>
             <!-- エラーがあったら表示 -->
             <?php if (!empty($errors)) : ?>
                 <ul class="errors">
@@ -73,7 +67,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
                 </ul>
             <?php endif; ?>
             <form action="" method="post" class="form-horizontal">
-                <div class="form-group">
+                <div class="form-group mb-5">
                     <!--入力項目-->
                     <label class="col-md-3 control-label"></label><input type="text" name="community_name" value="" placeholder="コミュニティ名"><br>
                     <label class="col-md-3 control-label"></label><input type="text" name="condition1" value="" placeholder="参加条件１"><br>
@@ -82,11 +76,14 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
                     <label class="col-md-3 control-label"></label><input type="text" name="condition4" value="" placeholder="参加条件４"><br>
                     <label class="col-md-3 control-label"></label><input type="text" name="condition5" value="" placeholder="参加条件５"><br>
                     <label class="col-md-3 control-label"></label><input type="text" name="community_content" value="" placeholder="内容"><br>
-                    <input type="submit" value="登録" class="btn btn-primary">
                 </div>
             </form>
-            <a href="index.php" class="btn btn-secondary">戻る</a>
-        </div>
+            <div class="text-center mb-3">
+                <input type="submit" value="登録" class="btn btn-primary">
+            </div>
+            <div class="text-center">
+                <a href="index.php" class="btn btn-secondary">戻る</a>
+            </div>
     </div>
 </body>
 

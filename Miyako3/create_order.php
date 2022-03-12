@@ -1,6 +1,7 @@
 <?php
+//セッションを開始する
+session_start();
 
-include_once __DIR__ . '/all.html';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
 
@@ -42,8 +43,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 
     //エラーがない場合
     if (empty($errors)) {
-        //セッションを開始する
-        session_start();
+        
         //ユーザーID（Email）を取得し設定
         $order_user_email = $_SESSION['email'];
         $_SESSION['email'];
@@ -78,19 +78,9 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
-    <style> .wrapper {
-    width: 500px;
-    margin: 30px auto;
-    padding: 40px 50px;
-    border: 1px solid #dfdfdc;
-    border-radius: 5px;
-    }
-    </style>
-</head>
+<?php include_once __DIR__ . '/all.html'; ?>
 
-
-<body>
+<<body>
     <div class="wrapper">
         <div class="m-5">
             <h2>委託登録</h2>

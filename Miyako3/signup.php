@@ -63,23 +63,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
     <form action="" method="post">
         <label for="email">メールアドレス</label>
-        <a>:　必須　</a>
+        <a>: 必須 </a>
         <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>">
         <label for="name">ユーザー名</label>
-        <a>:　必須　</a>
+        <a>: 必須 </a>
         <input type="text" name="name" id="name" placeholder="UserName" value="<?= h($name) ?>">
         <label for="password">パスワード</label>
-        <a>:　必須　</a>
+        <a>: 必須 </a>
         <input type="password" name="password" id="password" placeholder="Password">
 
         <label for="company">会社名</label>
-        <a>:　必須　</a>
+        <a>: 必須 </a>
         <input type="text" name="company" id="company" placeholder="会社名">
         <label for="post">郵便番号</label>
-        <a>:　必須　</a>
-        <input type="text" name="post" id="post" placeholder="郵便番号">
-        <label for="prefe">都道府県</label>
-        <a>:　必須　</a>
+        <a>: 必須 </a>
+        <input type="text" name="post" id=" post" placeholder="郵便番号">
+        <label for="prefe">都道府県/label>
+        <a>: 必須 </a>
         <input type="prefe" name="prefe" id="prefe" placeholder="都道府県">
 
         <div class="btn-area">
