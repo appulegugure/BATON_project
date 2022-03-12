@@ -142,7 +142,8 @@ function get_token_cr()
     return bin2hex($token);
 }
 
-function insert_pre_user($email, $urltoken){
+function insert_pre_user($email, $urltoken)
+{
     $dbh = connect_db();
     $sql = <<<EOM
     INSERT into 
@@ -151,11 +152,10 @@ function insert_pre_user($email, $urltoken){
     VALUE
         (:email,:urltoken,now())
     EOM;
-    $stmt = $dbh -> prepare($sql);
+    $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->bindParam(':urltoken', $urltoken, PDO::PARAM_STR);
     $stmt->execute();
-
 }
 function url_pre_user($urltoken){
     $result = [];
@@ -177,6 +177,47 @@ function url_pre_user($urltoken){
     $result['count'] = $stmt->rowCount();
 
     return $result;
+}
+
+function url_pass_user($urltoken)
+{
+    $result = [];
+    $dbh = connect_db();
+    $sql = <<<EOM
+    SELECT
+        mail
+    FROM
+        pre_user
+    WHERE
+        urltoken = :url
+    AND 
+        date > now() - interval 10 minute;
+    EOM;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':url', $urltoken, PDO::PARAM_STR);
+    $stmt->execute();
+    $result['email'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result['count'] = $stmt->rowCount();
+
+    return $result;
+}
+
+function reset_pass($email, $password)
+{
+    $dbh = connect_db();
+    $sql = <<<EOM
+    UPDATE
+        user
+    SET
+        password = :password
+    WHERE
+        email = :email
+    EOM;
+    $stmt = $dbh->prepare($sql);
+    $pw_hash = password_hash($password, PASSWORD_DEFAULT);
+    $stmt->bindParam(':password', $pw_hash, PDO::PARAM_STR);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->execute();
 }
 
 function convert_from_array_to_sqlstring($array){

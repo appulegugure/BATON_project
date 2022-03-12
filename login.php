@@ -7,7 +7,10 @@ session_start();
 
 $email = '';
 $password = '';
-$_SESSION['csrf_token'] = get_token_cr();
+if (!isset($_SESSION['csrf_token'])) {
+    $token = base64_encode(openssl_random_pseudo_bytes(32));
+    $_SESSION['csrf_token'] = $token;
+}
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
