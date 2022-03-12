@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //追加
     $user_communitys = select_search_community($user['email']);
 
-    if(empty($user)){
+    if (empty($user)) {
 
         $errors[] = '存在しないアカウントです';
     }
@@ -34,9 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['email'] = $user['email'];
             //追加
             $_SESSION['community'] = $user_communitys;
-            
+
             header('Location: index.php');
-            
+
 
             exit;
         } else {
@@ -75,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" name="password" id="password" placeholder="Password: 8文字以上">
             <div class="btn-area">
                 <input type="submit" value="ログイン" class="btn submit-btn">
-                <a href="signup.php" class="btn link-btn">新規ユーザー登録はこちら</a>
+                <a href="provi_signup.php" class="btn link-btn">新規ユーザー登録はこちら</a>
+                <a href="pass_email_reset.php" class="btn link-btn">パスワードを忘れた方</a </div>
             </div>
         </form>
     </div>

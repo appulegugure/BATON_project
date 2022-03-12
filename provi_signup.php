@@ -93,8 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>">
                 <input type="submit" value="新規登録" class="btn submit-btn" name='submit'>
                 <a href="login.php" class="btn link-btn">ログインはこちら</a>
-        </div>
-        </form>
+                
+            </form>
         </div>
     <?php endif; ?>
 </body>
