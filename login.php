@@ -1,13 +1,13 @@
 <?php
 require_once __DIR__ . "/functions.php";
-require_once __DIR__ . "/db_function.php";
 
+require_once __DIR__ . "/db_function.php";
 
 session_start();
 
 $email = '';
 $password = '';
-
+$_SESSION['csrf_token'] = get_token_cr();
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -19,10 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_communitys = select_search_community($user['email']);
 
     if(empty($user)){
+
         $errors[] = '存在しないアカウントです';
     }
-    if (empty($errors)){
-        if(password_verify($password, $user['password'])){
+    if ($_SESSION['csrf_token'] != $_POST['token']) {
+        $errors[] = '不正なアクセスです.';
+    }
+    if (empty($errors)) {
+        if (password_verify($password, $user['password'])) {
+            session_regenerate_id(true);
             $_SESSION['email'] = $user['email'];
             //追加
             $_SESSION['community'] = $user_communitys;
@@ -31,10 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
 
             exit;
-            } else {
+        } else {
             $errors[] = MSG_EMAIL_PASSWORD_NOT_MATCH;
-            }
         }
+    }
 }
 
 ?>
@@ -60,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </ul>
         <?php endif; ?>
         <form action="" method="post">
+            <input type="hidden" name="token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <label for="email">メールアドレス</label>
             <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>">
             <label for="password">パスワード</label>
