@@ -167,7 +167,7 @@ function select_order_all_ALL()
     }
 }
 // 注文を取得する
-function select_order_by_community($community_list)
+function select_order_by_community($status, $community_list, $user_id)
 {
     // データベースに接続
     $dbh = connect_db();
@@ -179,35 +179,32 @@ function select_order_by_community($community_list)
     FROM
         job_order
     WHERE
-    community_id = :community
-    AND 
-    status IS :status
+        community_id IN (:community)
+    AND
+        status = :status
+    AND NOT
+        (order_user_email = :user_id)
     ORDER BY
-    created_at
+        created_at
 EOM;
 
-    //community IDを連結する
-    // $community_keys = '';
-    // foreach ($community_list as $key => $community) {
-    //     if ($key === 0) {
-    //         $community_keys = '(' . $community['id'];
-    //     } else {
-    //         $community_keys .=  ',' . $community['id'];
-    //     }
-    //     // $community_keys = implode(',', $community);
-    // }
-    // $community_keys .= ')';
-
-    // // $community_keys = '(1,2,7,22)';
-    // var_dump($community_keys);
-    $community_keys = 1;
+    // community IDを連結する
+    $community_keys = '';
+    foreach ($community_list as $key => $community) {
+        if ($key === 0) {
+            $community_keys = $community['id'];
+        } else {
+            $community_keys .=  ',' . $community['id'];
+        }
+        // $community_keys = implode(',', $community);
+    }
 
     // プリペアドステートメントの準備
     $stmt = $dbh->prepare($sql);
     // パラメータのバインド
-    $stmt->bindParam(':community', $community_keys, PDO::PARAM_INT);
-    $status = NULL;
+    $stmt->bindParam(':community', $community_keys, PDO::PARAM_STR);
     $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
 
     // プリペアドステートメントの実行
     $stmt->execute();
@@ -529,7 +526,7 @@ function select_search_community($user_id)
 {
     $dbh = connect_db();
     try {
-        $stmt1 = $dbh->prepare("SELECT community.community_name 
+        $stmt1 = $dbh->prepare("SELECT community.id, community.community_name 
                                 from community_user INNER JOIN community ON community_user.community = community.id
                                 WHERE community_user.user_email = :user_id;");
         $stmt1->bindParam(':user_id', $user_id, PDO::PARAM_INT);
@@ -716,8 +713,6 @@ function insert_user($email, $name, $password, $company, $post, $prefe)
     $stmt->bindParam(':password', $pw_hash, PDO::PARAM_STR);
     $stmt->execute();
 }
-
-
 //二時間前のオーダーをセレクト
 function two_hours_order(){
     $dbh = connect_db();
@@ -768,4 +763,3 @@ function two_hours_order_set_reject(){
 
     }
 }
-
