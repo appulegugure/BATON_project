@@ -105,7 +105,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
                         <? foreach ($my_community as $key => $value) : ?>
                             <option value="<?= $value['id'] ?>"> <?= $value['community_name']; ?></option>
                         <? endforeach; ?>
-                    </select>
+                    </select><br>
                     <label class="col-md-3 control-label"></label><input type="text" name="title" value="" placeholder="タイトル"><br>
                     <label class="col-md-3 control-label"></label><input type="text" name="job" value="" placeholder="ジョブ"><br>
                     <label class="col-md-3 control-label"></label><input type="int" name="adult" value="" placeholder="大人"><br>
