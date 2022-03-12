@@ -7,8 +7,18 @@ require_once __DIR__ . '/db_function.php';
 // //対象タスクの取得
 session_start();
 $user_id = $_SESSION['email'];
-$orders_by_me = display_order_by_orderuser($user_id);
-$orders_to_me = display_order_by_receiveuser($user_id);
+$orders_by_me = select_search_received($user_id);
+$orders_by_me_finish = select_search_received_finish($user_id);
+$orders_to_me = select_search_Consignment($user_id);
+
+foreach ($orders_by_me as $value ) {
+    var_dump($value['order_id']);
+}
+echo '<hr>';
+foreach ($orders_to_me as $value ) {
+    var_dump($value['order_id']);
+}
+
 
 //タスク更新処理
 $errors = [];
