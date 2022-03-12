@@ -296,7 +296,7 @@ function select_search_community_word($input_word)
     $input_word = '%' . $input_word . '%';
     $dbh = connect_db();
     try {
-        $stmt1 = $dbh->prepare("SELECT community_name from community 
+        $stmt1 = $dbh->prepare("SELECT * from community 
                                 WHERE community_content LIKE :input_word; 
                                 OR condition1 LIKE :input_word
                                 OR condition2 LIKE :input_word

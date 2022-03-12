@@ -10,7 +10,7 @@ $keyword = $_GET['keyword'];
 //入力された検索ワードを含むコミュニティをあいまい検索
 $community_list = select_search_community_word($keyword);
 // $community_list = select_search_community_word($keyword);
-var_dump($community_list);
+
 
 
 ?>
