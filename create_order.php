@@ -18,6 +18,8 @@ $id = filter_input(INPUT_GET, 'id');
 $community = '';
 $order_user = '';
 $title = '';
+//追加
+$time ='';
 $job  = '';
 $day  = '';
 $price  = '';
@@ -38,6 +40,8 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     $title = filter_input(INPUT_POST, 'title');
     $job = filter_input(INPUT_POST, 'job');
     $day = filter_input(INPUT_POST, 'day');
+    //追加
+    $time = filter_input(INPUT_POST, 'time');
     $price = filter_input(INPUT_POST, 'price');
     $adult = filter_input(INPUT_POST, 'adult');
     $child = filter_input(INPUT_POST, 'child');
@@ -47,7 +51,8 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     $condition4 = filter_input(INPUT_POST, 'condition4');
     $condition5 = filter_input(INPUT_POST, 'condition5');
     $community_id = filter_input(INPUT_POST, 'community_id');
-
+    //追加
+    $day = $day . ' ' . $time;   
     if (empty($errors)) {
         //タスク内容の編集
         // create_order($community, $order_user, $title, $job, $day, $price)

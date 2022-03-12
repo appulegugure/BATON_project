@@ -15,7 +15,9 @@ session_start();
 //ログインユーザーのメールアドレスを取得する
 $user_id = $_SESSION['email'];
 //$user_community = $_SESSION['community'];
+//$today = date("Y-m-d H:i:s");   
 
+//print_r($today - $today);
 //echo $user_community;
 //ユーザーの参加コミュニティを取得す
 // $community_list = search_community_by_user($user_id);
@@ -31,6 +33,8 @@ $community_list_sql = convert_from_array_to_sqlstring($community_list);
 //echo $community_list_sql;
 $orders = select_order_community_and_status('未受注',$community_list_sql);
 
+//2時間以内削除
+two_hours_order_set_reject();
 
 //var_dump($_SESSION['community']);
 //var_dump(convert_from_array_to_string($_SESSION['community']));
