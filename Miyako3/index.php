@@ -24,6 +24,8 @@ $community_list = select_search_community($user_id);
 $status = '未受注';
 $orders = select_order_by_status($status, $user_id);
 
+//二時間以内削除
+two_hours_order_set_reject();
 
 $errors = [];
 //対象の委託業務がない場合
