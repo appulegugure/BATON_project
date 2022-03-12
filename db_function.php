@@ -379,7 +379,7 @@ function select_search_community($user_id)
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $e) {
-        echo $e->getMessage();
+        $e->getMessage();
 
     }
 }

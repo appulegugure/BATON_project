@@ -21,9 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         session_start();
         //ユーザーID（Email)を取得
         $user_id = $_SESSION['email'];
-        $status = '受注済';
         //委託業務の受注ユーザーとステータスを更新
-        update_order($user_id, $order_id, $status);
+        update_order($user_id, $order_id);
         // compelte_msg.php にリダイレクト
         header('Location: complete_msg.php?comment=受注');
         exit;
