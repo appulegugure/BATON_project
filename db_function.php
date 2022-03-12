@@ -81,7 +81,7 @@ function select_order_community_and_status($status,$community_id)
                                 //WHERE status = :status AND (community.community_name = :community_id );');
         $stmt1 = $dbh->prepare("SELECT * from job_order INNER JOIN community ON job_order.community_id = community.id 
                                 WHERE job_order.status = :status 
-                                -- AND !SUBTIME(day,'02:00:00') <= NOW() AND NOT day < NOW()
+                                AND !SUBTIME(day,'02:00:00') <= NOW() AND NOT day < NOW()
                                 AND community.community_name 
                                 IN($community_id);");
         $stmt1->bindParam( ':status', $status, PDO::PARAM_STR);
