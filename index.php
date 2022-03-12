@@ -1,72 +1,103 @@
 <?php
-
+//test用
+require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/db_function.php';
+//require_once __DIR__ . '/Miyako3/functions.php';
 
 // 関数ファイルを読み込む
-require_once __DIR__ . '/functions.php';
+// require_once __DIR__ . '/db.functions.php';
+// require_once __DIR__ . '/functions.php';
 
-require_once __DIR__ . '/db_function.php';
+// $keyword = $_GET['keyword'];
 
-// データベースに接続
-$dbh = connect_db(); // 特にエラー表示がなければOK
-
+//セッション処理を開始
 session_start();
+//ログインユーザーのメールアドレスを取得する
+$user_id = $_SESSION['email'];
+//$user_community = $_SESSION['community'];
 
-//select_user_info()テスト
-echo '<hr>';
-echo '<h2>select_user_info($_SESSION["email"])テスト</h2>';
-echo '<br>';
-echo '<pre>';
-var_dump(select_user_info($_SESSION['email']));
-echo '</pre>';
-echo '<he>';
+//echo $user_community;
+//ユーザーの参加コミュニティを取得す
+// $community_list = search_community_by_user($user_id);
+$community_list = select_search_community($user_id);
 
+//参加コミュニティ内の委託業務で未受注のものを取得する
+//けど、上手く動かないから全取得している。後で直す
+// $orders = select_order_by_community($community_list);
 
-echo '<hr>';
-echo '<h2>select_community_info($_SESSION["id"])テスト</h2>';
-echo '<br>';
-echo '<pre>';
-var_dump(select_community_info('appulegugure@gmail.com'));
-echo '</pre>';
-echo '<he>';
+$community_list = $_SESSION['community'];
 
-
-echo '<hr>';
-echo '<h2>select_search_community_word($input_word)テスト</h2>';
-echo '<br>';
-echo '<pre>';
-var_dump(select_search_community_word(5));
-echo '</pre>';
-echo '<he>';
+$community_list_sql = convert_from_array_to_sqlstring($community_list);
+//echo $community_list_sql;
+$orders = select_order_community_and_status('not',$community_list_sql);
 
 
-echo '<hr>';
-echo '<h2>select_search_community($user_email)テスト</h2>';
-echo '<br>';
-echo '<pre>';
-var_dump(select_search_community('appulegugure@gmail.com'));
-echo '</pre>';
-echo '<he>';
+//var_dump($_SESSION['community']);
+//var_dump(convert_from_array_to_string($_SESSION['community']));
+$errors = [];
+//対象の委託業務がない場合
+if (empty($orders)) {
+    //募集中の注文はありません (後でConstantに入れる)
+    $errors[] = '募集中の注文はありません';
+}
 
 
-echo '<hr>';
-echo '<h2>select_community_all()テスト</h2>';
-echo '<br>';
-echo '<pre>';
-var_dump(select_community_all());
-echo '</pre>';
-echo '<he>';
-
-
-insert_community_user(6,'appulegugure@gmail.com')
+//コミュニティ検索語句がNULLの場合
+if (empty($_GET['keyword'])) {
+    $keyword = '';
+} else {
+    $keyword = $_GET['keyword'];
+    // community_list.php にリダイレクト
+    header('Location: community_list.php?keyword=' . $keyword);
+    exit;
+}
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="ja">
-<?php include_once __DIR__ . '/_header.html' ?>
+
 <body>
-    <h1> -- BATON -- </h1>
-    <a href="my_page.php" class="btn link-btn">ユーザーインフォ</a>
+
+    <form action="" method="GET">
+        <h4>コミュニティを探す <input type="text" name="keyword" value="" placeholder="キーワードを入力して下さい">
+            <input type="submit" value="検索" class="btn submit-btn">
+        </h4>
+    </form>
+
+    <h1>募集中委託業務一覧</h1>
+    <!-- エラーがある場合 -->
+    <?php if (!empty($errors)) : ?>
+        <ul class="errors">
+            <?php foreach ($errors as $error) : ?>
+                <li><?= h($error) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <ul>
+        <p>注文番号/タイトル/日付/料金/コミュニティ</p>
+        <?php foreach ($orders as $order) : ?>
+            <li>
+                <!-- display_order.phpに遷移してOrder IDを渡す -->
+                <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
+                <!-- 表示する項目は後で調整 -->
+                <?= h($order['order_id']) ?>/
+                <?= h($order['title']) ?>/
+                <?= h($order['day']) ?>/
+                <?= h($order['price']) ?>円/
+                <?= h($order['community_id']) ?>
+
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <!-- create_community.phpに遷移する -->
+    <a href="create_community.php" class="btn edit-btn">コミュニティを作る</a><br>
+    <!-- create_order.phpに遷移する -->
+    <a href="create_order.php" class="btn edit-btn">仕事を委託する</a><br>
+    <!-- transactions.phpに遷移する -->
+    <a href="transactions.php" class="btn edit-btn">取引中の仕事</a><br>
+    <!-- mycommunity.phpに遷移する -->
+    <a href="mycommunity.php" class="btn edit-btn">参加コミュニティ一覧</a>
 </body>
 </html>

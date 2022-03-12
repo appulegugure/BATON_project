@@ -1,13 +1,13 @@
 <?php
-require_once __DIR__ . "/functions.php";
-
-require_once __DIR__ . "/db_function.php";
 
 session_start();
-
 $email = '';
 $password = '';
-$_SESSION['csrf_token'] = get_token_cr();
+
+include_once __DIR__ . '/all.html';
+require_once __DIR__ . "/functions.php";
+
+
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -15,31 +15,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = filter_input(INPUT_POST, 'password');
     $errors = login_validate($email, $password);
     $user = find_user_by_email($email);
-    //追加
-    $user_communitys = select_search_community($user['email']);
-
     if(empty($user)){
-
         $errors[] = '存在しないアカウントです';
     }
-    if ($_SESSION['csrf_token'] != $_POST['token']) {
-        $errors[] = '不正なアクセスです.';
-    }
-    if (empty($errors)) {
-        if (password_verify($password, $user['password'])) {
-            session_regenerate_id(true);
+    if (empty($errors)){
+        if(password_verify($password, $user['password'])){
             $_SESSION['email'] = $user['email'];
-            //追加
-            $_SESSION['community'] = $user_communitys;
-            
             header('Location: index.php');
-            
-
             exit;
-        } else {
+            } else {
             $errors[] = MSG_EMAIL_PASSWORD_NOT_MATCH;
+            }
         }
-    }
 }
 
 ?>
@@ -47,15 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
+<!-- <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-</head>
+</head> -->
 
 <body>
-    <div class="wrapper">
+    <div class="wrapper m-5">
         <h1 class="title">Log In</h1>
         <?php if ($errors) : ?>
             <ul class="errors">
@@ -64,18 +51,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
+
         <form action="" method="post">
-            <input type="hidden" name="token" value="<?php echo $_SESSION['csrf_token']; ?>">
+        <div class="container d-flex align-items-center justify-content-center" style="height:300px;">
             <label for="email">メールアドレス</label>
             <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>">
             <label for="password">パスワード</label>
             <input type="password" name="password" id="password" placeholder="Password: 8文字以上">
             <div class="btn-area">
-                <input type="submit" value="ログイン" class="btn submit-btn">
-                <a href="signup.php" class="btn link-btn">新規ユーザー登録はこちら</a>
+                <input type="submit" value="ログイン" class="btn btn-primary mb-1"><br>
+                <a href="signup.php" class="btn btn-secondary">新規ユーザー登録はこちら</a>
             </div>
         </form>
+        </div>
     </div>
 </body>
 
 </html>
+
