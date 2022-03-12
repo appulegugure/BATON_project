@@ -43,19 +43,16 @@ if (empty($_GET['keyword'])) {
 <? include_once __DIR__ . '/header.html'; ?>
 
 <body>
-    <div class="wrapper">
-        <div class="container">
+    <div class="container"  style= "padding:200px;">
+        <div class="border">
             <div class="container">
-                <div class="container w-auto text-right">
-                    <div class="border" style="padding:30px;">
-                        <form>
-                            <div><input type="text" name="keyword" style="width: 280px;" placeholder="コミュニティを探す">
-                                <!-- <a href="community_list.php"><i class="fa-solid fa-magnifying-glass btn btn-dark"></i></a> -->
-                                <input type="submit" value="&#xf002;" class="fa-solid fa-magnifying-glass btn btn-dark">
-
-                            </div>
-                        </form>
-                    </div>
+                <div class="border" style="padding:30px;">
+                    <form>
+                        <div><input type="text" name="keyword" style="width: 280px;" placeholder="コミュニティを探す" required>
+                            <!-- <a href="community_list.php"><i class="fa-solid fa-magnifying-glass btn btn-dark"></i></a> -->
+                            <input type="submit" value="&#xf002;" class="fa-solid fa-magnifying-glass btn btn-dark">
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -67,6 +64,9 @@ if (empty($_GET['keyword'])) {
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                 </div>
+            </div>
+
+            <div class="container border">
                 <!-- エラーがある場合 -->
                 <?php if (!empty($errors)) : ?>
                     <ul class="errors">
@@ -75,10 +75,7 @@ if (empty($_GET['keyword'])) {
                         <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>
-            </div>
-
-            <div class="container border">
-                <ul>
+                <ol>
                     <?php foreach ($orders as $order) : ?>
                         <li>
                             <div class="row">
@@ -104,16 +101,17 @@ if (empty($_GET['keyword'])) {
                             </div>
                         </li>
                     <?php endforeach; ?>
-                </ul>
+                </ol>
             </div>
 
             <div class="container nowrap">
                 <div class="row">
                     <div class="btn btn-sm btn-light">
                         <a href="create_order.php">
-                            <div class="btnbtn">ワンタッチで<br>業務委託!<br>
-                                <h4>BATON</h4>
-                            </div>
+                            
+                                <div class="btnbtn">ワンタッチで<br>業務委託!<br>
+                                    <h4>BATON</h4>
+                                </div>
                         </a>
                     </div>
                     <div class="btn btn-default btn-light">
@@ -139,7 +137,6 @@ if (empty($_GET['keyword'])) {
                 </div>
             </div>
         </div>
-    </div>
     <? include_once __DIR__ . '/js.html'; ?>
 </body>
 

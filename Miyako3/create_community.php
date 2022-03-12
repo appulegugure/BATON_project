@@ -68,13 +68,14 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
             <form action="" method="post" class="form-horizontal">
                 <div class="form-group mb-5">
                     <!--入力項目-->
-                    <label class="col-md-3 control-label"></label><input type="text" name="community_name" value="" placeholder="コミュニティ名"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="condition1" value="" placeholder="参加条件１"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="condition2" value="" placeholder="参加条件２"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="condition3" value="" placeholder="参加条件３"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="condition4" value="" placeholder="参加条件４"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="condition5" value="" placeholder="参加条件５"><br>
-                    <label class="col-md-3 control-label"></label><input type="text" name="community_content" value="" placeholder="内容"><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="community_name" value="" placeholder="コミュニティ名" required><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="community_content" value="" placeholder="業務内容" required><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition1" value="" placeholder="参加条件１"><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition2" value="" placeholder="参加条件２"><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition3" value="" placeholder="参加条件３"><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition4" value="" placeholder="参加条件４"><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition5" value="" placeholder="参加条件５"><br>
+                    
                 </div>
                 <div class="text-center mb-3">
                     <input type="submit" value="登録" class="btn btn-primary">
