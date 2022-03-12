@@ -812,6 +812,17 @@ function insert_user($email, $name, $password, $company, $post, $prefe)
 
 }
 
-
+//userテーブルからemailで条件を絞って全カラムをセレクト
+function select_user_info($email){
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("SELECT * FROM user WHERE email = :email;");
+        $stmt1->bindParam( ':email', $email, PDO::PARAM_STR);
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $e) {
+        echo $e->getMessage();
+    }
+}
 
 

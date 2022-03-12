@@ -4,7 +4,6 @@ session_start();
 $email = '';
 $password = '';
 
-include_once __DIR__ . '/all.html';
 require_once __DIR__ . "/functions.php";
 
 
@@ -34,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 
+<?php include_once __DIR__ . '/all.html'; ?>
 <!-- <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
