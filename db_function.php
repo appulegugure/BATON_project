@@ -312,9 +312,62 @@ function select_search_community_word($input_word)
     }
 }
 
+//委託中
+function select_search_Consignment($user_id)
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("SELECT * FROM job_order
+                                WHERE order_user_email = :user_id 
+                                AND status = '受注済';");
+        $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_STR);
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $e) {
+        echo $e->getMessage();
+
+    }
+}
+
+//受注中
+function select_search_received($user_id)
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("SELECT * FROM job_order
+                                WHERE receive_user_email = :user_id 
+                                AND status = '未受注';
+                                ");
+        $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_STR);
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $e) {
+        echo $e->getMessage();
+
+    }
+}
+
+//受注中
+function select_search_received_finish($user_id)
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("SELECT * FROM job_order
+                                WHERE receive_user_email = :user_id 
+                                AND status = '受注済';
+                                ");
+        $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_STR);
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $e) {
+        echo $e->getMessage();
+
+    }
+}
 
 //ユーザーidから所属しているコミュニティを全て取得
 //後でuser_idからemailに変更
+
 function select_search_community($user_id)
 {
     $dbh = connect_db();
@@ -330,6 +383,7 @@ function select_search_community($user_id)
 
     }
 }
+
 
 //##################   Miyako3 から ファンクションを追加   ##################
 // 注文を取得する
@@ -477,3 +531,31 @@ function search_community_by_user($user_id)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function update_order($user_id, $order_id)
+{
+    // データベースに接続
+    $dbh = connect_db();
+
+    // Statusを抽出条件に指定してデータ取得
+
+    $sql = <<<EOM
+    UPDATE
+        job_order
+    SET
+        status = :status,
+        receive_user_email = :receive_user
+    WHERE order_id = :order_id
+    EOM;
+
+    // プリペアドステートメントの準備
+    $stmt = $dbh->prepare($sql);
+
+
+    // パラメータのバインド
+    $stmt->bindParam(':order_id', $order_id, PDO::PARAM_STR);
+    $status = '受注済';
+    $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+    $stmt->bindParam(':receive_user', $user_id, PDO::PARAM_STR);
+    // プリペアドステートメントの実行
+    $stmt->execute();
+}

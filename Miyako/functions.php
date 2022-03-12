@@ -386,7 +386,7 @@ function display_order_by_receiveuser($user_id)
         FROM
         job_order
     WHERE 
-    receive_user = :user_id
+    receive_user_email = :user_id
     EOM;
 
     // プリペアドステートメントの準備
@@ -414,7 +414,7 @@ function display_order_by_orderuser($user_id)
         FROM
         job_order
     WHERE 
-    order_user = :user_id
+    order_user_email = :user_id
     EOM;
 
     // プリペアドステートメントの準備

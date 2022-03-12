@@ -29,7 +29,7 @@ $community_list = $_SESSION['community'];
 
 $community_list_sql = convert_from_array_to_sqlstring($community_list);
 //echo $community_list_sql;
-$orders = select_order_community_and_status('not',$community_list_sql);
+$orders = select_order_community_and_status('未受注',$community_list_sql);
 
 
 //var_dump($_SESSION['community']);
