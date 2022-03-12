@@ -213,7 +213,7 @@ EOM;
 }
 
 // 注文を取得する
-function select_order_by_status($status)
+function select_order_by_status($status, $user_id)
 {
     // データベースに接続
     $dbh = connect_db();
@@ -226,12 +226,15 @@ function select_order_by_status($status)
         job_order
     WHERE
         status = :status
+    AND NOT
+        (order_user_email    = :user_id)
 EOM;
 
     // プリペアドステートメントの準備
     $stmt = $dbh->prepare($sql);
     // パラメータのバインド
     $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
 
     // プリペアドステートメントの実行
     $stmt->execute();
@@ -635,6 +638,19 @@ function display_order($id)
         $stmt1->execute();
 
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
+
+function select_user_info($email)
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("SELECT * FROM user WHERE email = :email;");
+        $stmt1->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt1->execute();
+        return $stmt1->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         echo $e->getMessage();
     }

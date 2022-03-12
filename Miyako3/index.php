@@ -19,7 +19,7 @@ $community_list = select_search_community($user_id);
 //けど、上手く動かないから全取得している。後で直す
 // $orders = select_order_by_community($community_list);
 $status = '未受注';
-$orders = select_order_by_status($status);
+$orders = select_order_by_status($status, $user_id);
 
 $errors = [];
 //対象の委託業務がない場合
@@ -85,7 +85,9 @@ if (empty($_GET['keyword'])) {
     <!-- transactions.phpに遷移する -->
     <a href="transactions.php" class="btn edit-btn">取引中の仕事</a><br>
     <!-- mycommunity.phpに遷移する -->
-    <a href="mycommunity.php" class="btn edit-btn">参加コミュニティ一覧</a>
+    <a href="mycommunity.php" class="btn edit-btn">参加コミュニティ一覧</a><br>
+    <!-- my_page.phpに遷移する -->
+    <a href="my_page.php" class="btn edit-btn">マイページ</a>
 </body>
 
 </html>
