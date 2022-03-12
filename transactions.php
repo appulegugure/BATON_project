@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>注文番号/タイトル/日付/料金/コミュニティ</p>
             <?php foreach ($orders_to_me_progress as $order) : ?>
                 <li>
-                    <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
+                    <a href="display_order_set_notorder.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
                     <?= h($order['order_id']) ?>/
                     <?= h($order['title']) ?>/
                     <?= h($order['day']) ?>/
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>注文番号/タイトル/日付/料金/コミュニティ</p>
             <?php foreach ($orders_to_me as $order) : ?>
                 <li>
-                    <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
+                    <a href="display_order_set_cansel.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
                     <?= h($order['order_id']) ?>/
                     <?= h($order['title']) ?>/
                     <?= h($order['day']) ?>/

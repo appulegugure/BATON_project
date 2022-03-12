@@ -235,17 +235,20 @@ function update_order_status($order_id,$set_status)
     
     $dbh = connect_db();
     try {
-
+        $dbh->beginTransaction();
         $stmt1 = $dbh->prepare("UPDATE job_order SET status = :set_status WHERE order_id = :order_id;");
+        $stmt1 = $dbh->prepare("UPDATE job_order SET receive_user_emai = NULL WHERE order_id = :order_id;");
         $stmt1->bindParam( ':set_status', $set_status, PDO::PARAM_STR);
         $stmt1->bindParam( ':order_id', $order_id, PDO::PARAM_STR);
-        $stmt1->execute();
-        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-    
+        $res1 = $stmt1->execute();
+        if( $res1 ) { 
+            $dbh->commit();
+        }
     }catch(PDOException $e) {
-        
         echo $e->getMessage();
-
+        $dbh->rollBack();
+    } finally {
+    $dbh = null;
     }
 }
 // CREATE
