@@ -21,7 +21,11 @@ function connect_db()
 
 function h($str)
 {
+    // if (!empty($str)) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+    // } else {
+    //     return '';
+    // }
 }
 
 
@@ -382,7 +386,7 @@ function display_order_by_receiveuser($user_id)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function display_order_by_orderuser($user_id)
+function display_order_by_orderuser($user_id, $status)
 {
     // データベースに接続
     $dbh = connect_db();
@@ -396,6 +400,8 @@ function display_order_by_orderuser($user_id)
         job_order
     WHERE 
     order_user_email = :user_id
+    AND NOT
+    status = :status
     EOM;
 
     // プリペアドステートメントの準備
@@ -404,6 +410,7 @@ function display_order_by_orderuser($user_id)
 
     // パラメータのバインド
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+    $stmt->bindParam(':status', $status, PDO::PARAM_STR);
     // プリペアドステートメントの実行
     $stmt->execute();
     // 結果の取得
@@ -662,7 +669,7 @@ function select_user_info($email)
     }
 }
 
-function signup_validate($email, $name,$password, $company, $post, $prefe)
+function signup_validate($email, $name, $password, $company, $post, $prefe)
 {
     $erro = [];
 
@@ -708,8 +715,8 @@ function insert_user($email, $name, $password, $company, $post, $prefe)
     $pw_hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt->bindParam(':password', $pw_hash, PDO::PARAM_STR);
     $stmt->execute();
-
 }
+
 
 //二時間前のオーダーをセレクト
 function two_hours_order(){
@@ -761,3 +768,4 @@ function two_hours_order_set_reject(){
 
     }
 }
+

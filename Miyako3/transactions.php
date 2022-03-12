@@ -3,7 +3,7 @@
 session_start();
 $user_id = $_SESSION['email'];
 
-include_once __DIR__ . '/all.html';
+
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
 
@@ -11,8 +11,10 @@ require_once __DIR__ . '/config.php';
 // $order_id = filter_input(INPUT_GET, 'order_id');
 // //対象タスクの取得
 
-$orders_by_me = display_order_by_orderuser($user_id);
-$orders_to_me = display_order_by_receiveuser($user_id);
+$status = '取消済';
+
+$orders_by_me = display_order_by_orderuser($user_id, $status);
+$orders_to_me = display_order_by_receiveuser($user_id, $status);
 
 //タスク更新処理
 $errors = [];
@@ -30,17 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ja">
-
-
+<? include_once __DIR__ . '/header.html'; ?>
 
 <body>
-    <div class="m-5">
+    <div class="border wrapper">
         <h2>取引中の仕事</h2>
         <!-- エラーがあったら表示 -->
         <!-- <?php if (!empty($errors)) : ?>
@@ -50,37 +49,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?> -->
+
         <ul>
-            <h3>委託中ジョブ</h3>
-            <p>注文番号/タイトル/日付/料金/コミュニティ</p>
-            <?php foreach ($orders_by_me as $order) : ?>
-                <li>
-                    <a href="display_order_by_me.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
-                    <?= h($order['order_id']) ?>/
-                    <?= h($order['title']) ?>/
-                    <?= h($order['day']) ?>/
-                    <?= h($order['price']) ?>円/
-                    <?= h($order['community_id']) ?>
-
-                </li>
-            <?php endforeach; ?>
-            <h3>受注中ジョブ</h3>
-            <p>注文番号/タイトル/日付/料金/コミュニティ</p>
-            <?php foreach ($orders_to_me as $order) : ?>
-                <li>
-                    <a href="display_order_to_me.php?order_id=<?= h($order['order_id']) ?>" class="btn edit-btn">詳細</a>
-                    <?= h($order['order_id']) ?>/
-                    <?= h($order['title']) ?>/
-                    <?= h($order['day']) ?>/
-                    <?= h($order['price']) ?>円/
-                    <?= h($order['community_id']) ?>
-
-                </li>
-            <?php endforeach; ?>
+            <div class="mt-5 mb-3">
+                <h3>委託中の業務</h3>
+            </div>
+                <?php foreach ($orders_by_me as $order) : ?>
+                    <li>
+                        <?= h($order['order_id']) ?>/
+                        <?= h($order['title']) ?>/
+                        <?= h($order['day']) ?>
+                        <a href="display_order_by_me.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary">詳細</a>
+                    </li>
+                <?php endforeach; ?>
+                
+                <div class="mt-5 mb-3">
+                    <h3>受注中の業務</h3>
+                </div>
+                <?php foreach ($orders_to_me as $order) : ?>
+                    <li>
+                        <?= h($order['order_id']) ?>/
+                        <?= h($order['title']) ?>/
+                        <?= h($order['day']) ?>
+                        <a href="display_order_to_me.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary">詳細</a>
+                    </li>
+                <?php endforeach; ?>
         </ul>
-        <a href="index.php" class="btn btn-secondary">戻る</a>
-
+        <div class="text-center mt-5">
+            <a href="index.php" class="btn btn-secondary">戻る</a>
+        </div>
     </div>
+    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

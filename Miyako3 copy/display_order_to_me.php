@@ -17,16 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validation必要なら追加する
     //エラーがない場合
     if (empty($errors)) {
-        //セッションを開始する
+        // //セッションを開始する
         // session_start();
-        //ユーザーID（Email)を取得
-        // $user_id = $_SESSION['email'];
+        // //ユーザーID（Email)を取得
         $user_id = '';
-        $status = '取消済';
+        $status = '未受注';
         //委託業務の受注ユーザーとステータスを更新
         update_order($user_id, $order_id, $status);
         // compelte_msg.php にリダイレクト
-        header('Location: complete_msg.php?comment=委託取り下げ');
+        header('Location: complete_msg.php?comment=受注のキャンセル');
         exit;
     }
 }
@@ -36,11 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
-<? include_once __DIR__ . '/header.html'; ?>
 
 <body>
-    <div class="wrapper">
-        <h2>詳細</h2>
+    <div>
+        <h2>募集中委託詳細</h2>
         <!-- エラーがあったら表示 -->
         <?php if (!empty($errors)) : ?>
             <ul class="errors">
@@ -57,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             コミュニティ:<?= h($order['community_id']) ?><br>
             ユーザー:<?= h($order['order_user_email']) ?><br>
             タイトル:<?= h($order['title']) ?><br>
-            業務内容:<?= h($order['job']) ?><br>
+            ジョブ:<?= h($order['job']) ?><br>
             日付: <?= h($order['day']) ?><br>
             料金: <?= h($order['price']) ?><br>
             <!-- 条件1: <?= h($order['condition1']) ?><br>
@@ -66,12 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             条件4: <?= h($order['condition4']) ?><br>
             条件5: <?= h($order['condition5']) ?><br> -->
             <br>
-            <input type="submit" value="委託を取り下げる" class="btn btn-outline-danger">
+            <input type="submit" value="受注のキャンセル" class="btn submit-btn">
         </form>
-        <a href="transactions.php" class="btn btn-secondary">戻る</a>
+        <a href="index.php" class="btn return-btn">戻る</a>
 
     </div>
-    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>
