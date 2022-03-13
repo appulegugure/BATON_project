@@ -42,9 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="display_community.css">
 
 <body>
-    <div class="wrapper">
+    <div class="display_community_wrapper">
         <div class="mb-5">
             <h2>コミュニティ詳細</h2>
         </div>
@@ -68,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             条件５:<?= h($community['condition5']) ?><br>
             内容:<?= h($community['community_content']) ?><br>
             <br>
-            <input type="submit" value="コミュニティを抜ける" class="btn btn-outline-danger mb-5">
+            <input type="submit" value="コミュニティに参加する" class="btn btn-primary mb-3">
         </form>
         <!-- 戻るボタンは上手く動かないから後で -->
         <!-- <a href="community_list.php" class="btn return-btn">戻る</a><br> -->

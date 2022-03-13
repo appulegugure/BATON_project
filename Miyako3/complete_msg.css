@@ -1,0 +1,8 @@
+.complete_msg_wrapper {
+    width: 850px;
+    height: 650px;
+    margin: 30px auto;
+    padding: 40px 50px;
+    border: 1px solid #dfdfdc;
+    border-radius: 5px;
+}

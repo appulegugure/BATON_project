@@ -13,12 +13,11 @@ require_once __DIR__ . '/functions.php';
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
 <? include_once __DIR__ . '/header.html'; ?>
-</head>
+<link rel="stylesheet" href="my_page.css">
 
 <body>
-    <div class="wrapper">
+    <div class="my_page_wrapper">
         <div class="text-center mb-5">
             <h1>マイページ</h1>
         </div>

@@ -5,7 +5,6 @@ session_start();
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/config.php';
 
-
 //変数初期化
 $adult = '';
 $child = '';
@@ -78,17 +77,15 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="create_order.css">
 
 <body>
-    <div class="wrapper">
+    <div class="create_order_wrapper">
         <div class="m-5">
             <div class="text-center mb-5">
                 <h2>依頼内容</h2>
@@ -106,7 +103,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label class="col-md-3 control-label"></label>
                     <select name="community_id" required>
-                        <option value="" disabled selected style="display:none;">コミュニティを選択</option>
+                        <option class="mb-2 mt-2" value="" disabled selected style="display:none;">コミュニティを選択</option>
                         <? foreach ($my_community as $key => $value) : ?>
                             <option value="<?= $value['id'] ?>"> <?= $value['community_name']; ?></option>
                         <? endforeach; ?>
@@ -118,9 +115,10 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
                         <h6>※開始時刻の2時間前に、有効期限が切れます。</h6>
                     </div>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="int" name="adult" value="" placeholder="大人" required><br>
-                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="int" name="child" value="" placeholder="子供" required><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="int" name="child" value="" placeholder="子人" required><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="date" name="day" value="" placeholder="日付" required><br>
-                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="int" name="price" value="" placeholder="単価" required><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="int" name="price" value="" placeholder="大人:単価" required><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="int" name="price" value="" placeholder="小人:単価" required><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition1" value="" placeholder="条件１"><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition2" value="" placeholder="条件２"><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition3" value="" placeholder="条件３"><br>

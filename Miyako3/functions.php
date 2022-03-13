@@ -178,8 +178,10 @@ function select_order_by_community($status, $community_list, $user_id)
         *
     FROM
         job_order
+    INNER JOIN number_of_people
+    ON job_order.people_id = number_of_people.id
     WHERE
-        community_id IN (:community)
+        job_order.community_id IN (:community)
     AND
         status = :status
     AND NOT
@@ -714,7 +716,8 @@ function insert_user($email, $name, $password, $company, $post, $prefe)
     $stmt->execute();
 }
 //二時間前のオーダーをセレクト
-function two_hours_order(){
+function two_hours_order()
+{
     $dbh = connect_db();
     try {
         $stmt1 = $dbh->prepare("
@@ -722,9 +725,8 @@ function two_hours_order(){
                                 ;");
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-    }catch(PDOException $e) {
+    } catch (PDOException $e) {
         echo $e->getMessage();
-
     }
 }
 
@@ -738,17 +740,17 @@ function select_search_received_progress_time_minus2($user_id)
                                 AND status = '受注済'
                                 -- AND day = --  
                                 ;");
-        $stmt1->bindParam( ':user_id', $user_id, PDO::PARAM_STR);
+        $stmt1->bindParam(':user_id', $user_id, PDO::PARAM_STR);
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-    }catch(PDOException $e) {
+    } catch (PDOException $e) {
         echo $e->getMessage();
-
     }
 }
 
 //開始日二時間前でステータス取り消し
-function two_hours_order_set_reject(){
+function two_hours_order_set_reject()
+{
     $dbh = connect_db();
     try {
         $stmt1 = $dbh->prepare("UPDATE job_order
@@ -758,9 +760,46 @@ function two_hours_order_set_reject(){
                                 ");
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-    }catch(PDOException $e) {
+    } catch (PDOException $e) {
         echo $e->getMessage();
+    }
+}
 
+function convert_from_array_to_sqlstring($array){
+    $convert_to_array = [];
+    $escape ='';
+    foreach ($array as $key => $value) {
+        $escape = "'".$value['community_name']."'";
+        array_push($convert_to_array,$escape);
+    }
+    return implode(',',$convert_to_array);
+    
+}
+
+//受注テーブルから未受注&指定したコミュニティで表示
+//脆弱--バインド付けれない
+function select_order_community_and_status($status,$community_id)
+{
+    $dbh = connect_db();
+    try {
+        
+        //$stmt1 = $dbh->prepare('SELECT * from job_order INNER JOIN community ON job_order.community_id = community.id 
+                                //WHERE status = :status AND (community.community_name = :community_id );');
+        $stmt1 = $dbh->prepare("SELECT * from job_order INNER JOIN community ON job_order.community_id = community.id 
+                                INNER JOIN Number_of_people ON job_order.people_id = Number_of_people.id
+                                WHERE job_order.status = :status 
+                                AND !SUBTIME(day,'02:00:00') <= NOW() 
+                                AND NOT day < NOW()
+                                AND community.community_name 
+                                IN($community_id);");
+        $stmt1->bindParam( ':status', $status, PDO::PARAM_STR);
+        //$stmt1->bindParam( ':community_id', $community_id, PDO::PARAM_STR);
+        $stmt1->execute();
+
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+    }catch(PDOException $e) {
+        echo $e->getMessage();       
     }
 }
 
