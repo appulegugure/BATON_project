@@ -45,7 +45,7 @@ if (empty($_GET['keyword'])) {
 <? include_once __DIR__ . '/header.html'; ?>
 
 <body>
-    <div class="container"  style= "padding:200px;">
+    <div class="container" style="padding:200px;">
         <div class="border">
             <div class="container">
                 <div class="border" style="padding:30px;">
@@ -68,7 +68,7 @@ if (empty($_GET['keyword'])) {
                 </div>
             </div>
 
-            <div class="container border">
+            <div class="window">
                 <!-- エラーがある場合 -->
                 <?php if (!empty($errors)) : ?>
                     <ul class="errors">
@@ -82,20 +82,20 @@ if (empty($_GET['keyword'])) {
                         <li>
                             <div class="row">
                                 <!-- 表示する項目は後で調整 -->
-                                <div class="a col mb-2 mr-1 text-center">
-                                    <br><?= h($order['order_id']) ?>
-                                </div>
-                                <div class="b col mb-2 mr-1 text-center">
+                                <div class="title_btn">
                                     <br><?= h($order['title']) ?>
                                 </div>
-                                <div class="c col mb-2 mr-1 text-center">
+                                <div class="day_btn">
                                     <br><?= h($order['day']) ?>
                                 </div>
-                                <div class="d col mb-2 mr-1 text-center">
-                                    <br><?= h($order['price']) ?>円
+                                <div class="price_btn">
+                                    <br>￥<?= h($order['price']) ?>
                                 </div>
-                                <div class="e col mb-2 mr-1 text-center">
-                                    <br><?= h($order['community_id']) ?>
+                                <div class="adult_btn">
+                                    <br>大人:<?= h($order['adult']) ?>
+                                </div>
+                                <div class="child_btn">
+                                    <br>小人:<?= h($order['child']) ?>
                                 </div>
 
                                 <!-- display_order.phpに遷移してOrder IDを渡す -->
@@ -110,10 +110,10 @@ if (empty($_GET['keyword'])) {
                 <div class="row">
                     <div class="btn btn-sm btn-light">
                         <a href="create_order.php">
-                            
-                                <div class="btnbtn">ワンタッチで<br>業務委託!<br>
-                                    <h4>BATON</h4>
-                                </div>
+
+                            <div class="btnbtn">ワンタッチで<br>業務委託!<br>
+                                <h4>BATON</h4>
+                            </div>
                         </a>
                     </div>
                     <div class="btn btn-default btn-light">
@@ -139,7 +139,7 @@ if (empty($_GET['keyword'])) {
                 </div>
             </div>
         </div>
-    <? include_once __DIR__ . '/js.html'; ?>
+        <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>
