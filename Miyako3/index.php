@@ -44,14 +44,15 @@ if (empty($_GET['keyword'])) {
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
 <link rel="stylesheet" href="top.css" />
+
 <body>
     <div class="wrapper">
-            <form>
-                <div><input type="text" name="keyword" style="width: 500px;" placeholder="コミュニティを探す" required>
-                    <!-- <a href="community_list.php"><i class="fa-solid fa-magnifying-glass btn btn-dark"></i></a> -->
-                    <input type="submit" value="&#xf002;" class="fa-solid fa-magnifying-glass btn btn-dark">
-                </div>
-            </form>
+        <form>
+            <div><input type="text" name="keyword" style="width: 500px;" placeholder="コミュニティを探す" required>
+                <!-- <a href="community_list.php"><i class="fa-solid fa-magnifying-glass btn btn-dark"></i></a> -->
+                <input type="submit" value="&#xf002;" class="fa-solid fa-magnifying-glass btn btn-dark">
+            </div>
+        </form>
 
         <div class="container">
             <div class="text-right mb-2">
@@ -85,11 +86,15 @@ if (empty($_GET['keyword'])) {
                             <div class="price_btn">
                                 ￥<?= h($order['price']) ?>
                             </div>
-                            <div class="community_btn">
-                                <?= h($order['community_id']) ?>
+                            <div class="adult_btn">
+                                <br>大人:<?= h($order['adult']) ?>
                             </div>
-                            <!-- display_order.phpに遷移してOrder IDを渡す -->
-                            <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="detail_btn">詳細</a>
+                            <div class="child_btn">
+                                <br>小人:<?= h($order['child']) ?>
+                            </div>
+                            <!-- display_
+                            order.phpに遷移してOrder IDを渡す -->
+                            <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary btn-sm">詳細</a>
                         </div>
                     </li>
                 <?php endforeach; ?>
@@ -100,12 +105,12 @@ if (empty($_GET['keyword'])) {
             <div class="row">
                 <div class="btn btn-sm btn-light">
                     <a href="create_order.php">
-                        <div class="btnbtn">ワンタッチで業務委託!<br>
+
+                        <div class="btnbtn">ワンタッチで<br>業務委託!<br>
                             <h4>BATON</h4>
                         </div>
                     </a>
                 </div>
-                <div class="info">
                 <div class="btn btn-default btn-light">
                     <div class="col p-1 mb-2">
                         <a href="create_community.php"><i class="fa-solid fa-plus"></i><br>コミュニティ作成</a>
@@ -126,11 +131,12 @@ if (empty($_GET['keyword'])) {
                         <a href="my_page.php"><i class="fa-solid fa-user fa-1x"></i><br>マイページ</a>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
     </div>
+
     <? include_once __DIR__ . '/js.html'; ?>
+
 </body>
 
 </html>
