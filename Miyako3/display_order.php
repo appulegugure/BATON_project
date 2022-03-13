@@ -29,16 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="display_order.css">
 
 <body>
-    <div>
+    <div class="display_order_wrapper">
         <h2>募集中委託詳細</h2>
         <!-- エラーがあったら表示 -->
         <?php if (!empty($errors)) : ?>
@@ -65,9 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             条件4: <?= h($order['condition4']) ?><br>
             条件5: <?= h($order['condition5']) ?><br> -->
             <br>
-            <input type="submit" value="受注する" class="btn submit-btn">
+            <input type="submit" value="受注する" class="btn btn-primary">
         </form>
-        <a href="transactions.php" class="btn return-btn">戻る</a>
+        <a href="index.php" class="btn btn-secondary">戻る</a>
 
     </div>
     <? include_once __DIR__ . '/js.html'; ?>

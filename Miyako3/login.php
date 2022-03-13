@@ -6,7 +6,6 @@ $password = '';
 
 require_once __DIR__ . "/functions.php";
 
-
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -27,16 +26,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="login.css">
 
 <body>
-    <div class="wrapper m-5">
-        <h1 class="title">Log In</h1>
+    <div class="login_wrapper">
+        <h1 class="title mb-5">ログイン</h1>
         <?php if ($errors) : ?>
             <ul class="errors">
                 <?php foreach ($errors as $error) : ?>
@@ -46,17 +45,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="" method="post">
-            <div class="container d-flex align-items-center justify-content-center" style="height:300px;">
+            <div class="" style="height:300px;">
                 <label for="email">メールアドレス</label>
-                <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>">
+                <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>"><br>
                 <label for="password">パスワード</label>
                 <input type="password" name="password" id="password" placeholder="Password: 8文字以上">
-                <div class="btn-area">
+                <div class="mt-3">
                     <input type="submit" value="ログイン" class="btn btn-primary mb-1"><br>
+                </div>
+                <div class="mt-3">
                     <a href="signup.php" class="btn btn-secondary">新規ユーザー登録はこちら</a>
                 </div>
+            </div>
         </form>
-    </div>
     </div>
     <? include_once __DIR__ . '/js.html'; ?>
 </body>

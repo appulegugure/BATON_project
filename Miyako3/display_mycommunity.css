@@ -1,0 +1,8 @@
+.display_mycommunity_wrapper {
+    width: 500px;
+    height: 500px;
+    margin: 30px auto;
+    padding: 40px 50px;
+    border: 1px solid #dfdfdc;
+    border-radius: 5px;
+}

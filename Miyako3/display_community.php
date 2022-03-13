@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //コミュニティに参加済みの場合
     if (!empty($community_user)) {
         // エラーメッセージ「このコミュニティには既に参加済みです」後でConstantに設定
-        $errors[] = 'このコミュニティには既に参加済みです';
+        $errors[] = 'このコミュニティは参加申請済みです';
     }
     //エラーがない場合
     if (empty($errors)) {
@@ -42,10 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="display_community.css">
 
 <body>
-    <div>
-        <h2>コミュニティ詳細</h2>
+    <div class="display_community_wrapper">
+        <div class="mb-5">
+            <h2>コミュニティ詳細</h2>
+        </div>
         <!-- エラーがあったら表示 -->
         <?php if (!empty($errors)) : ?>
             <ul class="errors">
@@ -66,11 +69,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             条件５:<?= h($community['condition5']) ?><br>
             内容:<?= h($community['community_content']) ?><br>
             <br>
-            <input type="submit" value="参加する" class="btn submit-btn">
+            <input type="submit" value="コミュニティに参加する" class="btn btn-primary mb-3">
         </form>
         <!-- 戻るボタンは上手く動かないから後で -->
         <!-- <a href="community_list.php" class="btn return-btn">戻る</a><br> -->
-        <a href="index.php" class="btn edit-btn">トップへ戻る</a><br>
+        <a href="index.php" class="btn btn-secondary">トップへ戻る</a><br>
 
     </div>
     <? include_once __DIR__ . '/js.html'; ?>

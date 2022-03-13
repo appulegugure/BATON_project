@@ -33,18 +33,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
-
+<link rel="stylesheet" href="display_mycommunity.css">
 
 <body>
-    <div>
-        <h2>コミュニティ詳細</h2>
+    <div class="display_mycommunity_wrapper">
+        <div class="mb-5">
+            <h2>コミュニティ詳細</h2>
+        </div>
         <!-- エラーがあったら表示 -->
         <?php if (!empty($errors)) : ?>
             <ul class="errors">
@@ -65,11 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             条件５:<?= h($community['condition5']) ?><br>
             内容:<?= h($community['community_content']) ?><br>
             <br>
-            <input type="submit" value="コミュニティから抜ける" class="btn submit-btn">
+            <input type="submit" value="コミュニティから抜ける" class="btn-outline-danger mb-3">
         </form>
         <!-- 戻るボタンは上手く動かないから後で -->
         <!-- <a href="community_list.php" class="btn return-btn">戻る</a><br> -->
-        <a href="index.php" class="btn edit-btn">トップへ戻る</a><br>
+        <a href="mycommunity.php" class="btn btn-secondary">戻る</a><br>
 
     </div>
     <? include_once __DIR__ . '/js.html'; ?>

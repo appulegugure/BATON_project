@@ -9,16 +9,24 @@ require_once __DIR__ . '/functions.php';
 
 // $keyword = $_GET['keyword'];
 
-//ユーザーの参加コミュニティを取得す
+//ユーザーの参加コミュニティを取得する
 // $community_list = search_community_by_user($user_id);
 $community_list = select_search_community($user_id);
 
 //参加コミュニティ内の委託業務で未受注のものを取得する
-//けど、上手く動かないから全取得している。後で直す
-// $orders = select_order_by_community($community_list);
+// var_dump($community_list);
 $status = '未受注';
-$orders = select_order_by_status($status, $user_id);
+// $orders = select_order_by_status($status, $user_id);
+$orders = select_order_by_community($status, $community_list, $user_id);
 
+//追加
+$community_list = $_SESSION['community'];
+$community_list_sql = convert_from_array_to_sqlstring($community_list);
+$orders_2 = select_order_community_and_status('未受注',$community_list_sql);
+//var_dump($orders_2);    
+
+//二時間以内削除
+two_hours_order_set_reject();
 
 $errors = [];
 //対象の委託業務がない場合
@@ -41,99 +49,92 @@ if (empty($_GET['keyword'])) {
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="index.css">
 
 <body>
     <div class="wrapper">
+        <form>
+            <div><input type="text" name="keyword" style="width: 500px;" placeholder="コミュニティを探す" required>
+                <!-- <a href="community_list.php"><i class="fa-solid fa-magnifying-glass btn btn-dark"></i></a> -->
+                <input type="submit" value="&#xf002;" class="fa-solid fa-magnifying-glass btn btn-dark">
+            </div>
+        </form>
+
         <div class="container">
-            <div class="container">
-                <div class="container w-auto text-right">
-                    <div class="border" style="padding:30px;">
-                        <form>
-                            <div><input type="text" name="keyword" style="width: 280px;" placeholder="コミュニティを探す">
-                                <!-- <a href="community_list.php"><i class="fa-solid fa-magnifying-glass btn btn-dark"></i></a> -->
-                                <input type="submit" value="&#xf002;" class="fa-solid fa-magnifying-glass btn btn-dark">
-
-                            </div>
-                        </form>
-                    </div>
+            <div class="text-right mb-2">
+                新着順
+                <div class="btn btn-light">
+                    <i class="fa-solid fa-chevron-down"></i>
                 </div>
             </div>
+        </div>
 
-            <div class="container">
-                <h1 class="mt-5 mb-3">業務 一覧</h1>
-                <div class="text-right mb-2">
-                    新着順
-                    <div class="btn btn-light">
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                </div>
-                <!-- エラーがある場合 -->
-                <?php if (!empty($errors)) : ?>
-                    <ul class="errors">
-                        <?php foreach ($errors as $error) : ?>
-                            <li><?= h($error) ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                <?php endif; ?>
-            </div>
-
-            <div class="container border">
-                <ul>
-                    <?php foreach ($orders as $order) : ?>
-                        <li>
-                            <div class="row">
-                                <!-- 表示する項目は後で調整 -->
-                                <div class="a col mb-2 mr-1 text-center">
-                                    <br><?= h($order['order_id']) ?>
-                                </div>
-                                <div class="b col mb-2 mr-1 text-center">
-                                    <br><?= h($order['title']) ?>
-                                </div>
-                                <div class="c col mb-2 mr-1 text-center">
-                                    <br><?= h($order['day']) ?>
-                                </div>
-                                <div class="d col mb-2 mr-1 text-center">
-                                    <br><?= h($order['price']) ?>円
-                                </div>
-                                <div class="e col mb-2 mr-1 text-center">
-                                    <br><?= h($order['community_id']) ?>
-                                </div>
-
-                                <!-- display_order.phpに遷移してOrder IDを渡す -->
-                                <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary btn-sm">詳細</a>
-                            </div>
-                        </li>
+        <div class="window">
+            <!-- エラーがある場合 -->
+            <?php if (!empty($errors)) : ?>
+                <ul class="errors">
+                    <?php foreach ($errors as $error) : ?>
+                        <li><?= h($error) ?></li>
                     <?php endforeach; ?>
                 </ul>
-            </div>
-
-            <div class="container nowrap">
-                <div class="row">
-                    <div class="btn btn-sm btn-light">
-                        <a href="create_order.php">
-                            <div class="btnbtn">ワンタッチで<br>業務委託!<br>
-                                <h4>BATON</h4>
+            <?php endif; ?>
+            <ol>
+                <?php foreach ($orders_2 as $order) : ?>
+                    <li>
+                        <div class="row">
+                            <!-- 表示する項目は後で調整 -->
+                            <div class="title_btn">
+                                <br><?= h($order['title']) ?>
                             </div>
-                        </a>
-                    </div>
-                    <div class="btn btn-default btn-light">
+                            <div class="day_btn">
+                                <br><?= h($order['day']) ?>
+                            </div>
+                            <div class="price_btn">
+                                <br>￥<?= h($order['price']) ?>
+                            </div>
+                            <div class="adult_btn">
+                                <br><?= h($order['adult']) ?>
+                            </div>
+                            <div class="child_btn">
+                                <br><?= h($order['child']) ?>
+                            </div>
+
+                            <!-- display_order.phpに遷移してOrder IDを渡す -->
+                            <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary btn-sm">詳細</a>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+        </div>
+
+        <div class="container nowrap">
+            <div class="row">
+                <div class="btn btn-sm btn-light">
+                    <a href="create_order.php">
+                        <div class="btnbtn">ワンタッチで業務委託!<br>
+                            <h4>BATON</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="info">
+                    <div class="btn btn-light">
                         <div class="col p-1 mb-2">
-                            <a href="create_community.php"><i class="fa-solid fa-plus"></i><br>コミュニ<br>ティ作成</a>
+                            <a href="create_community.php"><i class="fa-solid fa-plus"></i><br>コミュニティ作成</a>
                         </div>
                     </div>
-                    <div class="btn btn-default btn-light">
+                    <div class="btn btn-light">
                         <div class="col p-1 mb-2">
-                            <a href="transactions.php"><i class="fa-regular fa-rectangle-list fa-1x"></i><br>取引中<br>の仕事</a>
+                            <a href="transactions.php"><i class="fa-regular fa-rectangle-list fa-1x"></i><br>取引中の仕事</a>
                         </div>
                     </div>
-                    <div class="btn btn-default btn-light">
+                    <div class="btn btn-light">
                         <div class="col p-1 mb-2">
-                            <a href="mycommunity.php"><i class="fa-solid fa-user-group fa-1x"></i><br>参加コミ<br>ュニティ</a>
+                            <a href="mycommunity.php"><i class="fa-solid fa-user-group fa-1x"></i><br>参加コミュニティ</a>
                         </div>
                     </div>
-                    <div class="btn btn-default btn-light">
+                    <div class="btn btn-light">
                         <div class="col p-1 mb-2">
-                            <a href="my_page.php"><i class="fa-solid fa-user fa-1x"></i><br>マイペ<br>ージ</a>
+                            <a href="my_page.php"><i class="fa-solid fa-user fa-1x"></i><br>マイページ</a>
                         </div>
                     </div>
                 </div>

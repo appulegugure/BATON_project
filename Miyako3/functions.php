@@ -167,7 +167,7 @@ function select_order_all_ALL()
     }
 }
 // 注文を取得する
-function select_order_by_community($community_list)
+function select_order_by_community($status, $community_list, $user_id)
 {
     // データベースに接続
     $dbh = connect_db();
@@ -178,36 +178,35 @@ function select_order_by_community($community_list)
         *
     FROM
         job_order
+    INNER JOIN number_of_people
+    ON job_order.people_id = number_of_people.id
     WHERE
-    community_id = :community
-    AND 
-    status IS :status
+        job_order.community_id IN (:community)
+    AND
+        status = :status
+    AND NOT
+        (order_user_email = :user_id)
     ORDER BY
-    created_at
+        created_at
 EOM;
 
-    //community IDを連結する
-    // $community_keys = '';
-    // foreach ($community_list as $key => $community) {
-    //     if ($key === 0) {
-    //         $community_keys = '(' . $community['id'];
-    //     } else {
-    //         $community_keys .=  ',' . $community['id'];
-    //     }
-    //     // $community_keys = implode(',', $community);
-    // }
-    // $community_keys .= ')';
-
-    // // $community_keys = '(1,2,7,22)';
-    // var_dump($community_keys);
-    $community_keys = 1;
+    // community IDを連結する
+    $community_keys = '';
+    foreach ($community_list as $key => $community) {
+        if ($key === 0) {
+            $community_keys = $community['id'];
+        } else {
+            $community_keys .=  ',' . $community['id'];
+        }
+        // $community_keys = implode(',', $community);
+    }
 
     // プリペアドステートメントの準備
     $stmt = $dbh->prepare($sql);
     // パラメータのバインド
-    $stmt->bindParam(':community', $community_keys, PDO::PARAM_INT);
-    $status = NULL;
+    $stmt->bindParam(':community', $community_keys, PDO::PARAM_STR);
     $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
 
     // プリペアドステートメントの実行
     $stmt->execute();
@@ -386,7 +385,7 @@ function display_order_by_receiveuser($user_id)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function display_order_by_orderuser($user_id)
+function display_order_by_orderuser($user_id, $status)
 {
     // データベースに接続
     $dbh = connect_db();
@@ -400,6 +399,8 @@ function display_order_by_orderuser($user_id)
         job_order
     WHERE 
     order_user_email = :user_id
+    AND NOT
+    status = :status
     EOM;
 
     // プリペアドステートメントの準備
@@ -408,6 +409,7 @@ function display_order_by_orderuser($user_id)
 
     // パラメータのバインド
     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+    $stmt->bindParam(':status', $status, PDO::PARAM_STR);
     // プリペアドステートメントの実行
     $stmt->execute();
     // 結果の取得
@@ -526,7 +528,7 @@ function select_search_community($user_id)
 {
     $dbh = connect_db();
     try {
-        $stmt1 = $dbh->prepare("SELECT community.community_name 
+        $stmt1 = $dbh->prepare("SELECT community.id, community.community_name 
                                 from community_user INNER JOIN community ON community_user.community = community.id
                                 WHERE community_user.user_email = :user_id;");
         $stmt1->bindParam(':user_id', $user_id, PDO::PARAM_INT);
@@ -536,6 +538,7 @@ function select_search_community($user_id)
         echo $e->getMessage();
     }
 }
+
 //コミュニティテーブルからcontentカラムを曖昧検索して該当したコミュニティネームを取得
 //☆バインドでエラー
 function select_search_community_word($input_word)
@@ -712,5 +715,90 @@ function insert_user($email, $name, $password, $company, $post, $prefe)
     $stmt->bindParam(':password', $pw_hash, PDO::PARAM_STR);
     $stmt->execute();
 }
+//二時間前のオーダーをセレクト
+function two_hours_order()
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("
+                                SELECT * FROM job_order WHERE SUBTIME(day,'02:00:00') <= NOW() AND NOT day < NOW();
+                                ;");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
 
+//委託中_進行_開催日-2時間で絞る
+function select_search_received_progress_time_minus2($user_id)
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("SELECT * FROM job_order
+                                WHERE order_user_email = :user_id 
+                                AND status = '受注済'
+                                -- AND day = --  
+                                ;");
+        $stmt1->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
 
+//開始日二時間前でステータス取り消し
+function two_hours_order_set_reject()
+{
+    $dbh = connect_db();
+    try {
+        $stmt1 = $dbh->prepare("
+                                UPDATE job_order
+                                SET status = '取消し'
+                                WHERE SUBTIME(day,'02:00:00') <= NOW() AND NOT day < NOW();
+                                ");
+        $stmt1->execute();
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
+
+function convert_from_array_to_sqlstring($array){
+    $convert_to_array = [];
+    $escape ='';
+    foreach ($array as $key => $value) {
+        $escape = "'".$value['community_name']."'";
+        array_push($convert_to_array,$escape);
+    }
+    return implode(',',$convert_to_array);
+    
+}
+
+//受注テーブルから未受注&指定したコミュニティで表示
+//脆弱--バインド付けれない
+function select_order_community_and_status($status,$community_id)
+{
+    $dbh = connect_db();
+    try {
+        
+        //$stmt1 = $dbh->prepare('SELECT * from job_order INNER JOIN community ON job_order.community_id = community.id 
+                                //WHERE status = :status AND (community.community_name = :community_id );');
+        $stmt1 = $dbh->prepare("SELECT * from job_order INNER JOIN community ON job_order.community_id = community.id 
+                                INNER JOIN Number_of_people ON job_order.people_id = Number_of_people.id
+                                WHERE job_order.status = :status 
+                                AND !SUBTIME(day,'02:00:00') <= NOW() 
+                                AND NOT day < NOW()
+                                AND community.community_name 
+                                IN($community_id);");
+        $stmt1->bindParam( ':status', $status, PDO::PARAM_STR);
+        //$stmt1->bindParam( ':community_id', $community_id, PDO::PARAM_STR);
+        $stmt1->execute();
+
+        return $stmt1->fetchAll(PDO::FETCH_ASSOC);
+    
+    }catch(PDOException $e) {
+        echo $e->getMessage();       
+    }
+}

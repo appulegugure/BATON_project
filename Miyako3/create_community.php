@@ -51,40 +51,40 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="create_community.css">
 
 <body>
-    <div class="wrapper">
+    <div class="create_community_wrapper">
         <div class="text-center mb-5">
             <h2>コミュニティ作成</h2>
         </div>
-        <!-- エラーがあったら表示 -->
-        <?php if (!empty($errors)) : ?>
-            <ul class="errors">
-                <?php foreach ($errors as $error) : ?>
-                    <li><?= h($error) ?></li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
-        <form action="" method="post" class="form-horizontal">
-            <div class="form-group mb-5">
-                <!--入力項目-->
-                <label class="col-md-3 control-label"></label><input type="text" name="community_name" value="" placeholder="コミュニティ名"><br>
-                <label class="col-md-3 control-label"></label><input type="text" name="condition1" value="" placeholder="参加条件１"><br>
-                <label class="col-md-3 control-label"></label><input type="text" name="condition2" value="" placeholder="参加条件２"><br>
-                <label class="col-md-3 control-label"></label><input type="text" name="condition3" value="" placeholder="参加条件３"><br>
-                <label class="col-md-3 control-label"></label><input type="text" name="condition4" value="" placeholder="参加条件４"><br>
-                <label class="col-md-3 control-label"></label><input type="text" name="condition5" value="" placeholder="参加条件５"><br>
-                <label class="col-md-3 control-label"></label><input type="text" name="community_content" value="" placeholder="内容"><br>
+            <!-- エラーがあったら表示 -->
+            <?php if (!empty($errors)) : ?>
+                <ul class="errors">
+                    <?php foreach ($errors as $error) : ?>
+                        <li><?= h($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+            <form action="" method="post" class="form-horizontal">
+                <div class="form-group mb-5">
+                    <!--入力項目-->
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="community_name" value="" placeholder="コミュニティ名" required><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="community_content" value="" placeholder="業務内容" required><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition1" value="" placeholder="参加条件１"><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition2" value="" placeholder="参加条件２"><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition3" value="" placeholder="参加条件３"><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition4" value="" placeholder="参加条件４"><br>
+                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition5" value="" placeholder="参加条件５"><br>
+                    
+                </div>
+                <div class="text-center mb-3">
+                    <input type="submit" value="登録" class="btn btn-primary">
+                </div>
+            </form>
+            <div class="text-center">
+                <a href="index.php" class="btn btn-secondary">戻る</a>
             </div>
-            <div class="text-center mb-3">
-                <input type="submit" value="登録" class="btn btn-primary">
-            </div>
-        </form>
-
-
-        <div class="text-center">
-            <a href="index.php" class="btn btn-secondary">戻る</a>
-        </div>
     </div>
     <? include_once __DIR__ . '/js.html'; ?>
 </body>

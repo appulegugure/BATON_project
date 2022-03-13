@@ -17,9 +17,10 @@ $community_list = search_community_by_user($user_id);
 <html lang="ja">
 
 <?php include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="mycommunity.css">
 
 <body>
-    <div class="wrapper">
+    <div class="mycommunity_wrapper">
         <div class="mb-5">
             <h1>コミュニティ一覧</h1>
         </div>
@@ -32,14 +33,24 @@ $community_list = search_community_by_user($user_id);
                         <!-- 参加コミュニティがある場合 -->
                     <? else : ?>
                         <?php foreach ($community_list as $community) : ?>
-                            <li>
+                            <ul class="col1">
                                 <!-- 表示項目は要調整 -->
                                 <div class="col xs-3">
-                                    <?= h($community['community_name']) ?>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>〇
+                                                </td>
+                                                <td style="width: 300px;"> <?= h($community['community_name']) ?></td>
+                                                <!-- 詳細ボタンをクリックしたらCommunityのIDを渡す -->
+                                                <td>
+                                                    <a display:block; href="display_mycommunity.php?community_id=<?= h($community['id']) ?>" class="btn btn-outline-primary">詳細</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <!-- 詳細ボタンをクリックしたらCommunityのIDを渡す -->
-                                <a href="display_community.php?community_id=<?= h($community['id']) ?>" class="btn btn-outline-primary">詳細</a>
-                            </li>
+                            </ul>
                         <?php endforeach; ?>
                     <? endif; ?>
                 </ul>
