@@ -36,9 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="display_order_to_me.css">
 
 <body>
-    <div class="wrapper">
+    <div class="display_order_to_me_wrapper">
         <h2>詳細</h2>
         <!-- エラーがあったら表示 -->
         <?php if (!empty($errors)) : ?>

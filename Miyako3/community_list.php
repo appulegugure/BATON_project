@@ -16,9 +16,10 @@ $community_list = search_community($keyword);
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="community_list.css">
 
 <body>
-    <div class="wrapper">
+    <div class="community_list_wrapper">
         <div class="mb-5">
             <h1>検索結果</h1>
         </div>

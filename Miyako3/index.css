@@ -7,7 +7,7 @@
     border-radius: 5px;
 }
 
-li {
+.li {
     list-style: none;
 }
 
@@ -74,9 +74,6 @@ li {
     margin-top: 20px;
     padding: 5px 0;
     text-indent: 1.5rem;
-}
-a {
-    text-align
 }
 
 .btnbtn {

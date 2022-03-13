@@ -31,9 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="login.css">
 
 <body>
-    <div class="wrapper">
+    <div class="login_wrapper">
         <h1 class="title mb-5">ログイン</h1>
         <?php if ($errors) : ?>
             <ul class="errors">

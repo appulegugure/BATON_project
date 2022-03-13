@@ -17,9 +17,10 @@ $community_list = search_community_by_user($user_id);
 <html lang="ja">
 
 <?php include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="mycommunity.css">
 
 <body>
-    <div class="wrapper">
+    <div class="mycommunity_wrapper">
         <div class="mb-5">
             <h1>コミュニティ一覧</h1>
         </div>
@@ -43,7 +44,7 @@ $community_list = search_community_by_user($user_id);
                                                 <td style="width: 300px;"> <?= h($community['community_name']) ?></td>
                                                 <!-- 詳細ボタンをクリックしたらCommunityのIDを渡す -->
                                                 <td>
-                                                    <a display:block; href="display_community.php?community_id=<?= h($community['id']) ?>" class="btn btn-outline-primary">詳細</a>
+                                                    <a display:block; href="display_mycommunity.php?community_id=<?= h($community['id']) ?>" class="btn btn-outline-primary">詳細</a>
                                                 </td>
                                             </tr>
                                         </tbody>

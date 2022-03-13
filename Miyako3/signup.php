@@ -2,8 +2,6 @@
 
 require_once __DIR__ . "/functions.php";
 
-
-
 $name = '';
 $email = '';
 $password = '';
@@ -18,7 +16,6 @@ if (!empty($_SESSION['id'])) {
     header('Location: show.php');
     exit;
 }
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_input(INPUT_POST, 'email');
@@ -40,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-
 ?>
 
 <!DOCTYPE html>
