@@ -34,8 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['email'] = $user['email'];
             //追加
             $_SESSION['community'] = $user_communitys;
-
-            header('Location: index.php');
+            //変更前
+            //-->> header('Location: index.php');
+            //変更後
+            header('Location: Miyako3/index.php');
 
 
             exit;
@@ -49,17 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-</head>
-
+<? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="login.css">
 <body>
-    <div class="wrapper">
-        <h1 class="title">Log In</h1>
+    <div class="login_wrapper">
+        <h1 class="title mb-5">ログイン</h1>
         <?php if ($errors) : ?>
             <ul class="errors">
                 <?php foreach ($errors as $error) : ?>
@@ -67,19 +63,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
+
         <form action="" method="post">
-            <input type="hidden" name="token" value="<?php echo $_SESSION['csrf_token']; ?>">
-            <label for="email">メールアドレス</label>
-            <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>">
-            <label for="password">パスワード</label>
-            <input type="password" name="password" id="password" placeholder="Password: 8文字以上">
-            <div class="btn-area">
-                <input type="submit" value="ログイン" class="btn submit-btn">
-                <a href="provi_signup.php" class="btn link-btn">新規ユーザー登録はこちら</a>
-                <a href="pass_email_reset.php" class="btn link-btn">パスワードを忘れた方</a </div>
+            <div class="" style="height:300px;">
+                <input type="hidden" name="token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                <label for="email">メールアドレス</label>
+                <input type="email" name="email" id="email" placeholder="Email" value="<?= h($email) ?>"><br>
+                <label for="password">パスワード</label>
+                <input type="password" name="password" id="password" placeholder="Password: 8文字以上">
+                <div class="mt-3">
+                    <input type="submit" value="ログイン" class="btn btn-primary">
+                </div>
+                <div class="mt-3">
+                    <a href="provi_signup.php" class="btn btn-info">新規ユーザー登録はこちら</a>
+                </div>
+                <div class="mt-3">
+                    <a href="pass_email_reset.php" class="btn btn-secondary">パスワードを忘れた方</a>
+                </div>
             </div>
         </form>
     </div>
+    <? include_once __DIR__ . '/js.html'; ?>
 </body>
 
 </html>

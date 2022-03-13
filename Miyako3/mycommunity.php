@@ -4,6 +4,7 @@ session_start();
 
 // 関数ファイルを読み込む
 require_once __DIR__ . '/functions.php';
+require_once BATON_PATH_DB_FUNCTION;
 
 
 //ユーザーID（Email）を取得

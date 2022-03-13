@@ -751,10 +751,10 @@ function select_search_received_progress_time_minus2($user_id)
 function two_hours_order_set_reject(){
     $dbh = connect_db();
     try {
-        $stmt1 = $dbh->prepare("
-                                UPDATE job_order
+        $stmt1 = $dbh->prepare("UPDATE job_order
                                 SET status = '取消し'
-                                WHERE SUBTIME(day,'02:00:00') <= NOW() AND NOT day < NOW();
+                                WHERE SUBTIME(day,'02:00:00') <= NOW(); 
+                                -- AND NOT day < NOW();
                                 ");
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
@@ -786,4 +786,15 @@ function select_order_community_and_status($status,$community_id)
     }catch(PDOException $e) {
         echo $e->getMessage();       
     }
+}
+
+function convert_from_array_to_sqlstring($array){
+    $convert_to_array = [];
+    $escape ='';
+    foreach ($array as $key => $value) {
+        $escape = "'".$value['community_name']."'";
+        array_push($convert_to_array,$escape);
+    }
+    return implode(',',$convert_to_array);
+    
 }

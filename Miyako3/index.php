@@ -19,6 +19,9 @@ $status = '未受注';
 // $orders = select_order_by_status($status, $user_id);
 $orders = select_order_by_community($status, $community_list, $user_id);
 
+
+//滝斗変更
+
 //二時間以内削除
 two_hours_order_set_reject();
 
