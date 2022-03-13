@@ -81,26 +81,26 @@ if (empty($_GET['keyword'])) {
             <ol>
                 <?php foreach ($orders_2 as $order) : ?>
                     <li>
-                        <div class="row">
+                        <div class="row order_btn">
                             <!-- 表示する項目は後で調整 -->
                             <div class="title_btn">
-                                <br><?= h($order['title']) ?>
+                                <?= h($order['title']) ?>
                             </div>
                             <div class="day_btn">
-                                <br><?= h($order['day']) ?>
+                                <?= h($order['day']) ?>
                             </div>
                             <div class="price_btn">
-                                <br>￥<?= h($order['price']) ?>
+                                ￥<?= h($order['price']) ?>
                             </div>
                             <div class="adult_btn">
-                                <br><?= h($order['adult']) ?>
+                                大人:<?= h($order['adult']) ?>
                             </div>
                             <div class="child_btn">
-                                <br><?= h($order['child']) ?>
+                                小人:<?= h($order['child']) ?>
                             </div>
-
-                            <!-- display_order.phpに遷移してOrder IDを渡す -->
-                            <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary btn-sm">詳細</a>
+                            <!-- display_
+                            order.phpに遷移してOrder IDを渡す -->
+                            <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="detail_btn">詳細</a>
                         </div>
                     </li>
                 <?php endforeach; ?>
@@ -108,10 +108,11 @@ if (empty($_GET['keyword'])) {
         </div>
 
         <div class="container nowrap">
-            <div class="row">
+            <div class="row info_btn">
                 <div class="btn btn-sm btn-light">
                     <a href="create_order.php">
-                        <div class="btnbtn">ワンタッチで業務委託!<br>
+
+                        <div class="logo">ワンタッチで<br>業務委託!<br>
                             <h4>BATON</h4>
                         </div>
                     </a>
@@ -141,7 +142,9 @@ if (empty($_GET['keyword'])) {
             </div>
         </div>
     </div>
+
     <? include_once __DIR__ . '/js.html'; ?>
+
 </body>
 
 </html>
