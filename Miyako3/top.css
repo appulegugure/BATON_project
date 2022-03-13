@@ -11,6 +11,10 @@ li {
     list-style: none;
 }
 
+a {
+    text-decoration: none;
+}
+
 .window {
     width: auto;
     height: 400px;
@@ -21,93 +25,86 @@ li {
 }
 
 .title_btn {
-    background-color: #ccffff;
+    background-color: #f96262;
     border-radius: 5px;
     text-align: center;
-    /* max-width: 1000px; */
-    /* margin: 10px; */
     margin-top: 20px;
-    /* padding-left: 5px;
-    padding-right: 5px; */
-    /* text-indent: 1.5rem; */
     padding: 5px 10px;
 }
 
 .day_btn {
-    background-color: #ccffcc;
+    background-color: #ffcc99;
     border-radius: 5px;
     text-align: center;
-    /* max-width: 100px; */
-    /* margin: 10px; */
     margin-top: 20px;
     margin-left: 10px;
     padding: 5px 10px;
-    /* text-indent: 1.5rem; */
 }
 
 .price_btn {
     background-color: #ffffcc;
     border-radius: 5px;
     text-align: center;
-    /* max-width: 100px; */
-    /* margin: 10px; */
     margin-top: 20px;
     margin-left: 10px;
     padding: 5px 10px;
-    /* text-indent: 1.5rem; */
 }
 
 .adult_btn {
-    background-color: #ffcc99;
+    background-color: #ccffcc;
     border-radius: 5px;
     text-align: center;
-    /* max-width: 100px; */
-    /* margin: 10px; */
     margin-top: 20px;
     margin-left: 10px;
     padding: 5px 10px;
-    /* text-indent: 1.5rem; */
+}
+
+.child_btn {
+    background-color: #ccffff;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 20px;
+    margin-left: 10px;
+    padding: 5px 10px;
 }
 
 .detail_btn{
     text-decoration: none;
-    background-color: #f96262;
-    border-radius: 5px;
-    text-align: center;
-    max-width: 100px;
-    /* margin: 10px; */
-    margin-top: 20px;
-    margin-left: 10px;
-    padding: 5px 10px;
-    /* text-indent: 1.5rem; */
-    display: inline-block;
-
-.child_btn {
+    text-align: right;
     background-color: #f3aee4;
     border-radius: 5px;
     text-align: center;
     max-width: 100px;
-    margin: 10px;
     margin-top: 20px;
-    padding: 5px 0;
-    text-indent: 1.5rem;
+    margin-left: auto;
+    margin-right: 10px;
+    padding: 5px 10px;
+    display: inline-block;
 }
-
 
 .detail_btn:hover {
-    background-color: red;
+    background-color: rgb(211, 47, 240);
 }
 
-.info {
-    margin-left: 3px;
+.info_btn {
+    margin-left: 10px;
 }
 
-.row {
-    background-color: #dfdfdc;
+.logo {
+    color: rgb(255, 145, 0);
+}
+
+.order_btn {
     margin-right: 0;
     padding-bottom: 15px;
     padding-left: 15px;
-    width: 650px;
+    width: 680px;
     border-radius: 5px;
     border: 1px solid #dfdfdc;
 }
+
+.btn {
+    margin-left: 5px;
+}
+
+
