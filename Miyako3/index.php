@@ -77,19 +77,19 @@ if (empty($_GET['keyword'])) {
                         <div class="row">
                             <!-- 表示する項目は後で調整 -->
                             <div class="title_btn">
-                                <br><?= h($order['title']) ?>
+                                <?= h($order['title']) ?>
                             </div>
                             <div class="day_btn">
-                                <br><?= h($order['day']) ?>
+                                <?= h($order['day']) ?>
                             </div>
                             <div class="price_btn">
-                                <br>￥<?= h($order['price']) ?>
+                                ￥<?= h($order['price']) ?>
                             </div>
                             <div class="community_btn">
-                                <br><?= h($order['community_id']) ?>
+                                <?= h($order['community_id']) ?>
                             </div>
                             <!-- display_order.phpに遷移してOrder IDを渡す -->
-                            <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary btn-sm">詳細</a>
+                            <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="detail_btn">詳細</a>
                         </div>
                     </li>
                 <?php endforeach; ?>
