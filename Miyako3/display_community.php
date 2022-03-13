@@ -62,12 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             コミュニティ番号:<?= h($community['id']) ?><br>
             コミュニティ名:<?= h($community['community_name']) ?><br>
             ユーザー:<?= h($community['user_email']) ?><br>
-            条件１:<?= h($community['condition1']) ?><br>
-            条件２:<?= h($community['condition2']) ?><br>
-            条件３:<?= h($community['condition3']) ?><br>
-            条件４:<?= h($community['condition4']) ?><br>
-            条件５:<?= h($community['condition5']) ?><br>
-            内容:<?= h($community['community_content']) ?><br>
+            条件１:<?= h($community['condition1'] ?? '') ?><br>
+            条件２:<?= h($community['condition2'] ?? '') ?><br>
+            条件３:<?= h($community['condition3'] ?? '') ?><br>
+            条件４:<?= h($community['condition4'] ?? '') ?><br>
+            条件５:<?= h($community['condition5'] ?? '') ?><br>
+            内容:<?= h($community['community_content'] ?? '') ?><br>
             <br>
             <input type="submit" value="コミュニティに参加する" class="btn btn-primary mb-3">
         </form>

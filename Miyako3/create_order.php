@@ -109,7 +109,7 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
                         <? endforeach; ?>
                     </select><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="title" value="" placeholder="タイトル" required><br>
-                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="job" value="" placeholder="業務内容" required><br>
+                    <label class="col-md-3 control-label"></label><textarea class="mb-2 mt-2" type="text" name="job" value="" placeholder="業務内容" required></textarea><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="job" value="" placeholder="開始時刻" required><br>
                     <div class="text-right">
                         <h6>※開始時刻の2時間前に、有効期限が切れます。</h6>
@@ -119,11 +119,11 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="date" name="day" value="" placeholder="日付" required><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="int" name="price" value="" placeholder="大人:単価" required><br>
                     <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="int" name="price" value="" placeholder="小人:単価" required><br>
-                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition1" value="" placeholder="条件１"><br>
-                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition2" value="" placeholder="条件２"><br>
-                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition3" value="" placeholder="条件３"><br>
-                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition4" value="" placeholder="条件４"><br>
-                    <label class="col-md-3 control-label"></label><input class="mb-2 mt-2" type="text" name="condition5" value="" placeholder="条件５"><br>
+                    <label class="col-md-3 control-label"></label><textarea class="mb-2 mt-2" type="text" name="condition1" value="" placeholder="条件１"></textarea><br>
+                    <label class="col-md-3 control-label"></label><textarea class="mb-2 mt-2" type="text" name="condition2" value="" placeholder="条件２"></textarea><br>
+                    <label class="col-md-3 control-label"></label><textarea class="mb-2 mt-2" type="text" name="condition3" value="" placeholder="条件３"></textarea><br>
+                    <label class="col-md-3 control-label"></label><textarea class="mb-2 mt-2" type="text" name="condition4" value="" placeholder="条件４"></textarea><br>
+                    <label class="col-md-3 control-label"></label><textarea class="mb-2 mt-2" type="text" name="condition5" value="" placeholder="条件５"></textarea><br>
                     <div class="text-center">
                         <input type="submit" value="登録" class="btn btn-primary mt-4">
                     </div>

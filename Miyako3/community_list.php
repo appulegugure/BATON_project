@@ -31,15 +31,15 @@ $community_list = search_community($keyword);
                         <?php foreach ($community_list as $community) : ?>
                             <li>
                                 <!-- コミュニティの項目を表示 -->
-                                <?= h($community['id']) ?>/
-                                <?= h($community['community_name']) ?>/
-                                <?= h($community['user_email']) ?>/
+                                <!-- <?= h($community['id']) ?>/ -->
+                                <?= h($community['community_name']) ?>
+                                <!-- <?= h($community['user_email']) ?>/
                                 <?= h($community['condition1'] ?? '') ?>/
                                 <?= h($community['condition2'] ?? '')  ?>/
                                 <?= h($community['condition3'] ?? '') ?>/
                                 <?= h($community['condition4'] ?? '') ?>/
                                 <?= h($community['condition5'] ?? '') ?>/
-                                <?= h($community['community_content']) ?>
+                                <?= h($community['community_content']) ?> -->
                                 <a href="display_community.php?community_id=<?= h($community['id']) ?>" class="btn btn-outline-primary">詳細</a>
                             </li>
                         <?php endforeach; ?>

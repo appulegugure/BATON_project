@@ -55,26 +55,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mt-5 mb-3">
                 <h3>委託中の業務</h3>
             </div>
-                <?php foreach ($orders_by_me as $order) : ?>
-                    <li>
-                        <?= h($order['order_id']) ?>/
-                        <?= h($order['title']) ?>/
-                        <?= h($order['day']) ?>
-                        <a href="display_order_by_me.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary">詳細</a>
-                    </li>
-                <?php endforeach; ?>
-                
-                <div class="mt-5 mb-3">
-                    <h3>受注中の業務</h3>
-                </div>
-                <?php foreach ($orders_to_me as $order) : ?>
-                    <li>
-                        <?= h($order['order_id']) ?>/
-                        <?= h($order['title']) ?>/
-                        <?= h($order['day']) ?>
-                        <a href="display_order_to_me.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary">詳細</a>
-                    </li>
-                <?php endforeach; ?>
+            <?php foreach ($orders_by_me as $order) : ?>
+                <li>
+                    <!-- <?= h($order['order_id']) ?>/ -->
+                    <?= h($order['title']) ?>-
+                    <?= h($order['day']) ?>
+                    <a href="display_order_by_me.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary">詳細</a>
+                </li>
+            <?php endforeach; ?>
+
+            <div class="mt-5 mb-3">
+                <h3>受注中の業務</h3>
+            </div>
+            <?php foreach ($orders_to_me as $order) : ?>
+                <li>
+                    <!-- <?= h($order['order_id']) ?>/ -->
+                    <?= h($order['title']) ?>-
+                    <?= h($order['day']) ?>
+                    <a href="display_order_to_me.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary">詳細</a>
+                </li>
+            <?php endforeach; ?>
         </ul>
         <div class="text-center mt-5">
             <a href="index.php" class="btn btn-secondary">戻る</a>

@@ -11,18 +11,18 @@ require_once __DIR__ . '/functions.php';
 
 //ユーザーの参加コミュニティを取得する
 // $community_list = search_community_by_user($user_id);
-$community_list = select_search_community($user_id);
+$community_list_2 = select_search_community($user_id);
 
 //参加コミュニティ内の委託業務で未受注のものを取得する
 // var_dump($community_list);
-$status = '未受注';
+// $status = '未受注';
 // $orders = select_order_by_status($status, $user_id);
-$orders = select_order_by_community($status, $community_list, $user_id);
+// $orders = select_order_by_community($status, $community_list_2, $user_id);
 
 //追加
 $community_list = $_SESSION['community'];
 $community_list_sql = convert_from_array_to_sqlstring($community_list);
-$orders_2 = select_order_community_and_status('未受注',$community_list_sql);
+$orders_2 = select_order_community_and_status('未受注', $community_list_sql, $user_id);
 //var_dump($orders_2);    
 
 //二時間以内削除
@@ -30,7 +30,7 @@ two_hours_order_set_reject();
 
 $errors = [];
 //対象の委託業務がない場合
-if (empty($orders)) {
+if (empty($orders_2)) {
     //募集中の注文はありません (後でConstantに入れる)
     $errors[] = '募集中の注文はありません';
 }
@@ -49,7 +49,7 @@ if (empty($_GET['keyword'])) {
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="top.css">
 
 <body>
     <div class="wrapper">

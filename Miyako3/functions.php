@@ -753,10 +753,10 @@ function two_hours_order_set_reject()
 {
     $dbh = connect_db();
     try {
-        $stmt1 = $dbh->prepare("
-                                UPDATE job_order
+        $stmt1 = $dbh->prepare("UPDATE job_order
                                 SET status = '取消し'
-                                WHERE SUBTIME(day,'02:00:00') <= NOW() AND NOT day < NOW();
+                                WHERE SUBTIME(day,'02:00:00') <= NOW(); 
+                                -- AND NOT day < NOW();
                                 ");
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
@@ -765,40 +765,41 @@ function two_hours_order_set_reject()
     }
 }
 
-function convert_from_array_to_sqlstring($array){
+function convert_from_array_to_sqlstring($array)
+{
     $convert_to_array = [];
-    $escape ='';
+    $escape = '';
     foreach ($array as $key => $value) {
-        $escape = "'".$value['community_name']."'";
-        array_push($convert_to_array,$escape);
+        $escape = "'" . $value['community_name'] . "'";
+        array_push($convert_to_array, $escape);
     }
-    return implode(',',$convert_to_array);
-    
+    return implode(',', $convert_to_array);
 }
 
 //受注テーブルから未受注&指定したコミュニティで表示
 //脆弱--バインド付けれない
-function select_order_community_and_status($status,$community_id)
+function select_order_community_and_status($status, $community_id, $user_id)
 {
     $dbh = connect_db();
     try {
-        
+
         //$stmt1 = $dbh->prepare('SELECT * from job_order INNER JOIN community ON job_order.community_id = community.id 
-                                //WHERE status = :status AND (community.community_name = :community_id );');
+        //WHERE status = :status AND (community.community_name = :community_id );');
         $stmt1 = $dbh->prepare("SELECT * from job_order INNER JOIN community ON job_order.community_id = community.id 
                                 INNER JOIN Number_of_people ON job_order.people_id = Number_of_people.id
                                 WHERE job_order.status = :status 
                                 AND !SUBTIME(day,'02:00:00') <= NOW() 
-                                AND NOT day < NOW()
+                                AND NOT day < NOW()                        
+                                AND NOT (job_order.order_user_email = :user_id)
                                 AND community.community_name 
                                 IN($community_id);");
-        $stmt1->bindParam( ':status', $status, PDO::PARAM_STR);
+        $stmt1->bindParam(':status', $status, PDO::PARAM_STR);
+        $stmt1->bindParam(':user_id', $user_id, PDO::PARAM_STR);
         //$stmt1->bindParam( ':community_id', $community_id, PDO::PARAM_STR);
         $stmt1->execute();
 
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);
-    
-    }catch(PDOException $e) {
-        echo $e->getMessage();       
+    } catch (PDOException $e) {
+        echo $e->getMessage();
     }
 }
