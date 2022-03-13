@@ -33,9 +33,20 @@ $community_list_sql = convert_from_array_to_sqlstring($community_list);
 //echo $community_list_sql;
 $orders = select_order_community_and_status('未受注',$community_list_sql);
 
+foreach ($orders as $key) {
+    var_dump($key);
+    echo '<hr>';
+}
+
 //2時間以内削除
 two_hours_order_set_reject();
 
+$adult = '9';
+$child = '9';
+$adult_price = 1000;
+$child_price = 200;
+$auto_price = ((int)$adult * $adult_price) + ((int)$child * $child_price);
+var_dump($auto_price);
 //var_dump($_SESSION['community']);
 //var_dump(convert_from_array_to_string($_SESSION['community']));
 $errors = [];

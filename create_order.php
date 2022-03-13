@@ -53,6 +53,12 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
     $community_id = filter_input(INPUT_POST, 'community_id');
     //追加
     $day = $day . ' ' . $time;   
+
+    //追加　
+    $adult_price = 1000;
+    $child_price = 200;
+    $auto_price = ((int)$adult * $adult_price) * ((int)$child * $child_price);
+    
     if (empty($errors)) {
         //タスク内容の編集
         // create_order($community, $order_user, $title, $job, $day, $price)
