@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             条件５:<?= h($community['condition5']) ?><br>
             内容:<?= h($community['community_content']) ?><br>
             <br>
-            <input type="submit" value="参加申請" class="btn btn-primary mb-5">
+            <input type="submit" value="コミュニティを抜ける" class="btn btn-outline-danger mb-5">
         </form>
         <!-- 戻るボタンは上手く動かないから後で -->
         <!-- <a href="community_list.php" class="btn return-btn">戻る</a><br> -->

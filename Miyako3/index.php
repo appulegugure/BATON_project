@@ -43,6 +43,7 @@ if (empty($_GET['keyword'])) {
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="top.css" />
 
 <body>
     <div class="container" style="padding:200px;">
@@ -57,54 +58,54 @@ if (empty($_GET['keyword'])) {
                     </form>
                 </div>
             </div>
+        </div>
 
-            <div class="container">
-                <h1 class="mt-5 mb-3">業務 一覧</h1>
-                <div class="text-right mb-2">
-                    新着順
-                    <div class="btn btn-light">
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
+        <div class="container">
+            <h1 class="mt-5 mb-3">業務 一覧</h1>
+            <div class="text-right mb-2">
+                新着順
+                <div class="btn btn-light">
+                    <i class="fa-solid fa-chevron-down"></i>
                 </div>
             </div>
+        </div>
 
-            <div class="window">
-                <!-- エラーがある場合 -->
-                <?php if (!empty($errors)) : ?>
-                    <ul class="errors">
-                        <?php foreach ($errors as $error) : ?>
-                            <li><?= h($error) ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                <?php endif; ?>
-                <ol>
-                    <?php foreach ($orders as $order) : ?>
-                        <li>
-                            <div class="row">
-                                <!-- 表示する項目は後で調整 -->
-                                <div class="title_btn">
-                                    <br><?= h($order['title']) ?>
-                                </div>
-                                <div class="day_btn">
-                                    <br><?= h($order['day']) ?>
-                                </div>
-                                <div class="price_btn">
-                                    <br>￥<?= h($order['price']) ?>
-                                </div>
-                                <div class="adult_btn">
-                                    <br>大人:<?= h($order['adult']) ?>
-                                </div>
-                                <div class="child_btn">
-                                    <br>小人:<?= h($order['child']) ?>
-                                </div>
-
-                                <!-- display_order.phpに遷移してOrder IDを渡す -->
-                                <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary btn-sm">詳細</a>
-                            </div>
-                        </li>
+        <div class="window">
+            <!-- エラーがある場合 -->
+            <?php if (!empty($errors)) : ?>
+                <ul class="errors">
+                    <?php foreach ($errors as $error) : ?>
+                        <li><?= h($error) ?></li>
                     <?php endforeach; ?>
-                </ol>
-            </div>
+                </ul>
+            <?php endif; ?>
+            <ol>
+                <?php foreach ($orders as $order) : ?>
+                    <li>
+                        <div class="row">
+                            <!-- 表示する項目は後で調整 -->
+                            <div class="title_btn">
+                                <br><?= h($order['title']) ?>
+                            </div>
+                            <div class="day_btn">
+                                <br><?= h($order['day']) ?>
+                            </div>
+                            <div class="price_btn">
+                                <br>￥<?= h($order['price']) ?>
+                            </div>
+                            <div class="adult_btn">
+                                <br>大人:<?= h($order['adult']) ?>
+                            </div>
+                            <div class="child_btn">
+                                <br>小人:<?= h($order['child']) ?>
+                            </div>
+                            <!-- display_
+                            order.phpに遷移してOrder IDを渡す -->
+                            <a href="display_order.php?order_id=<?= h($order['order_id']) ?>" class="btn btn-outline-primary btn-sm">詳細</a>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
 
             <div class="container nowrap">
                 <div class="row">
@@ -118,28 +119,30 @@ if (empty($_GET['keyword'])) {
                     </div>
                     <div class="btn btn-default btn-light">
                         <div class="col p-1 mb-2">
-                            <a href="create_community.php"><i class="fa-solid fa-plus"></i><br>コミュニ<br>ティ作成</a>
+                            <a href="create_community.php"><i class="fa-solid fa-plus"></i><br>コミュニティ作成</a>
                         </div>
                     </div>
                     <div class="btn btn-default btn-light">
                         <div class="col p-1 mb-2">
-                            <a href="transactions.php"><i class="fa-regular fa-rectangle-list fa-1x"></i><br>取引中<br>の仕事</a>
+                            <a href="transactions.php"><i class="fa-regular fa-rectangle-list fa-1x"></i><br>取引中の仕事</a>
                         </div>
                     </div>
                     <div class="btn btn-default btn-light">
                         <div class="col p-1 mb-2">
-                            <a href="mycommunity.php"><i class="fa-solid fa-user-group fa-1x"></i><br>参加コミ<br>ュニティ</a>
+                            <a href="mycommunity.php"><i class="fa-solid fa-user-group fa-1x"></i><br>参加コミュニティ</a>
                         </div>
                     </div>
                     <div class="btn btn-default btn-light">
                         <div class="col p-1 mb-2">
-                            <a href="my_page.php"><i class="fa-solid fa-user fa-1x"></i><br>マイペ<br>ージ</a>
+                            <a href="my_page.php"><i class="fa-solid fa-user fa-1x"></i><br>マイページ</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <? include_once __DIR__ . '/js.html'; ?>
+
 </body>
 
 </html>
