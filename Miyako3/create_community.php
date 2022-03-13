@@ -51,9 +51,10 @@ if (($_SERVER)['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
+<link rel="stylesheet" href="create_community.css">
 
 <body>
-    <div class="wrapper">
+    <div class="create_community_wrapper">
         <div class="text-center mb-5">
             <h2>コミュニティ作成</h2>
         </div>

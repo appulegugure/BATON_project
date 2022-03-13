@@ -19,6 +19,12 @@ $status = '未受注';
 // $orders = select_order_by_status($status, $user_id);
 $orders = select_order_by_community($status, $community_list, $user_id);
 
+//追加
+$community_list = $_SESSION['community'];
+$community_list_sql = convert_from_array_to_sqlstring($community_list);
+$orders_2 = select_order_community_and_status('未受注',$community_list_sql);
+//var_dump($orders_2);    
+
 //二時間以内削除
 two_hours_order_set_reject();
 
@@ -43,7 +49,7 @@ if (empty($_GET['keyword'])) {
 <!DOCTYPE html>
 <html lang="ja">
 <? include_once __DIR__ . '/header.html'; ?>
-<link rel="stylesheet" href="top.css" />
+<link rel="stylesheet" href="index.css">
 
 <body>
     <div class="wrapper">
@@ -73,7 +79,7 @@ if (empty($_GET['keyword'])) {
                 </ul>
             <?php endif; ?>
             <ol>
-                <?php foreach ($orders as $order) : ?>
+                <?php foreach ($orders_2 as $order) : ?>
                     <li>
                         <div class="row order_btn">
                             <!-- 表示する項目は後で調整 -->
@@ -111,24 +117,26 @@ if (empty($_GET['keyword'])) {
                         </div>
                     </a>
                 </div>
-                <div class="btn btn-light">
-                    <div class="col p-2 mb-2">
-                        <a href="create_community.php"><i class="fa-solid fa-plus"></i><br>コミュニティ作成</a>
+                <div class="info">
+                    <div class="btn btn-light">
+                        <div class="col p-1 mb-2">
+                            <a href="create_community.php"><i class="fa-solid fa-plus"></i><br>コミュニティ作成</a>
+                        </div>
                     </div>
-                </div>
-                <div class="btn btn-light">
-                    <div class="col p-1 mb-2">
-                        <a href="transactions.php"><i class="fa-regular fa-rectangle-list fa-1x"></i><br>取引中の仕事</a>
+                    <div class="btn btn-light">
+                        <div class="col p-1 mb-2">
+                            <a href="transactions.php"><i class="fa-regular fa-rectangle-list fa-1x"></i><br>取引中の仕事</a>
+                        </div>
                     </div>
-                </div>
-                <div class="btn btn-light">
-                    <div class="col p-1 mb-2">
-                        <a href="mycommunity.php"><i class="fa-solid fa-user-group fa-1x"></i><br>参加コミュニティ</a>
+                    <div class="btn btn-light">
+                        <div class="col p-1 mb-2">
+                            <a href="mycommunity.php"><i class="fa-solid fa-user-group fa-1x"></i><br>参加コミュニティ</a>
+                        </div>
                     </div>
-                </div>
-                <div class="btn btn-light">
-                    <div class="col p-1 mb-2">
-                        <a href="my_page.php"><i class="fa-solid fa-user fa-1x"></i><br>マイページ</a>
+                    <div class="btn btn-light">
+                        <div class="col p-1 mb-2">
+                            <a href="my_page.php"><i class="fa-solid fa-user fa-1x"></i><br>マイページ</a>
+                        </div>
                     </div>
                 </div>
             </div>
