@@ -22,7 +22,6 @@ function create_order($adult,$child,$order_user_email,$title,$job,$day,
         $stmt1->bindParam( ':adult', $adult, PDO::PARAM_INT);
         $stmt1->bindParam( ':child', $child, PDO::PARAM_INT);
         $stmt3->bindParam( ':order_user_email', $order_user_email, PDO::PARAM_STR);
-        //$stmt3->bindParam( ':receive_user_email', $receive_user_email, PDO::PARAM_STR);
         $stmt3->bindParam( ':title', $title, PDO::PARAM_STR);
         $stmt3->bindParam( ':job', $job, PDO::PARAM_STR);
         $stmt3->bindParam( ':day', $day, PDO::PARAM_STR);

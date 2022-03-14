@@ -24,7 +24,7 @@ $orders = select_order_by_community($status, $community_list, $user_id);
 //追加
 $community_list = $_SESSION['community'];
 $community_list_sql = convert_from_array_to_sqlstring($community_list);
-$orders_2 = select_order_community_and_status('未受注',$community_list_sql);
+$orders_2 = select_order_community_and_status('未受注',$community_list_sql,$user_id);
 //var_dump($orders_2);    
 
 
