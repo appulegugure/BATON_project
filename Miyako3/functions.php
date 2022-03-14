@@ -802,7 +802,7 @@ function select_order_community_and_status($status,$community_id)
         echo $e->getMessage();       
     }
 }
-
+/*
 //二時間以内のオーダーはstatus = '取消し'
 function select_order_community_and_status($status,$community_id)
 {
@@ -837,3 +837,4 @@ function convert_from_array_to_sqlstring($array){
     return implode(',',$convert_to_array);
     
 }
+*/

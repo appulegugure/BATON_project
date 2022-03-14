@@ -96,6 +96,7 @@ function select_order_community_and_status($status,$community_id)
         echo $e->getMessage();       
     }
 }
+
 //受注テーブル一覧表示
 function select_order_all_ALL()
 {
