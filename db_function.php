@@ -104,6 +104,7 @@ function select_order_community_and_status($status, $community_id)
         echo $e->getMessage();
     }
 }
+
 //受注テーブル一覧表示
 function select_order_all_ALL()
 {
@@ -623,10 +624,10 @@ function two_hours_order_set_reject()
 {
     $dbh = connect_db();
     try {
-        $stmt1 = $dbh->prepare("
-                                UPDATE job_order
+        $stmt1 = $dbh->prepare("UPDATE job_order
                                 SET status = '取消し'
-                                WHERE SUBTIME(day,'02:00:00') <= NOW() AND NOT day < NOW();
+                                WHERE SUBTIME(day,'02:00:00') <= NOW() 
+                                -- AND NOT day < NOW();
                                 ");
         $stmt1->execute();
         return $stmt1->fetchAll(PDO::FETCH_ASSOC);

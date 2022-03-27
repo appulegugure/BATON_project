@@ -19,14 +19,11 @@ $community_list_2 = select_search_community($user_id);
 // $orders = select_order_by_status($status, $user_id);
 // $orders = select_order_by_community($status, $community_list_2, $user_id);
 
-
-//滝斗変更
 //追加
 $community_list = $_SESSION['community'];
 $community_list_sql = convert_from_array_to_sqlstring($community_list);
 $orders_2 = select_order_community_and_status('未受注', $community_list_sql, $user_id);
 //var_dump($orders_2);    
-
 
 //二時間以内削除
 two_hours_order_set_reject();
